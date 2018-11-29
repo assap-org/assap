@@ -82,4 +82,6 @@ typings/
 #DynamoDB Local files
 .dynamodb/
 
+dist_electron
+
 # End of https://www.gitignore.io/api/node

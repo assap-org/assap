@@ -1,6 +1,6 @@
 {
-  "name": "electron-vue-cli-3",
-  "version": "0.1.7",
+  "name": "assap",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
