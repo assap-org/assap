@@ -1,5 +1,5 @@
 <template lang="pug">
-  video(id="camera")
+  video(id="camera", autoplay)
 </template>
 
 <script>
