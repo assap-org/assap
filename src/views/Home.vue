@@ -2,13 +2,16 @@
   .home
     h1 This is a home page
     router-link(:to="{ name: 'about' }") About
-    br/
-    font-awesome-icon(:icon="['fas', 'spinner']")/
-    font-awesome-icon(:icon="['fas', 'align-left']")/
+    Camera/
 </template>
 
 <script>
+import Camera from '@/components/Camera';
+
 export default {
-  name: 'home'
+  name: 'home',
+  components: {
+    Camera
+  }
 }
 </script>
