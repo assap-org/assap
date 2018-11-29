@@ -20,7 +20,9 @@
       tracker.on('track', (event) => {
         context.clearRect(0, 0, canvas.width, canvas.height);
         if(event.data.length > 1){
-          that.$toasted.error('¡Te están vigilando!');
+          new Notification('¡Alerta!', {
+            body: '¿No te sientes observado?',
+          });
         }
         event.data.forEach(function(rect) {
           context.strokeStyle = '#a64ceb';
