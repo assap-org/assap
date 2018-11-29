@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import Camera from '@/components/Camera';
+  import Camera from '@/components/Camera';
 
-export default {
-  name: 'home',
-  components: {
-    Camera
+  export default {
+    name: 'home',
+    components: {
+      Camera
+    }
   }
-}
 </script>
