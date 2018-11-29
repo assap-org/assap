@@ -8,6 +8,7 @@
   export default {
     name: 'camera',
     mounted() {
+      const that = this;
       var tracker = new tracking.ObjectTracker('face');
       tracker.setInitialScale(2);
       tracker.setStepSize(2);
@@ -18,21 +19,17 @@
       tracking.track('#camera', tracker, { camera: true });
       tracker.on('track', (event) => {
         context.clearRect(0, 0, canvas.width, canvas.height);
+        if(event.data.length > 1){
+          that.$toasted.error('¡Te están vigilando!');
+        }
         event.data.forEach(function(rect) {
-          console.log(rect);
           context.strokeStyle = '#a64ceb';
           context.strokeRect(rect.x, rect.y, rect.width, rect.height);
           context.font = '11px Helvetica';
           context.fillStyle = "#fff";
+          context.lineWidth = 5;
         });
       });
-      console.log(tracker);
-      // navigator.mediaDevices.getUserMedia({video: true})
-      //   .then((stream) => {
-      //     document.getElementById('camera').srcObject = stream;
-      //   }).catch(() => {
-      //     console.error('There was an error!');
-      //   });
     }
   }
 </script>

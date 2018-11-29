@@ -1,8 +1,7 @@
 <template lang="pug">
   div(id="app")
     Bar/
-    .content
-      router-view/
+    router-view/
 </template>
 
 <script>
