@@ -12,43 +12,43 @@ export class Action {
   executeAction(){
    switch (this.actionName) {
      case "lockscreen": this.lockscreen(); break;
-     case "lowbrightness": this.brightness(); break;
+     case "lowbrightness": this.lowbrightness(); break;
     }
   }
 
 
-
-  brightness(){
-   	const windows='rundll32.exe user32.dll,LockWorkStation';
-  	const linux='xdg-screensaver lock'
-  	const mac='/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resources/CGSession -suspend'
-    const command={'linux':linux,'mac':mac,'windows':windows}
-    console.log(command[this.opsystem])
+  lowbrightness(){ 
+  	const brightness=require('brightness')
+    const windows='Get-WmiObject -Namespace root/WMI -Class WmiMonitorBrightnessMethods).WmiSetBrightness(1,1)';
+    const linux='xrandr --output $(xrandr -q | grep "connected" | head -n 1 | cut -d " " -f1) --brightness 0.1'
+    const command={'linux':linux,'windows':windows}
     this.exec(command[this.opsystem],
-        function (error, stdout, stderr) {
+        function (error) {
          if (error !== null) {
           console.log('exec error: ' + error);
          }
     });
+    if(this.opsystem=='darwin'){
+    	brightness.set(0.8).then(() => {
+    		console.log('Changed brightness to 80%');
+		});
+    }
   }
-//xrandr -q | grep "connected" | head -n 1 | cut -d ' ' -f1
+
   lockscreen(){
-  	const windows='rundll32.exe user32.dll,LockWorkStation';
-  	const linux='xdg-screensaver lock'
-  	const mac='/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resources/CGSession -suspend'
-    const command={'linux':linux,'mac':mac,'windows':windows}
-    console.log(command[this.opsystem])
+    const windows='rundll32.exe user32.dll,LockWorkStation';
+    const linux='xdg-screensaver lock'
+    const darwin='/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resources/CGSession -suspend'
+    const command={'linux':linux,'darwin':darwin,'windows':windows}
     this.exec(command[this.opsystem],
-        function (error, stdout, stderr) {
+        function (error) {
          if (error !== null) {
           console.log('exec error: ' + error);
          }
     });
   }
 
-  _exection(){
-  	console.log("private")
-  }
+
 
 }
 

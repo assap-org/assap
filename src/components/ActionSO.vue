@@ -1,6 +1,6 @@
 <template lang="pug">
  div
-  a(class='button', @click.prevent='execAction("lockscreen")') Action
+  a(class='button', @click.prevent='execAction("lowbrightness")') Action
 
 </template>
 
@@ -11,15 +11,15 @@ export default {
   name: 'ActionSO',
   methods: {
     execAction(actionName){
-      
+      var action=""
 
       if (process.platform == 'darwin') {
-       var action = new Action(actionName,'darwin');
+       action = new Action(actionName,'darwin');
       }else if(process.platform == 'win32'){
-        var action = new Action(actionName,'win32');
+       action = new Action(actionName,'win32');
       }else {
-        var action = new Action(actionName,'linux');
-        action.executeAction()
+       action = new Action(actionName,'linux');
+       action.executeAction()
       }
     }
   }
