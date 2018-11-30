@@ -83,6 +83,7 @@
   svg
     margin-right: 5px
 #control-icon
+  -webkit-app-region: no-drag
   color: rgb(255, 69, 58)
   cursor: pointer
   height: 25px
