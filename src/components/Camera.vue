@@ -42,7 +42,6 @@
           .then((detections) => {
             console.log(detections)
             if(detections.length>1){
-               console.log("more")
                var action=""
                action = new Action();
                action.executeAction()
