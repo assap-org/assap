@@ -7,6 +7,7 @@
 <script>
   import * as faceapi from 'face-api.js'
   import * as fs from 'fs'
+  import {Action} from "@/utils/actions";
 
   export default {
     name: 'camera',
@@ -39,6 +40,13 @@
 
         faceapi.detectAllFaces(videoEl)
           .then((detections) => {
+            console.log(detections)
+            if(detections.length>1){
+               console.log("more")
+               var action=""
+               action = new Action();
+               action.executeAction()
+            }
             canvas.width = videoEl.width
             canvas.height = videoEl.height
             const detectionsForSize = detections.map(det => det.forSize(videoEl.width, videoEl.height))

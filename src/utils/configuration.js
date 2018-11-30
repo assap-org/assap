@@ -14,7 +14,7 @@ export function setAction(action) {
 export function getConfiguration() {
   let configuration = {};
   const { model_url, action } = CONFIGURATION;
-  configuration[model_url] = localStorage.getItem(model_url);
-  configuration[action] = localStorage.getItem(action);
+  configuration["model_url"] = localStorage.getItem(model_url);
+  configuration["action"] = localStorage.getItem(action);
   return configuration;
 }
