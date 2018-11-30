@@ -14,9 +14,8 @@ export default {
     globalShortcut.register('CommandOrControl+H', () => {
      const action = new Action("","");
      var actionName=action.getActionName()
-     var isDefaultState=action.isDefaultState
-     //If default state is false-> screen action done
-     if(!isDefaultState){
+     var isActionDone=action.isActionDone
+     if(isActionDone){
       if(actionName){
         //DoStuff
         if(actionName!="lockscreen"){
