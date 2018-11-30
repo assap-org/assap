@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import 'tracking'
 import 'tracking/build/data/face'
 import Toasted from 'vue-toasted'
+import '@tensorflow/tfjs-node'
 
 import App from './App.vue'
 import './assets/styles.sass'
