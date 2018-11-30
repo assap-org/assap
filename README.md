@@ -17,17 +17,16 @@ La apliación dispone de diferentes medidas configurables por el usuario en func
 Instalar dependencies Node:
 
 ```
-1. Comprobar que existe package.json
-2. Ejecutar npm install
+npm install
 ```
 
 ## Ejecución
 
 ```
-npm run electron serve
+npm run electron:serve
 ```
 
 
-License
+## License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
