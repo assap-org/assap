@@ -12,18 +12,16 @@ export default {
   name: 'ActionSO',
   created() {
 
-    globalShortcut.register('CommandOrControl+I', () => {
-     console.log("detecta")
+    globalShortcut.register('CommandOrControl+H', () => {
      const action = new Action("","");
      var actionName=action.getActionName()
      var isDefaultState=action.isDefaultState
      //If default state is false-> screen action done
      if(!isDefaultState){
-      console.log("reverse state")
       if(actionName){
         //DoStuff
         if(actionName!="lockscreen"){
-          const reverseAction="reverse"+actionName;
+          var reverseAction="reverse"+actionName;
           action.executeAction(reverseAction)
         }
         
