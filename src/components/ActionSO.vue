@@ -15,8 +15,10 @@ export default {
 
       if (process.platform == 'darwin') {
        action = new Action(actionName,'darwin');
+       action.executeAction()
       }else if(process.platform == 'win32'){
        action = new Action(actionName,'win32');
+       action.executeAction()
       }else {
        action = new Action(actionName,'linux');
        action.executeAction()
