@@ -10,17 +10,50 @@
       .opt-section
         span
           | Load loadURL
+        form
+          input(v-model="config.url")
+          button(@click.prevent="loadURL()")
+            | Load
       .opt-section
         span
           | Actions
+        select(@change="loadAction()",v-model="config.action")
+          option(v-for="act in actionList")
+            | {{act}}
 </template>
 
 <script>
-
+import {Action} from "@/utils/actions";
+import {setModelUrl,setAction} from "@/utils/configuration";
 export default {
   name: 'SettingNav',
+  data(){
+    return {
+      config: {
+        url: "",
+        action: "",
+      },
+      actionList: ["No Options"]
+    }
+  },
+  mounted(){
+    const action = new Action("","");
+    this.actionList = action.getAvailableActions();
+  },
+  methods:{
+    loadURL(){
+      setModelUrl(this.config.url)
+    },
+    loadAction(){
+      console.log(this.config.action)
+      setAction(this.config.action)
+    }
+  }
+
+
 }
 </script>
+
 
 <style lang="sass">
   .setting-nav
@@ -51,5 +84,11 @@ export default {
     span
       font-weight: bold
       color: white
+    form
+      input
+        margin-right: 5px
+    select
+      display: block
+      width: 100%
 
 </style>

@@ -1,18 +1,28 @@
+import {getConfiguration} from "@/utils/configuration";
 export class Action {
+  isDefaultState=true;
+  
 
-  constructor(actionName,opsystem) {
-    this.actionName = actionName;
-    this.opsystem = opsystem
+  constructor() {
+    this.actionName = getConfiguration().action;
+    this.opsystem = process.platform;
     this.exec = require('child_process').exec;
-
+    this.availableActions=["lockscreen","lowbrightness"]
   }
 
+  
+  getActionName(){
+    return this.actionName;
+  }
 
-
+  getAvailableActions(){
+    return this.availableActions;
+  }
   executeAction(){
    switch (this.actionName) {
      case "lockscreen": this.lockscreen(); break;
      case "lowbrightness": this.lowbrightness(); break;
+     case "reverselowbrightness":this.reverselowbrightness();break;
     }
   }
 
@@ -27,6 +37,26 @@ export class Action {
     	brightness.set(0.1).then(() => {
     		console.log('Changed brightness to 80%');
 		  });
+    } else {
+      this.exec(command[this.opsystem],
+        function (error) {
+         if (error !== null) {
+          console.log('exec error: ' + error);
+         }
+      });
+    }
+  }
+
+  reverselowbrightness(){
+    const brightness=require('brightness')
+    const windows='Get-WmiObject -Namespace root/WMI -Class WmiMonitorBrightnessMethods).WmiSetBrightness(1,100)';
+    const linux='xrandr --output $(xrandr -q | grep "connected" | head -n 1 | cut -d " " -f1) --brightness 0.8'
+    const command={'linux':linux,'windows':windows}
+
+    if(this.opsystem=='darwin'){
+      brightness.set(0.8).then(() => {
+        console.log('Changed brightness to 80%');
+      });
     } else {
       this.exec(command[this.opsystem],
         function (error) {

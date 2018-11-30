@@ -1,18 +1,38 @@
 <template lang="pug">
- div
-  a(class='button', @click.prevent='execAction("lowbrightness")') Action
+
 
 </template>
 
 <script>
 import {Action} from "@/utils/actions";
+const { globalShortcut } = require('electron').remote
 
 export default {
   name: 'ActionSO',
+  created() {
+
+    globalShortcut.register('CommandOrControl+H', () => {
+     const action = new Action("","");
+     var actionName=action.getActionName()
+     var isDefaultState=action.isDefaultState
+     //If default state is false-> screen action done
+     if(!isDefaultState){
+      if(actionName){
+        //DoStuff
+        if(actionName!="lockscreen"){
+          var reverseAction="reverse"+actionName;
+          action.executeAction(reverseAction)
+        }
+        
+      }
+     }
+
+
+    })
+  },
   methods: {
     execAction(actionName){
       var action=""
-
       if (process.platform == 'darwin') {
        action = new Action(actionName,'darwin');
        action.executeAction()
