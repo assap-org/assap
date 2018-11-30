@@ -1,6 +1,5 @@
 <template lang="pug">
- div
-  a(class='button', @click.prevent='execAction("lowbrightness")') Action
+
 
 </template>
 
