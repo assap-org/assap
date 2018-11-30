@@ -1,37 +1,55 @@
 <template lang="pug">
   .section
-    video(id="camera", width="270", height="150", preload, autoplay, loop, muted)
+    video(@play="onPlay", id="camera", width="270", height="150", preload, autoplay, loop, muted)
     canvas(id="canvas", width="270", height="150")
 </template>
 
 <script>
+  import * as faceapi from 'face-api.js'
+  import * as fs from 'fs'
+
   export default {
     name: 'camera',
     mounted() {
-      const that = this;
-      var tracker = new tracking.ObjectTracker('face');
-      tracker.setInitialScale(2);
-      tracker.setStepSize(2);
-      tracker.setEdgesDensity(0.17);
-      var canvas = document.getElementById('canvas');
-      var context = canvas.getContext('2d');
+      const videoEl = document.getElementById('camera');
+      navigator.mediaDevices.getUserMedia({ video: {} })
+        .then((stream) => {
+          videoEl.srcObject = stream
+        })
+        .catch((error) => {
+          console.log('Error!', error);
+        })
 
-      tracking.track('#camera', tracker, { camera: true });
-      tracker.on('track', (event) => {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        if(event.data.length > 1){
-          new Notification('¡Alerta!', {
-            body: '¿No te sientes observado?',
-          });
-        }
-        event.data.forEach(function(rect) {
-          context.strokeStyle = '#a64ceb';
-          context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-          context.font = '11px Helvetica';
-          context.fillStyle = "#fff";
-          context.lineWidth = 5;
-        });
-      });
+      faceapi.loadSsdMobilenetv1Model('https://github.com/assap-org/models/releases/download/1.0.0')
+        .then(() => console.log('loaded ssd model!'))
+        .catch((error) => console.error(error))
+      faceapi.loadTinyFaceDetectorModel('https://github.com/assap-org/models/releases/download/1.0.0')
+        .then(() => console.log('loaded tiny model!'))
+        .catch((error) => console.error(error))
+    },
+    methods: {
+      // Based on code from
+      // https://github.com/justadudewhohacks/face-api.js/blob/master/examples/examples-browser/views/webcamFaceTracking.html
+      onPlay() {
+        const videoEl = document.getElementById('camera')
+        const canvas = document.getElementById('canvas')
+
+        if(videoEl.paused || videoEl.ended)
+          return setTimeout(() => this.onPlay())
+
+        faceapi.detectAllFaces(videoEl)
+          .then((detections) => {
+            canvas.width = videoEl.width
+            canvas.height = videoEl.height
+            const detectionsForSize = detections.map(det => det.forSize(videoEl.width, videoEl.height))
+            faceapi.drawDetection(canvas, detectionsForSize, { withScore: true })
+          })
+          .catch((error) => {
+            console.log('Error', error);
+          })
+
+      setTimeout(() => this.onPlay())
+      }
     }
   }
 </script>
