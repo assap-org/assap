@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, screen } from 'electron'
 import {
   createProtocol,
   installVueDevtools
@@ -14,11 +14,19 @@ let win
 // Standard scheme must be registered before the app is ready
 protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow () {
+   
+  let display = screen.getPrimaryDisplay();
+  let width = display.bounds.width;
+  let height = display.bounds.height;
+  
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    frame: true,
+    width: 266,
+    height: 150,
+    frame: false,
+    x: width - 300, 
+    y: 150, 
+    alwaysOnTop: true,
     webPreferences: {
       webSecurity: false
     }
@@ -27,7 +35,7 @@ function createWindow () {
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    //if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
