@@ -31,6 +31,9 @@ export class Action {
    }
   }
 
+  reverseAction(){
+    this.isActionDone=false
+  }
 
   lowbrightness(){
   	const brightness=require('brightness')
