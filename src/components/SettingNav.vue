@@ -17,6 +17,9 @@
       .opt-section
         span
           | Actions
+        select(@change="loadAction()",v-model="config.action")
+          option(v-for="act in actionList")
+            | {{act}}
 </template>
 
 <script>
@@ -29,17 +32,21 @@ export default {
       config: {
         url: "",
         action: "",
-        actions: []
-      }
+      },
+      actionList: ["No Options"]
     }
   },
   mounted(){
     const action = new Action("","");
-    this.actions = action.getAvailableActions();
+    this.actionList = action.getAvailableActions();
   },
   methods:{
     loadURL(){
       setModelUrl(this.config.url)
+    },
+    loadAction(){
+      console.log(this.config.action)
+      setAction(this.config.action)
     }
   }
 
@@ -80,5 +87,8 @@ export default {
     form
       input
         margin-right: 5px
+    select
+      display: block
+      width: 100%
 
 </style>

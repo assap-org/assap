@@ -1,6 +1,6 @@
 const CONFIGURATION = {
-  model_url: 'AWS_KEY',
-  action: 'AWS_SECRET_KEY'
+  model_url: 'example',
+  action: 'lockscreen'
 };
 
 export function setModelUrl(model_url) {
@@ -12,9 +12,9 @@ export function setAction(action) {
 }
 
 export function getConfiguration() {
-  let credentials = {};
-  const { key, secretKey } = CREDENTIALS_KEYS;
-  credentials[key] = localStorage.getItem(key);
-  credentials[secretKey] = localStorage.getItem(secretKey);
-  return credentials;
+  let configuration = {};
+  const { model_url, action } = CONFIGURATION;
+  configuration[model_url] = localStorage.getItem(model_url);
+  configuration[action] = localStorage.getItem(action);
+  return configuration;
 }

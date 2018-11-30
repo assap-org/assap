@@ -1,3 +1,4 @@
+import {getConfiguration} from "@/utils/configuration";
 export class Action {
   actionName = "";
   isDefaultState=true;
