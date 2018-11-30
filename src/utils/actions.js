@@ -1,7 +1,7 @@
 import {getConfiguration} from "@/utils/configuration";
 export class Action {
-  isDefaultState=true;
-  
+  isActionDone=false;
+
 
   constructor() {
     this.actionName = getConfiguration().action;
@@ -10,7 +10,7 @@ export class Action {
     this.availableActions=["lockscreen","lowbrightness"]
   }
 
-  
+
   getActionName(){
     return this.actionName;
   }
@@ -19,11 +19,16 @@ export class Action {
     return this.availableActions;
   }
   executeAction(){
-   switch (this.actionName) {
+   if(!this.isActionDone){
+    switch (this.actionName) {
      case "lockscreen": this.lockscreen(); break;
      case "lowbrightness": this.lowbrightness(); break;
      case "reverselowbrightness":this.reverselowbrightness();break;
     }
+    if(!(this.opsystem=="linux" && this.actionName=="lockscreen")){
+      this.isActionDone=true
+    }
+   }
   }
 
 
