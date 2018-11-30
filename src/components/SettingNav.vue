@@ -17,6 +17,9 @@
       .opt-section
         span
           | Actions
+        select
+          option(v-for="act in actionList")
+            | {{act}}
 </template>
 
 <script>
@@ -28,7 +31,8 @@ export default {
       config: {
         url: "",
         action: "",
-      }
+      },
+      actionList: ["No Options"]
     }
   },
   mounted(){
@@ -69,5 +73,8 @@ export default {
     form
       input
         margin-right: 5px
+    select
+      display: block
+      width: 100%
 
 </style>
