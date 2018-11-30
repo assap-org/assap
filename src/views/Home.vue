@@ -56,6 +56,7 @@
   position: absolute
   top: 0
   left: 0
+  -webkit-app-region: drag
 .top-bar
   position: relative
   background-color: rgba(0,0,0,0.5)
