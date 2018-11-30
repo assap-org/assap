@@ -10,6 +10,10 @@
       .opt-section
         span
           | Load loadURL
+        form
+          input(v-value="config.url")
+          button
+            | Load
       .opt-section
         span
           | Actions
@@ -19,6 +23,17 @@
 
 export default {
   name: 'SettingNav',
+  data(){
+    return {
+      config: {
+        url: "",
+        action: "",
+      }
+    }
+  },
+  mounted(){
+
+  }
 }
 </script>
 
@@ -51,5 +66,8 @@ export default {
     span
       font-weight: bold
       color: white
+    form
+      input
+        margin-right: 5px
 
 </style>
