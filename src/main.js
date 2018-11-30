@@ -11,6 +11,7 @@ import '@tensorflow/tfjs-node'
 import App from './App.vue'
 import './assets/styles.sass'
 import router from './router'
+import {setAction, setModelUrl} from "@/utils/configuration";
 
 library.add(faUserSecret, faSpinner, faAlignLeft, faCog, faStopCircle, faPlayCircle, faTimesCircle, faSlidersH, faTimes)
 
@@ -18,6 +19,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(Toasted, {duration: 1000, singleton: true})
 
 Vue.config.productionTip = false
+
+setAction("lockscreen")
+setModelUrl("https://github.com/assap-org/models/releases/download/1.0.0")
 
 new Vue({
   router,

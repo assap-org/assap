@@ -1,20 +1,19 @@
 const CONFIGURATION = {
-  model_url: 'example',
+  model_url: 'https://github.com/assap-org/models/releases/download/1.0.0',
   action: 'lockscreen'
 };
 
 export function setModelUrl(model_url) {
-  localStorage.setItem(CONFIGURATION.model_url, model_url);
+  localStorage.setItem("MODEL_URL", model_url);
 }
 
 export function setAction(action) {
-  localStorage.setItem(CONFIGURATION.action, action);
+  localStorage.setItem("ACTION", action);
 }
 
 export function getConfiguration() {
   let configuration = {};
-  const { model_url, action } = CONFIGURATION;
-  configuration["model_url"] = localStorage.getItem(model_url);
-  configuration["action"] = localStorage.getItem(action);
+  configuration["model_url"] = localStorage.getItem("MODEL_URL");
+  configuration["action"] = localStorage.getItem("ACTION");
   return configuration;
 }
