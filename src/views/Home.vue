@@ -1,8 +1,6 @@
 <template lang="pug">
   div
     Camera/
-    div
-     ActionSO/
 </template>
 
 <script>

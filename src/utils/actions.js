@@ -26,7 +26,7 @@ export class Action {
     if(this.opsystem=='darwin'){
     	brightness.set(0.1).then(() => {
     		console.log('Changed brightness to 80%');
-		});
+		  });
     } else {
       this.exec(command[this.opsystem],
         function (error) {
@@ -38,7 +38,6 @@ export class Action {
   }
 
   lockscreen(){
-    console.log("asdasdasd")
     const windows='rundll32.exe user32.dll,LockWorkStation';
     const linux='xdg-screensaver lock'
     const darwin='/System/Library/CoreServices/Menu\\ Extras/user.menu/Contents/Resources/CGSession -suspend'
