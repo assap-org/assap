@@ -20,7 +20,7 @@ Node dependencies installation
 npm install
 ```
 
-## Execution
+## How to run
 
 ```
 npm run electron:serve
