@@ -10,18 +10,15 @@
       #control-icon(v-if="!isSettings")
         font-awesome-icon.settings(:icon="['fas', 'sliders-h']", @click="toggleSettings()")/
     Camera/
-    ActionSO/
 </template>
 
 <script>
   import Camera from '@/components/Camera';
-  import ActionSO from '@/components/ActionSO';
 
   export default {
     name: 'home',
     components: {
-      Camera,
-      ActionSO,
+      Camera
     },
     data() {
       return {
