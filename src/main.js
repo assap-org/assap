@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret, faSpinner, faAlignLeft, faCog } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faSpinner, faAlignLeft, faCog, faStopCircle, faPlayCircle, faPowerOff, faSlidersH } from '@fortawesome/free-solid-svg-icons'
+
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import 'tracking'
 import 'tracking/build/data/face'
@@ -10,7 +11,7 @@ import App from './App.vue'
 import './assets/styles.sass'
 import router from './router'
 
-library.add(faUserSecret, faSpinner, faAlignLeft, faCog)
+library.add(faUserSecret, faSpinner, faAlignLeft, faCog, faStopCircle, faPlayCircle, faPowerOff, faSlidersH)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(Toasted, {duration: 1000, singleton: true})
