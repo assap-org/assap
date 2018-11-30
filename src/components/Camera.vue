@@ -30,6 +30,11 @@
         .then(() => console.log('loaded tiny model!'))
         .catch((error) => console.error(error))
     },
+    created(){
+      globalShortcut.register('CommandOrControl+H', () => {
+        action.reverseAction()
+      })
+    },
     methods: {
       // Based on code from
       // https://github.com/justadudewhohacks/face-api.js/blob/master/examples/examples-browser/views/webcamFaceTracking.html
@@ -46,6 +51,7 @@
                action.executeAction()
             }
             powerMonitor.on('unlock-screen', () => {
+              console.log("unlock")
               action.reverseAction()
             })
             canvas.width = videoEl.width
