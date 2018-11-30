@@ -1,7 +1,7 @@
 import {getConfiguration} from "@/utils/configuration";
 export class Action {
   isActionDone=false;
-  
+
 
   constructor() {
     this.actionName = getConfiguration().action;
@@ -10,7 +10,7 @@ export class Action {
     this.availableActions=["lockscreen","lowbrightness"]
   }
 
-  
+
   getActionName(){
     return this.actionName;
   }

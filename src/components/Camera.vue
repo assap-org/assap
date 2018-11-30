@@ -8,6 +8,7 @@
   import * as faceapi from 'face-api.js'
   import * as fs from 'fs'
   import {Action} from "@/utils/actions";
+  const action = new Action()
 
   export default {
     name: 'camera',
@@ -40,10 +41,7 @@
 
         faceapi.detectAllFaces(videoEl)
           .then((detections) => {
-            console.log(detections)
             if(detections.length>1){
-               var action=""
-               action = new Action();
                action.executeAction()
             }
             canvas.width = videoEl.width
