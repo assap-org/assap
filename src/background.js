@@ -14,19 +14,20 @@ let win
 // Standard scheme must be registered before the app is ready
 protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow () {
-   
+
   let display = screen.getPrimaryDisplay();
   let width = display.bounds.width;
   let height = display.bounds.height;
-  
+
   // Create the browser window.
   win = new BrowserWindow({
     width: 266,
     height: 150,
     frame: false,
-    x: width - 300, 
-    y: 150, 
+    x: width - 300,
+    y: 150,
     alwaysOnTop: true,
+    resizable: false,
     webPreferences: {
       webSecurity: false
     }
