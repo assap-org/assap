@@ -1,26 +1,26 @@
 # Anti Shoulder Surfing Attack Platform (ASSAP)
 
-ASSAP es una herramienta multiplataforma con el objetivo de establecer medidas defensivas contra el ataque de shoulder surfing, técnica utilizada para obtener información confidencial.
+ASSAP is a multiplatform tool whose aim is to stablish deffensive measures against shoulder surfing attack, technique used for getting confidential information.
 
 La apliación dispone de diferentes medidas configurables por el usuario en función de las necesidades del mismo en el momento de uso de la herramienta. ASSAP es sencilla de utilizar de forma que cualquier persona sin conocimientos pueda activarla y usarla, evitando así que otras personas puedan obtener datos confidenciales como podrían ser contraseñas, datos privados, etc. 
 
 
-## Requisitos
+## Requirements
 
 ```
 1. Node
 2. npm
 ```
 
-## Instalación dependencias
+## Dependencies installation
 
-Instalar dependencies Node:
+Node dependencies installation
 
 ```
 npm install
 ```
 
-## Ejecución
+## Execution
 
 ```
 npm run electron:serve
@@ -29,4 +29,4 @@ npm run electron:serve
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
