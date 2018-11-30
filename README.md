@@ -1,1 +1,1 @@
-ASSAP(Anti Shoulder Surfing Attack Platform) by UnicornTeam
+# Anti Shoulder Surfing Attack Platform (ASSAP)
