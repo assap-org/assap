@@ -1,16 +1,13 @@
+import {getConfiguration} from "@/utils/configuration";
 export class Action {
-  actionName = "";
   isDefaultState=true;
+  
 
-  constructor(actionName,opsystem) {
-    if (actionName) {
-      this.actionName = actionName;
-    } 
-
-    if(opsystem){
-      this.opsystem = opsystem
-    }
+  constructor() {
+    this.actionName = getConfiguration().action;
+    this.opsystem = process.platform;
     this.exec = require('child_process').exec;
+    this.availableActions=["lockscreen","lowbrightness"]
   }
 
   
@@ -18,7 +15,9 @@ export class Action {
     return this.actionName;
   }
 
-
+  getAvailableActions(){
+    return this.availableActions;
+  }
   executeAction(){
    switch (this.actionName) {
      case "lockscreen": this.lockscreen(); break;
