@@ -11,8 +11,8 @@
         span
           | Load loadURL
         form
-          input(v-value="config.url")
-          button
+          input(v-model="config.url")
+          button(@click.prevent="loadURL()")
             | Load
       .opt-section
         span
@@ -20,7 +20,8 @@
 </template>
 
 <script>
-
+import {Action} from "@/utils/actions";
+import {setModelUrl,setAction} from "@/utils/configuration";
 export default {
   name: 'SettingNav',
   data(){
@@ -28,14 +29,24 @@ export default {
       config: {
         url: "",
         action: "",
+        actions: []
       }
     }
   },
   mounted(){
-
+    const action = new Action("","");
+    this.actions = action.getAvailableActions();
+  },
+  methods:{
+    loadURL(){
+      setModelUrl(this.config.url)
+    }
   }
+
+
 }
 </script>
+
 
 <style lang="sass">
   .setting-nav
