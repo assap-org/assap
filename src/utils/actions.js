@@ -23,7 +23,6 @@ export class Action {
     switch (this.actionName) {
      case "lockscreen": this.lockscreen(); break;
      case "lowbrightness": this.lowbrightness(); break;
-     case "reverselowbrightness":this.reverselowbrightness();break;
     }
     if(!(this.opsystem=="linux" && this.actionName=="lockscreen")){
       this.isActionDone=true
@@ -33,6 +32,9 @@ export class Action {
 
   reverseAction(){
     this.isActionDone=false
+    switch(this.actionName){
+     case "lowbrightness":this.reverselowbrightness();break;
+    }
   }
 
   lowbrightness(){

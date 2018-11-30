@@ -37,8 +37,7 @@ export default {
     }
   },
   mounted(){
-    const action = new Action("","");
-    this.actionList = action.getAvailableActions();
+    this.actionList = ["lockscreen","lowbrightness"]
   },
   methods:{
     loadURL(){
