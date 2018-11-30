@@ -8,6 +8,7 @@
   import * as faceapi from 'face-api.js'
   import * as fs from 'fs'
   import {Action} from "@/utils/actions";
+  const { globalShortcut,powerMonitor } = require('electron').remote
   const action = new Action()
 
   export default {
@@ -44,6 +45,9 @@
             if(detections.length>1){
                action.executeAction()
             }
+            powerMonitor.on('unlock-screen', () => {
+              action.reverseAction()
+            })
             canvas.width = videoEl.width
             canvas.height = videoEl.height
             const detectionsForSize = detections.map(det => det.forSize(videoEl.width, videoEl.height))
