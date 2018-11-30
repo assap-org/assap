@@ -1,7 +1,7 @@
 <template lang="pug">
   .section
-    video(id="camera", width="320", height="240", preload, autoplay, loop, muted)
-    canvas(id="canvas", width="320", height="240")
+    video(id="camera", width="270", height="150", preload, autoplay, loop, muted)
+    canvas(id="canvas", width="270", height="150")
 </template>
 
 <script>
