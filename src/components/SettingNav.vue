@@ -24,6 +24,7 @@ export default {
 
 <style lang="sass">
   .setting-nav
+    -webkit-app-region: no-drag
     background-color: rgba(142,142,147,1)
     width: 100%
     height: 150px
