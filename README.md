@@ -9,7 +9,7 @@
 > The application has different security measures that can be configured by the users depending on the moment of use. ASSAP is designed to be simple to use so that anyone without knowledge can activate and use it, preventing other people from obtaining their confidential data such as passwords, bank accounts, private data, etc.
 
 <p align="center">
- <img src="./img/use.png">
+ <img width="80%" src="./img/use.png">
 </p>
 
 ## Features
@@ -17,19 +17,19 @@
 > The size of the application window is small in order not to disturb user work. Furthermore, it is draggable to place it where least bothers in each moment.
 
 <p align="center">
- <img src="./img/draggable_window.png">
+ <img width="60%" src="./img/draggable_window.png">
 </p>
 
 > The window is placed over the other windows.
 
 <p align="center">
- <img src="./img/window_ontop.png">
+ <img width="60%" src="./img/window_ontop.png">
 </p>
 
 > The application can be stopped if the user does not need the security feature.
 
 <p align="center">
- <img src="./img/stop_recording.png">
+ <img width="60%" src="./img/stop_recording.png">
 </p>
 
 ## Actions
@@ -46,27 +46,20 @@ When the Shoulder Sourfing Attack is detected, the tool executes an action. Ther
 
 ## Examples
 
-The application detects the faces in different positions and even if someone is hidden behind a hand.
+* The application detects the faces in different positions and even if someone is hidden behind a hand.
 
 <p align="center">
- <img src="./img/face_detection.png">
+ <img width="40%" src="./img/face_detection.png">
+ <img width="40%" src="./img/lateral_face_detection.png">
+ <img width="40%" src="./img/face_detection_hidden.png">
+ <img width="40%" src="./img/face_detection_hidden2.png">
 </p>
 
-<p align="center">
- <img src="./img/lateral_face_detection.png">
-</p>
+
+* Notification sent after detecting shoulder surfing.
 
 <p align="center">
- <img src="./img/face_detection_hidden.png">
-</p>
-
-<p align="center">
- <img src="./img/face_detection_hidden2.png">
-</p>
-
-Notification sent after detecting shoulder surfing.
-<p align="center">
- <img src="./img/alert.png">
+ <img width="60%" src="./img/alert.png">
 </p>
 
 ## Getting Started
