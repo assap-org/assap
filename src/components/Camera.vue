@@ -25,7 +25,7 @@ div
   import * as fs from 'fs'
   import SettingNav from '@/components/SettingNav';
   import {Action} from "@/utils/actions";
-  const { globalShortcut,powerMonitor } = require('electron').remote
+  const { globalShortcut } = require('electron').remote
   const action = new Action()
 
   export default {
@@ -62,6 +62,7 @@ div
     },
     created(){
       globalShortcut.register('CommandOrControl+H', () => {
+        console.log("reverse")
         action.reverseAction()
       })
     },
@@ -80,10 +81,6 @@ div
             if(detections.length>1){
                action.executeAction()
             }
-            powerMonitor.on('unlock-screen', () => {
-              console.log("unlock")
-              action.reverseAction()
-            })
             canvas.width = videoEl.width
             canvas.height = videoEl.height
             const detectionsForSize = detections.map(det => det.forSize(videoEl.width, videoEl.height))

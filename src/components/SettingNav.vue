@@ -6,9 +6,6 @@
     .options
       .opt-section
         span
-          | Train Model
-      .opt-section
-        span
           | Load loadURL
         form
           input(v-model="config.url")
