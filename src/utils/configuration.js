@@ -1,19 +1,25 @@
-const CONFIGURATION = {
-  model_url: 'https://github.com/assap-org/models/releases/download/1.0.0',
-  action: 'lockscreen'
-};
-
 export function setModelUrl(model_url) {
-  localStorage.setItem("MODEL_URL", model_url);
+  const Store = require('electron-store');
+  const store = new Store();
+
+  store.set("MODEL_URL", model_url);
 }
 
 export function setAction(action) {
-  localStorage.setItem("ACTION", action);
+
+  const Store = require('electron-store');
+  const store = new Store();
+
+  store.set("ACTION", action);
 }
 
 export function getConfiguration() {
+
+  const Store = require('electron-store');
+  const store = new Store();
+
   let configuration = {};
-  configuration["model_url"] = localStorage.getItem("MODEL_URL");
-  configuration["action"] = localStorage.getItem("ACTION");
+  configuration["model_url"] = store.get("MODEL_URL");
+  configuration["action"] = store.get("ACTION");
   return configuration;
 }
