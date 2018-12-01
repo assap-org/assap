@@ -18,13 +18,13 @@
         span
           | Actions
         select(@change="loadAction()",v-model="config.action")
-          option(v-for="act in actionList")
+          option(v-for="act in actionList" :selected="act == config.action ? true : false")
             | {{act}}
 </template>
 
 <script>
 import {Action} from "@/utils/actions";
-import {setModelUrl,setAction} from "@/utils/configuration";
+import {setModelUrl, setAction, getConfiguration} from "@/utils/configuration";
 export default {
   name: 'SettingNav',
   data(){
@@ -37,8 +37,10 @@ export default {
     }
   },
   mounted(){
-    const action = new Action("","");
-    this.actionList = action.getAvailableActions();
+    const action = new Action("","")
+    this.actionList = action.getAvailableActions()
+    this.config.action = getConfiguration().action
+    this.config.url = getConfiguration().model_url
   },
   methods:{
     loadURL(){
