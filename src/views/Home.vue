@@ -1,48 +1,17 @@
 <template lang="pug">
-  .wrapper
-    .top-bar
-      .control-wrapper
-        #control-icon(v-if="isRecording")
-          font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecord()")/
-        #control-icon.double.no-recording(v-if="!isRecording")
-            font-awesome-icon.inline.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
-            font-awesome-icon.inline.resume(:icon="['fas', 'play-circle']", @click="toggleRecord()")/
-      .settings-wrapper
-        #control-icon(v-if="!isSettings")
-          font-awesome-icon.settings(:icon="['fas', 'sliders-h']", @click="toggleSettings()")/
-        #control-icon(v-if="isSettings")
-          font-awesome-icon.settings(:icon="['fas', 'times']", @click="toggleSettings()")/
-    .menu(v-if="isSettings")
-      SettingNav/
     Camera/
 </template>
 
 <script>
-  import SettingNav from '@/components/SettingNav';
   import Camera from '@/components/Camera';
 
   export default {
     name: 'home',
     components: {
-      Camera,
-      SettingNav
-    },
-    data() {
-      return {
-        isRecording: true,
-        isSettings: false,
-      };
+      Camera
     },
     methods: {
-      toggleRecord(){
-        this.isRecording = !this.isRecording
-      },
-      toggleSettings() {
-        this.isSettings = !this.isSettings
-      },
-      exitRecord(){
-        console.log("Shut-down")
-      }
+
     }
   }
 </script>
