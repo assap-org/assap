@@ -1,23 +1,53 @@
 <template lang="pug">
+div
   .section
     video(@play="onPlay", id="camera", width="270", height="150", preload, autoplay, loop, muted)
     canvas(id="canvas", width="270", height="150")
+  .wrapper
+    .top-bar
+      .control-wrapper
+        #control-icon(v-if="isRecording")
+          font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecord()")/
+        #control-icon.double.no-recording(v-if="!isRecording")
+            font-awesome-icon.inline.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
+            font-awesome-icon.inline.resume(:icon="['fas', 'play-circle']", @click="toggleRecord()")/
+      .settings-wrapper
+        #control-icon(v-if="!isSettings")
+          font-awesome-icon.settings(:icon="['fas', 'sliders-h']", @click="toggleSettings()")/
+        #control-icon(v-if="isSettings")
+          font-awesome-icon.settings(:icon="['fas', 'times']", @click="toggleSettings()")/
+    .menu(v-if="isSettings")
+      SettingNav/
 </template>
 
 <script>
   import * as faceapi from 'face-api.js'
   import * as fs from 'fs'
+  import SettingNav from '@/components/SettingNav';
   import {Action} from "@/utils/actions";
   const { globalShortcut,powerMonitor } = require('electron').remote
   const action = new Action()
 
   export default {
     name: 'camera',
+    components: {
+      SettingNav
+    },
+    data() {
+      return {
+        isRecording: true,
+        isSettings: false,
+        text: 'Record',
+        error: false,
+        track: null
+      };
+    },
     mounted() {
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
         .then((stream) => {
           videoEl.srcObject = stream
+          this.track = stream.getTracks()[0];
         })
         .catch((error) => {
           console.log('Error!', error);
@@ -64,6 +94,31 @@
           })
 
       setTimeout(() => this.onPlay())
+    },
+      toggleRecord(){
+        this.isRecording = !this.isRecording
+        this.text = this.isRecording ? 'Stop' : 'Record'
+        if(!this.isRecording) {
+          this.track.stop()
+        } else {
+          const videoEl = document.getElementById('camera');
+          navigator.mediaDevices.getUserMedia({ video: {} })
+            .then((stream) => {
+              videoEl.srcObject = stream
+              this.track = stream.getTracks()[0];
+            })
+            .catch((error) => {
+              console.log('Error!', error);
+            })
+        }
+      },
+      toggleSettings() {
+        this.isSettings = !this.isSettings
+      },
+      exitRecord(){
+        const remote = require('electron').remote
+        let w = remote.getCurrentWindow()
+        w.close()
       }
     }
   }
