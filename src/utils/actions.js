@@ -1,5 +1,4 @@
 import {getConfiguration} from "@/utils/configuration";
-import "../../node_modules/ion-sound/js/ion.sound.min.js";
 
 export class Action {
   isActionDone=false;
