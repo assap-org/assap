@@ -27,7 +27,7 @@ function createWindow () {
     x: width - 300,
     y: 150,
     alwaysOnTop: true,
-    resizable: false,
+    // resizable: false,
     webPreferences: {
       webSecurity: false
     }
@@ -36,7 +36,7 @@ function createWindow () {
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    //if (!process.env.IS_TEST) win.webContents.openDevTools()
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
