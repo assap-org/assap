@@ -20,7 +20,7 @@ Vue.use(Toasted, {duration: 1000, singleton: true})
 
 Vue.config.productionTip = false
 
-setAction("lockscreen")
+setAction("alarm")
 setModelUrl("https://github.com/assap-org/models/releases/download/1.0.0")
 
 new Vue({
