@@ -6,9 +6,10 @@
 
 > ASSAP is a multiplatform tool whose aim is to stablish deffensive measures against shoulder surfing attack, technique used for getting confidential information.
 
-The application has different security measures that can be configured by the users depending on the moment of use. ASSAP is designed to be simple to use so that anyone without knowledge can activate and use it, preventing other people from obtaining their confidential data such as passwords, bank accounts, private data, etc.
+> The application has different security measures that can be configured by the users depending on the moment of use. ASSAP is designed to be simple to use so that anyone without knowledge can activate and use it, preventing other people from obtaining their confidential data such as passwords, bank accounts, private data, etc.
 
 ## Actions
+
 When the Shoulder Sourfing Attack is detected, the tool execs an action. There are several actions:
 
 1. Reduce Brightness
@@ -30,11 +31,13 @@ It's necessary to have `node` (>9) and `npm`(>5) installed.
 ### Installing
 
 #### Dependencies installation
+
 ```
 npm install
 ```
 
 #### How to run
+
 ```
 npm run electron:serve
 ```
@@ -65,11 +68,11 @@ For implementing new actions it is necessary to modify the file `/utils/actions.
 ## Authors
 
 * **Nerea Sainz De La Maza** ([@nereasainzdelamaza](https://github.com/nereasainzdelamaza))
-* **Jose Ignacio Escribano** ([@jiep](https://github.com/jiep))
+* **José Ignacio Escribano** ([@jiep](https://github.com/jiep))
 * **Jorge Cuadrado Sáez** ([@jorcuad](https://github.com/jorcuad))
 * **Ruth González Novillo** ([@RuthGnz](https://github.com/RuthGnz))
 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
