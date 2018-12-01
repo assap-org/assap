@@ -25,7 +25,8 @@ div
   import * as fs from 'fs'
   import SettingNav from '@/components/SettingNav';
   import {Action} from "@/utils/actions";
-  const { globalShortcut,powerMonitor } = require('electron').remote
+  const { globalShortcut } = require('electron').remote
+  import {getConfiguration} from "@/utils/configuration";
   const action = new Action()
 
   export default {
@@ -53,15 +54,19 @@ div
           console.log('Error!', error);
         })
 
-      faceapi.loadSsdMobilenetv1Model('https://github.com/assap-org/models/releases/download/1.0.0')
+      const model_url = getConfiguration().model_url
+      console.log(model_url)
+
+      faceapi.loadSsdMobilenetv1Model(model_url)
         .then(() => console.log('loaded ssd model!'))
         .catch((error) => console.error(error))
-      faceapi.loadTinyFaceDetectorModel('https://github.com/assap-org/models/releases/download/1.0.0')
+      faceapi.loadTinyFaceDetectorModel(model_url)
         .then(() => console.log('loaded tiny model!'))
         .catch((error) => console.error(error))
     },
     created(){
       globalShortcut.register('CommandOrControl+H', () => {
+        console.log("reverse")
         action.reverseAction()
       })
     },
@@ -80,10 +85,6 @@ div
             if(detections.length>1){
                action.executeAction()
             }
-            powerMonitor.on('unlock-screen', () => {
-              console.log("unlock")
-              action.reverseAction()
-            })
             canvas.width = videoEl.width
             canvas.height = videoEl.height
             const detectionsForSize = detections.map(det => det.forSize(videoEl.width, videoEl.height))
