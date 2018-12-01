@@ -49,7 +49,7 @@ npm run electron:build
 
 ## Extending actions
 
-For implementing new actions it is necessary to modify the file `/utils/actions.js`.
+For implementing new actions it is necessary to modify the file `src/utils/actions.js`.
 
 1. Add the action name to the list `this.availableActions`.
 2. Create one the function with the funcionallity to launch the action.
