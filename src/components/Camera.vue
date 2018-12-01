@@ -26,6 +26,7 @@ div
   import SettingNav from '@/components/SettingNav';
   import {Action} from "@/utils/actions";
   const { globalShortcut } = require('electron').remote
+  import {getConfiguration} from "@/utils/configuration";
   const action = new Action()
 
   export default {
@@ -53,10 +54,13 @@ div
           console.log('Error!', error);
         })
 
-      faceapi.loadSsdMobilenetv1Model('https://github.com/assap-org/models/releases/download/1.0.0')
+      const model_url = getConfiguration().model_url
+      console.log(model_url)
+
+      faceapi.loadSsdMobilenetv1Model(model_url)
         .then(() => console.log('loaded ssd model!'))
         .catch((error) => console.error(error))
-      faceapi.loadTinyFaceDetectorModel('https://github.com/assap-org/models/releases/download/1.0.0')
+      faceapi.loadTinyFaceDetectorModel(model_url)
         .then(() => console.log('loaded tiny model!'))
         .catch((error) => console.error(error))
     },

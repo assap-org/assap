@@ -6,7 +6,7 @@
     .options
       .opt-section
         span
-          | Load loadURL
+          | Load Model
         form
           input(v-model="config.url")
           button(@click.prevent="loadURL()")
