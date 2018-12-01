@@ -20,8 +20,16 @@ Vue.use(Toasted, {duration: 1000, singleton: true})
 
 Vue.config.productionTip = false
 
-setAction("notification")
-setModelUrl("https://github.com/assap-org/models/releases/download/1.0.0")
+const Store = require('electron-store');
+const store = new Store();
+
+if(!store.get("MODEL_URL")){
+  setModelUrl("https://github.com/assap-org/models/releases/download/1.0.0")
+}
+
+if(!store.get("ACTION")) {
+  setAction("notification")
+}
 
 new Vue({
   router,
