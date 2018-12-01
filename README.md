@@ -20,7 +20,7 @@
  <img width="60%" src="./img/draggable_window.png">
 </p>
 
-> The window is placed over the other windows.
+> The user will have ASSAP window over the other ones to know what is happening behind him.
 
 <p align="center">
  <img width="60%" src="./img/window_ontop.png">
