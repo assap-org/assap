@@ -1,15 +1,15 @@
 import {getConfiguration} from "@/utils/configuration";
+import "../../node_modules/ion-sound/js/ion.sound.min.js";
+
 export class Action {
   isActionDone=false;
-
 
   constructor() {
     this.actionName = getConfiguration().action;
     this.opsystem = process.platform;
     this.exec = require('child_process').exec;
-    this.availableActions=["lockscreen","lowbrightness"]
+    this.availableActions=["lockscreen","lowbrightness","notification","alarm"]
   }
-
 
   getActionName(){
     return this.actionName;
@@ -19,11 +19,13 @@ export class Action {
     return this.availableActions;
   }
   executeAction(){
+   this.actionName = getConfiguration().action;
    if(!this.isActionDone){
     switch (this.actionName) {
      case "lockscreen": this.lockscreen(); break;
      case "lowbrightness": this.lowbrightness(); break;
-     case "reverselowbrightness":this.reverselowbrightness();break;
+     case "notification": this.notify(); break;
+     case "alarm": this.alarm(); break;
     }
     if(!(this.opsystem=="linux" && this.actionName=="lockscreen")){
       this.isActionDone=true
@@ -31,6 +33,12 @@ export class Action {
    }
   }
 
+  reverseAction(){
+    this.isActionDone=false
+    switch(this.actionName){
+     case "lowbrightness":this.reverselowbrightness();break;
+    }
+  }
 
   lowbrightness(){
   	const brightness=require('brightness')
@@ -85,6 +93,21 @@ export class Action {
     });
   }
 
+  notify(){
+    let notification = new Notification('¡Alerta!', {
+      body: 'Podrían estar observandote.'
+    })
+  }
 
+  alarm(){
+
+    var player = require('play-sound')
+
+    // $ mplayer foo.mp3
+    player.play('../../node_modules/ion-sound/sounds/bell_ring.mp3', function(err){
+      if (err) throw err
+    })
+
+  }
 
 }
