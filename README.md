@@ -76,9 +76,10 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 It's necessary to have `node` (>9) and `npm`(>5) installed.
-
+(It has been tested with node 9.11.2 and npm 5.6.0)
 
 * [Node and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+* [Node v9.11.2 and npm v5.6.0 for Windows](https://nodejs.org/dist/v9.11.2/node-v9.11.2-x64.msi)
 
 
 ### Installing
@@ -103,7 +104,7 @@ Install node dependency
 Install project dependencies
 * npm install 
 ```
-```
+
 
 #### How to run
 
