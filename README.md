@@ -86,9 +86,10 @@ It's necessary to have `node` (>9) and `npm`(>5) installed.
 #### Dependencies installation
 
 ```
-* LINUX AND MAC* 
+* LINUX AND MAC * 
 npm install
-
+```
+```
 * WINDOWS * 
 Install python 2.7 (https://www.python.org/ftp/python/2.7.15/python-2.7.15.amd64.msi)
 *Open the Control Panel (easy way: click in the Windows search on your task bar, type “Control Panel,” then click the icon).
@@ -101,6 +102,7 @@ Install node dependency
 
 Install project dependencies
 * npm install 
+```
 ```
 
 #### How to run
