@@ -86,7 +86,21 @@ It's necessary to have `node` (>9) and `npm`(>5) installed.
 #### Dependencies installation
 
 ```
+* LINUX AND MAC* 
 npm install
+
+* WINDOWS * 
+Install python 2.7 (https://www.python.org/ftp/python/2.7.15/python-2.7.15.amd64.msi)
+*Open the Control Panel (easy way: click in the Windows search on your task bar, type “Control Panel,” then click the icon).
+*In the Control Panel, search for Environment; click Edit the System Environment Variables. Then click the Environment Variables button.
+*In the System Variables section, you will need to either edit an existing PATH variable. If you’re editing an existing PATH, the values are presented on separate lines in the edit dialog. Add python path Ex: C:\Python27 
+*Open CMD and check python is installed with the command python --version
+
+Install node dependency
+* npm install -g node-gyp
+
+Install project dependencies
+* npm install 
 ```
 
 #### How to run
