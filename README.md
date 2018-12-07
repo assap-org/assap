@@ -105,6 +105,8 @@ Install python 2.7 (https://www.python.org/ftp/python/2.7.15/python-2.7.15.amd64
 
 Install node dependency
 * npm install -g node-gyp
+Install node package for windows (It takes a while, be patient)
+* npm install --global --production windows-build-tools 
 
 Install project dependencies
 * npm install 
