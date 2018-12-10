@@ -82,6 +82,7 @@ div
 
         faceapi.detectAllFaces(videoEl)
           .then((detections) => {
+		  console.log(detections)
             if(detections.length>1){
                action.executeAction()
             }
