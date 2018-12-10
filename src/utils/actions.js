@@ -57,7 +57,7 @@ export class Action {
 
   reverselowbrightness(){
     const brightness=require('brightness')
-    const windows='powershell (Get-WmiObject -Namespace root/WMI -Class WmiMonitorBrightnessMethods).WmiSetBrightness(1,1)';
+    const windows='powershell (Get-WmiObject -Namespace root/WMI -Class WmiMonitorBrightnessMethods).WmiSetBrightness(1,100)';
     const linux='xrandr --output $(xrandr -q | grep "connected" | head -n 1 | cut -d " " -f1) --brightness 0.8'
     const command={'linux':linux,'win32':windows}
 
