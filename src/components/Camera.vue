@@ -21,6 +21,7 @@ div
 </template>
 
 <script>
+  // import '@tensorflow/tfjs-node'
   import * as faceapi from 'face-api.js'
   import * as fs from 'fs'
   import SettingNav from '@/components/SettingNav';
@@ -44,6 +45,14 @@ div
       };
     },
     mounted() {
+      // faceapi.env.monkeyPatch({
+      //   Canvas: HTMLCanvasElement,
+      //   Image: HTMLImageElement,
+      //   ImageData: ImageData,
+      //   Video: HTMLVideoElement,
+      //   createCanvasElement: () => document.createElement('canvas'),
+      // })
+
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
         .then((stream) => {
@@ -82,7 +91,6 @@ div
 
         faceapi.detectAllFaces(videoEl)
           .then((detections) => {
-		  console.log(detections)
             if(detections.length>1){
                action.executeAction()
             }

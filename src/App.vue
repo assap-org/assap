@@ -4,13 +4,8 @@
 </template>
 
 <script>
-import Bar from '@/components/Bar'
-
 export default {
-  name: 'app',
-  components: {
-    Bar
-  }
+  name: 'app'
 }
 </script>
 
