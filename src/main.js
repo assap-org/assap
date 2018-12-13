@@ -18,8 +18,11 @@ Vue.config.productionTip = false
 const Store = require('electron-store');
 const store = new Store();
 
+const path = require('path');
+
 if(!store.get("MODEL_URL")){
-  setModelUrl("https://github.com/assap-org/models/releases/download/1.0.0")
+  const url = 'file://' + path.resolve('./models');
+  setModelUrl(url);
 }
 
 if(!store.get("ACTION")) {
