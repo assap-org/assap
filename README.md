@@ -76,7 +76,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 It's necessary to have `node` (>9) and `npm`(>5) installed.
-(It has been tested with node 9.11.2 and npm 5.6.0)
+(It has been tested with `node 9.11.2` and `npm 5.6.0`)
 
 * [Node and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 * [Node v9.11.2 and npm v5.6.0 for Windows](https://nodejs.org/dist/v9.11.2/node-v9.11.2-x64.msi)
@@ -149,7 +149,7 @@ For implementing new actions it is necessary to modify the file `src/utils/actio
 * [VueJS](https://vuejs.org) - Progressive JavaScript Framework
 * [PugJS](https://pugjs.org) - Template Engine
 * [SASS](https://sass-lang.com) - CSS extension language
-* [Face-api.js](https://github.com/justadudewhohacks/face-api.js) - Used for face detenction
+* [Face-api.js](https://github.com/justadudewhohacks/face-api.js) - Used for face detection
 
 
 ## Authors
