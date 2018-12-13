@@ -21,7 +21,7 @@ const store = new Store();
 const path = require('path');
 
 if(!store.get("MODEL_URL")){
-  const url = 'file://' + path.resolve('./model');
+  const url = 'file://' + path.resolve('./models');
   setModelUrl(url);
 }
 
