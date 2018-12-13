@@ -6,17 +6,17 @@
     .options
       .opt-section
         span
+          | Actions
+        select(@change="loadAction()",v-model="config.action")
+          option(v-for="act in actionList" :selected="act == config.action ? true : false")
+            | {{act}}
+      .opt-section
+        span
           | Load Model
         form
           input(v-model="config.url")
           button(@click.prevent="loadURL()")
             | Load
-      .opt-section
-        span
-          | Actions
-        select(@change="loadAction()",v-model="config.action")
-          option(v-for="act in actionList" :selected="act == config.action ? true : false")
-            | {{act}}
 </template>
 
 <script>
@@ -44,7 +44,6 @@ export default {
       setModelUrl(this.config.url)
     },
     loadAction(){
-      console.log(this.config.action)
       setAction(this.config.action)
     }
   }

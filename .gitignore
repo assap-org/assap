@@ -83,5 +83,6 @@ typings/
 .dynamodb/
 
 dist_electron
+dist
 
 # End of https://www.gitignore.io/api/node
