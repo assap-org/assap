@@ -81,8 +81,10 @@ It's necessary to have `node` (>9) and `npm`(>5) installed.
 * [Node and NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 * [Node v9.11.2 and npm v5.6.0 for Windows](https://nodejs.org/dist/v9.11.2/node-v9.11.2-x64.msi)
 
+
+**Check installed Versions**
+
 ```
-* Check Installed Versions * 
 npm -v
 node -v
 ```
@@ -91,25 +93,33 @@ node -v
 
 #### Dependencies installation
 
+##### Linux & Mac 
+
 ```
-* LINUX AND MAC * 
 npm install
 ```
+
+##### Windows
+
+1. Install Python 2.7 (https://www.python.org/ftp/python/2.7.15/python-2.7.15.amd64.msi).
+    1. Open the Control Panel (easy way: click in the Windows search on your task bar, type “Control Panel,” then click the icon).
+    2. In the `Control Panel`, search for `Environment`; click `Edit the System Environment Variables`. Then click the `Environment Variables` button.
+    3. In the `System Variables` section, you will need to either edit an existing `PATH` variable. If you’re editing an existing `PATH`, the values are presented on separate lines in the edit dialog. Add Python path Ex: `C:\Python27`. 
+    4. Open `CMD` and check `python` is installed with the command `python --version`.
+
+2. Install `node-gyp`.
 ```
-* WINDOWS * 
-Install python 2.7 (https://www.python.org/ftp/python/2.7.15/python-2.7.15.amd64.msi)
-*Open the Control Panel (easy way: click in the Windows search on your task bar, type “Control Panel,” then click the icon).
-*In the Control Panel, search for Environment; click Edit the System Environment Variables. Then click the Environment Variables button.
-*In the System Variables section, you will need to either edit an existing PATH variable. If you’re editing an existing PATH, the values are presented on separate lines in the edit dialog. Add python path Ex: C:\Python27 
-*Open CMD and check python is installed with the command python --version
+npm install -g node-gyp
+```
 
-Install node dependency
-* npm install -g node-gyp
-Install node package for windows (It takes a while, be patient)
-* npm install --global --production windows-build-tools 
+3. Install node package for Windows (It takes a while, be patient).
+```
+npm install --global --production windows-build-tools 
+```
 
-Install project dependencies
-* npm install 
+4. Install project dependencies.
+```
+npm install 
 ```
 
 
