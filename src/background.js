@@ -17,7 +17,6 @@ function createWindow () {
 
   let display = screen.getPrimaryDisplay();
   let width = display.bounds.width;
-  let height = display.bounds.height;
 
   // Create the browser window.
   win = new BrowserWindow({
