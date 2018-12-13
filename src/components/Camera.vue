@@ -21,9 +21,7 @@ div
 </template>
 
 <script>
-  // import '@tensorflow/tfjs-node'
   import * as faceapi from 'face-api.js'
-  import * as fs from 'fs'
   import SettingNav from '@/components/SettingNav';
   import {Action} from "@/utils/actions";
   const { globalShortcut } = require('electron').remote
@@ -45,14 +43,6 @@ div
       };
     },
     mounted() {
-      // faceapi.env.monkeyPatch({
-      //   Canvas: HTMLCanvasElement,
-      //   Image: HTMLImageElement,
-      //   ImageData: ImageData,
-      //   Video: HTMLVideoElement,
-      //   createCanvasElement: () => document.createElement('canvas'),
-      // })
-
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
         .then((stream) => {
@@ -60,22 +50,21 @@ div
           this.track = stream.getTracks()[0];
         })
         .catch((error) => {
-          console.log('Error!', error);
+          console.log('Error!', error); // eslint-disable-line no-console
         })
 
       const model_url = getConfiguration().model_url
-      console.log(model_url)
 
       faceapi.loadSsdMobilenetv1Model(model_url)
-        .then(() => console.log('loaded ssd model!'))
-        .catch((error) => console.error(error))
+        .then(() => console.log('loaded ssd model!')) // eslint-disable-line no-console
+        .catch((error) => console.error(error)) // eslint-disable-line no-console
       faceapi.loadTinyFaceDetectorModel(model_url)
-        .then(() => console.log('loaded tiny model!'))
-        .catch((error) => console.error(error))
+        .then(() => console.log('loaded tiny model!')) // eslint-disable-line no-console
+        .catch((error) => console.error(error)) // eslint-disable-line no-console
     },
     created(){
       globalShortcut.register('CommandOrControl+H', () => {
-        console.log("reverse")
+        console.log("reverse") // eslint-disable-line no-console
         action.reverseAction()
       })
     },
@@ -100,7 +89,7 @@ div
             faceapi.drawDetection(canvas, detectionsForSize, { withScore: true })
           })
           .catch((error) => {
-            console.log('Error', error);
+            console.log('Error', error); // eslint-disable-line no-console
           })
 
       setTimeout(() => this.onPlay())
@@ -118,7 +107,7 @@ div
               this.track = stream.getTracks()[0];
             })
             .catch((error) => {
-              console.log('Error!', error);
+              console.log('Error!', error); // eslint-disable-line no-console
             })
         }
       },

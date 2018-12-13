@@ -25,8 +25,8 @@ function createWindow () {
     frame: false,
     x: width - 300,
     y: 150,
-    alwaysOnTop: true,
-    resizable: false,
+    // alwaysOnTop: true,
+    // resizable: false,
     webPreferences: {
       webSecurity: false
     }
@@ -38,6 +38,7 @@ function createWindow () {
     //if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
+    win.webContents.openDevTools()
     // Load the index.html when not in development
     win.loadFile('index.html')
   }

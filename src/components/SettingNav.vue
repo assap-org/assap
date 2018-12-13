@@ -44,7 +44,7 @@ export default {
       setModelUrl(this.config.url)
     },
     loadAction(){
-      console.log(this.config.action)
+      console.log(this.config.action) // eslint-disable-line no-console
       setAction(this.config.action)
     }
   }
