@@ -10,19 +10,15 @@ div
           font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecord()")/
         #control-icon.double.no-recording(v-if="!isRecording")
             font-awesome-icon.inline.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
-            font-awesome-icon.inline.resume(:icon="['fas', 'play-circle']", @click="toggleRecord()")/
       .settings-wrapper
-        #control-icon(v-if="!isSettings")
-          font-awesome-icon.settings(:icon="['fas', 'sliders-h']", @click="toggleSettings()")/
-        #control-icon(v-if="isSettings")
-          font-awesome-icon.settings(:icon="['fas', 'times']", @click="toggleSettings()")/
-    .menu(v-if="isSettings")
-      SettingNav/
+        SettingNav/
+    .play(v-if="!isRecording")
+      font-awesome-icon.resume(:icon="['fas', 'play-circle']", @click="toggleRecord()")/
 </template>
 
 <script>
-  import * as faceapi from 'face-api.js'
   import SettingNav from '@/components/SettingNav';
+  import * as faceapi from 'face-api.js'
   import {Action} from "@/utils/actions";
   const { globalShortcut } = require('electron').remote
   import {getConfiguration} from "@/utils/configuration";
@@ -48,6 +44,7 @@ div
         .then((stream) => {
           videoEl.srcObject = stream
           this.track = stream.getTracks()[0];
+          this.toggleRecord()
         })
         .catch((error) => {
           console.log('Error!', error); // eslint-disable-line no-console
@@ -92,8 +89,8 @@ div
             console.log('Error', error); // eslint-disable-line no-console
           })
 
-      setTimeout(() => this.onPlay())
-    },
+        setTimeout(() => this.onPlay())
+      },
       toggleRecord(){
         this.isRecording = !this.isRecording
         this.text = this.isRecording ? 'Stop' : 'Record'
@@ -132,8 +129,6 @@ div
     left: 0
     width: 270px
     height: 150px
-<<<<<<< Updated upstream
-=======
 
   .play
     left: 33%
@@ -220,5 +215,4 @@ div
     z-index: 1
     width: 200px
     height: 100%
->>>>>>> Stashed changes
 </style>
