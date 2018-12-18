@@ -138,6 +138,7 @@ div
     height: 33%
     width: 33%
     svg.resume
+      -webkit-app-region: no-drag
       color: #28cd41
       height: 100%
       width: 100%

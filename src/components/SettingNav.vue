@@ -7,7 +7,7 @@
 
 <script>
 import {Action} from "@/utils/actions";
-import {setModelUrl, setAction, getConfiguration} from "@/utils/configuration";
+import {setAction, getConfiguration} from "@/utils/configuration";
 export default {
   name: 'SettingNav',
   data(){
@@ -34,6 +34,7 @@ export default {
     -webkit-app-region: no-drag
     width: 100%
     select
+      -webkit-app-region: no-drag
       display: block
       width: 100%
 </style>
