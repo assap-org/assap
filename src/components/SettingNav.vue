@@ -86,6 +86,7 @@ export default {
       input
         margin-right: 5px
     select
+      -webkit-app-region: no-drag
       display: block
       width: 100%
 

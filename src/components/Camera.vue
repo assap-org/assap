@@ -132,4 +132,93 @@ div
     left: 0
     width: 270px
     height: 150px
+<<<<<<< Updated upstream
+=======
+
+  .play
+    left: 33%
+    right: 33%
+    top: 40%
+    position: absolute
+    height: 33%
+    width: 33%
+    svg.resume
+      -webkit-app-region: no-drag
+      color: #28cd41
+      height: 100%
+      width: 100%
+      cursor: pointer
+    svg.resume:hover
+      color: rgb(0, 125, 27)
+
+  .wrapper
+    width: 100%
+    height: 100%
+    margin: 0
+    padding: 0
+    position: absolute
+    top: 0
+    left: 0
+    -webkit-app-region: drag
+
+  .top-bar
+    position: relative
+    background-color: rgba(0,0,0,0.5)
+    height: 45px
+    z-index: 2
+
+  .control-wrapper
+    position: relative
+    float: left
+    top: 10px
+    left: 10px
+    height: 25px
+    width: 50px
+
+  .settings-wrapper
+    position: relative
+    float: right
+    margin-top: 10px
+    margin-right: 10px
+    height: 25px
+    width: 100px
+
+  #control-icon:hover
+    cursor: pointer
+
+  #control-icon.double
+    width: 55px
+    svg
+      margin-right: 5px
+
+  #control-icon
+    -webkit-app-region: no-drag
+    color: rgb(255, 69, 58)
+    cursor: pointer
+    height: 25px
+    width: 25px
+    svg
+      border-radius: 50%
+      width: 100%
+      height: 100%
+    svg.inline
+      display: inline-block
+      width: 40%
+    svg.stop:hover
+      color: rgb(201, 52, 0)
+    svg.exit:hover
+      color: rgb(201, 52, 0)
+    svg.stop
+      color: rgb(255, 69, 58)
+    svg.exit
+      color: rgb(255, 69, 58)
+
+  .menu
+    position: absolute
+    right: 0
+    top: 0
+    z-index: 1
+    width: 200px
+    height: 100%
+>>>>>>> Stashed changes
 </style>
