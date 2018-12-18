@@ -7,7 +7,7 @@
 
 <script>
 import {Action} from "@/utils/actions";
-import {setModelUrl, setAction, getConfiguration} from "@/utils/configuration";
+import {setAction, getConfiguration} from "@/utils/configuration";
 export default {
   name: 'SettingNav',
   data(){
