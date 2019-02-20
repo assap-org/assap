@@ -172,6 +172,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <!-- Banner -->
 <p align="center">
-  <img src="./images/banner.png"/>
+  <img src="./img/banner.png"/>
 </p>
 <h4 align="center" style="margin: -20px">Made with <span style="color:#e25555;">❤️</span> by <a Cybersecurity Lab @ <a href="https://www.bbvanexttechnologies.com">BBVA Next Techonologies</a> </h4>
