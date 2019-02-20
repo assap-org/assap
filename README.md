@@ -169,3 +169,9 @@ For implementing new actions it is necessary to modify the file `src/utils/actio
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+<!-- Banner -->
+<style>.heart{color:#e25555;}</style>
+<p align="center">
+  <img src="./img/banner.png"/>
+</p>
+<h4 align="center" style="margin: -20px">Created with <span class="heart">❤</span> by Cybersecurity Lab @ BBVA Next Techonologies </h4>
