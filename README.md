@@ -152,6 +152,10 @@ For implementing new actions it is necessary to modify the file `src/utils/actio
 * [Face-api.js](https://github.com/justadudewhohacks/face-api.js) - Used for face detection
 
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
 ## Authors
 
 <p align="center">
@@ -166,12 +170,8 @@ For implementing new actions it is necessary to modify the file `src/utils/actio
 
 
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 <!-- Banner -->
-<style>.heart{color:#e25555;}</style>
 <p align="center">
-  <img src="./img/banner.png"/>
+  <img src="./images/banner.png"/>
 </p>
-<h4 align="center" style="margin: -20px">Created with <span class="heart">❤</span> by Cybersecurity Lab @ BBVA Next Techonologies </h4>
+<h4 align="center" style="margin: -20px">Made with <span style="color:#e25555;">❤️</span> by <a Cybersecurity Lab @ <a href="https://www.bbvanexttechnologies.com">BBVA Next Techonologies</a> </h4>
