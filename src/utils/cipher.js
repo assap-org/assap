@@ -26,19 +26,19 @@ var genRandomString = function(length){
  * @param {String} text - Text to encrypt
  * @param {String} password - User password
  */
-function encrypt(text,password) {
+exports function encrypt(text,password) {
   const salt = genRandomString(16) // It is recommended that a salt is random and at least 16 bytes long.
   const key = crypto.scryptSync(password, salt, 32)
   const iv = crypto.randomBytes(16); // Initialization vector.
   const cipher = crypto.createCipheriv(algorithm, key, iv);
-  var encrypted = cipher.update(text, 'utf8', 'hex')
-  encrypted += cipher.final('hex');
+  var content = cipher.update(text, 'utf8', 'hex')
+  content += cipher.final('hex');
   var tag = cipher.getAuthTag();
   return {
-    content: encrypted,
-    tag: tag,
-    iv: iv,
-    salt: salt
+    content,
+    tag,
+    iv,
+    salt
   };
 }
 
@@ -49,7 +49,7 @@ function encrypt(text,password) {
  * @param {String} encrypted - Text to dencrypt
  * @param {String} password - User password
  */
-function decrypt(encrypted,password) {
+exports function decrypt(encrypted,password) {
   const key = crypto.scryptSync(password, encrypted.salt, 32);
   const decipher = crypto.createDecipheriv(algorithm, key, encrypted.iv);
   decipher.setAuthTag(encrypted.tag);
