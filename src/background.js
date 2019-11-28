@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, screen } from 'electron'
+import { app, protocol, BrowserWindow, screen, ipcMain } from 'electron'
 import {
   createProtocol,
   installVueDevtools
@@ -31,6 +31,8 @@ function createWindow () {
   win = new BrowserWindow({
     width: 266,
     height: 150,
+    minWidth: 266,
+    minHeight: 150,
     frame: false,
     x: width - 300,
     y: 150,
@@ -84,6 +86,19 @@ app.on('ready', async () => {
   }
   createWindow()
 })
+
+ipcMain.on("toggleMenu",function (event, arg) {
+  const actualWidth = win.getSize()[0]
+  const actualHeight = win.getSize()[1]
+  const minWidth = win.getMinimumSize()[0]
+  const minHeight = win.getMinimumSize()[1]
+
+  if(actualWidth === minWidth){
+    win.setSize(actualWidth*2, actualHeight, true);
+  } else {
+    win.setSize(minWidth, minHeight, true);
+  }
+});
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {

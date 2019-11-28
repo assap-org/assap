@@ -185,7 +185,7 @@ div
     margin-top: 10px
     margin-right: 10px
     height: 25px
-    width: 100px
+    width: 125px
 
   #control-icon:hover
     cursor: pointer
