@@ -24,8 +24,6 @@ div
   import {Action} from "@/utils/actions";
   const { globalShortcut } = require('electron').remote
   import {getConfiguration} from "@/utils/configuration";
-  import { drawCanvas } from '@/utils/canvas';
-
   const action = new Action();
 
   faceapi.env.monkeyPatch({
