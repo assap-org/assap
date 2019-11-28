@@ -6,13 +6,14 @@
       #control-icon.double.no-recording(v-if="isRecordingNav")
         font-awesome-icon.inline.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
     .settings-wrapper
-      select(@change="loadAction()",v-model="selectedAction")
-        option(v-for="act in actionList" :selected="act == selectedAction ? true : false")
-          | {{act}}
       .settings(v-if="!isMenuOpen")
           font-awesome-icon.inline.toOpen(:icon="['fas', 'bars']",@click="toggleMenu()")/
       .settings(v-if="isMenuOpen")
           font-awesome-icon.inline.toClose(:icon="['fas', 'times']",@click="toggleMenu()")/
+      .select-wrapper
+        select(@change="loadAction()",v-model="selectedAction")
+          option(v-for="act in actionList" :selected="act == selectedAction ? true : false")
+            | {{act}}
 </template>
 
 <script>
@@ -61,72 +62,76 @@ export default {
 </script>
 
 <style lang="sass">
-  .controls-wrapper
-    position: relative
-    float: left
-    height: 25px
-    width: 50px
-
-    #control-icon
-      -webkit-app-region: no-drag
-      color: rgb(255, 69, 58)
-      cursor: pointer
+  .nav-wrapper
+    .controls-wrapper
+      position: relative
+      float: left
       height: 25px
-      width: 25px
-      svg
-        border-radius: 50%
-        width: 100%
-        height: 100%
-      svg.inline
-        display: inline-block
-        width: 40%
-      svg.stop:hover
-        color: rgb(201, 52, 0)
-      svg.exit:hover
-        color: rgb(201, 52, 0)
-      svg.stop
+
+      #control-icon
+        -webkit-app-region: no-drag
         color: rgb(255, 69, 58)
-      svg.exit
-        color: rgb(255, 69, 58)
+        cursor: pointer
+        height: 25px
+        width: 25px
+        svg
+          border-radius: 50%
+          width: 100%
+          height: 100%
+        svg.inline
+          display: inline-block
+          width: 40%
+        svg.stop:hover
+          color: rgb(201, 52, 0)
+        svg.exit:hover
+          color: rgb(201, 52, 0)
+        svg.stop
+          color: rgb(255, 69, 58)
+        svg.exit
+          color: rgb(255, 69, 58)
 
-    #control-icon:hover
-      cursor: pointer
+      #control-icon:hover
+        cursor: pointer
 
-    #control-icon.double
-      width: 55px
-      svg
-        margin-right: 5px
+      #control-icon.double
+        width: 55px
+        svg
+          margin-right: 5px
 
-  .settings-wrapper
-    -webkit-app-region: no-drag
-    float: right
-    position: relative
-    width: 70%
-
-    select
+    .settings-wrapper
       -webkit-app-region: no-drag
-      display: inline-block
-      width: 80%
+      float: right
+      position: relative
+      width: 70%
 
-    .settings
-      -webkit-app-region: no-drag
-      cursor: pointer
-      height: auto
-      width: 25px
-      display: inline-block
-
-      svg
-        border-radius: 50%
-        width: 100%
+      .select-wrapper
         height: 100%
-      svg.inline
+        width: 60%
         display: inline-block
-      svg.toOpen
-        color: rgb(125, 125, 125)
-      svg.toClose
-        color: rgb(201, 52, 0)
-      svg.toOpen:hover
-        color: rgb(125, 155, 175)
-      svg.toClose:hover
-        color: rgb(201, 52, 0)
+        -webkit-app-region: no-drag
+        float: right
+
+      .settings
+        -webkit-app-region: no-drag
+        cursor: pointer
+        height: 25px
+        width: 25px
+        display: inline-block
+        float: right
+        margin-right: 10%
+
+        svg
+          border-radius: 50%
+          width: 100%
+          height: 100%
+        svg.inline
+          display: inline-block
+        svg.toOpen
+          color: rgb(125, 125, 125)
+        svg.toClose
+          color: rgb(201, 52, 0)
+        svg.toOpen:hover
+          color: rgb(125, 155, 175)
+        svg.toClose:hover
+          color: rgb(201, 52, 0)
 </style>

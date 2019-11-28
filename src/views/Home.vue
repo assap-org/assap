@@ -28,13 +28,13 @@
     width: auto
     .camera-wrapper
       .top-bar
+        background-color: rgba(0,0,0,0.5)
+        height: 45px
+        width: 100%
         position: relative
         padding: 10px
         padding-left: 20px
         padding-right: 20px
-        background-color: rgba(0,0,0,0.5)
-        height: 45px
-        width: auto
         z-index: 2
     .menu-wrapper
       width: 49%
