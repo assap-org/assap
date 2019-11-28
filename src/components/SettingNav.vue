@@ -44,8 +44,10 @@ export default {
       setAction(this.selectedAction)
     },
     toggleMenu(){
+      const {app} = require('electron').remote;
       const ipcRenderer = require('electron').ipcRenderer;
       ipcRenderer.send("toggleMenu");
+      app.emit('menuToggled');
       this.isMenuOpen = !this.isMenuOpen;
     },
     toggleRecordNav(){

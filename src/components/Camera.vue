@@ -144,7 +144,7 @@ div
       color: rgb(0, 125, 27)
 
   .wrapper
-    width: 100%
+    width: 270px
     height: 100%
     margin: 0
     padding: 0
