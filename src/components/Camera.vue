@@ -5,7 +5,7 @@ div
     canvas(id="canvas", width="270", height="150")
   .wrapper
     .top-bar
-      .control-wrapper(style="flex: 1; flex-direction: row;")
+      .control-wrapper
         #control-icon(v-if="isRecording")
           font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecord()")/
         #control-icon.double.no-recording(v-if="!isRecording")
@@ -94,7 +94,7 @@ div
               var box = detections[i].box
               if(box != undefined) {
                 if (box.height<minHeadHeight) {
-                  trueDetectionsNumber = trueDetectionsNumber - 1
+                  trueDetectionsNumber -= 1
                 } else {
                   trueDetections.push(detections[i])
                 }
