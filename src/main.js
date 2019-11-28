@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret, faSpinner, faAlignLeft, faCog, faStopCircle, faPlayCircle, faTimesCircle, faSlidersH, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faStopCircle, faPlayCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -9,7 +9,7 @@ import './assets/styles.sass'
 import router from './router'
 import {setAction, setModelUrl} from "@/utils/configuration";
 
-library.add(faUserSecret, faSpinner, faAlignLeft, faCog, faStopCircle, faPlayCircle, faTimesCircle, faSlidersH, faTimes)
+library.add(faStopCircle, faPlayCircle, faTimesCircle)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
