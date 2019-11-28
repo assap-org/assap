@@ -18,11 +18,20 @@ div
 
 <script>
   import SettingNav from '@/components/SettingNav';
-  import * as faceapi from 'face-api.js'
+  import * as faceapi from 'face-api.js';
   import {Action} from "@/utils/actions";
   const { globalShortcut } = require('electron').remote
   import {getConfiguration} from "@/utils/configuration";
-  const action = new Action()
+  const action = new Action();
+
+  faceapi.env.monkeyPatch({
+    Canvas: HTMLCanvasElement,
+    Image: HTMLImageElement,
+    ImageData: ImageData,
+    Video: HTMLVideoElement,
+    createCanvasElement: () => document.createElement('canvas'),
+    createImageElement: () => document.createElement('img')
+  });
 
   export default {
     name: 'camera',
@@ -82,8 +91,8 @@ div
             }
             canvas.width = videoEl.width
             canvas.height = videoEl.height
-            const detectionsForSize = detections.map(det => det.forSize(videoEl.width, videoEl.height))
-            faceapi.drawDetection(canvas, detectionsForSize, { withScore: true })
+            const dims = faceapi.matchDimensions(canvas, videoEl, true)
+            faceapi.draw.drawDetections(canvas, faceapi.resizeResults(detections, dims))
           })
           .catch((error) => {
             console.log('Error', error); // eslint-disable-line no-console

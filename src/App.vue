@@ -15,6 +15,6 @@ export default {
   height: 100%
   width: 100%
   border: 0
-  background-color: $body-background-color
+  // background-color: $body-background-color
   color: black
 </style>
