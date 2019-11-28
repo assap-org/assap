@@ -5,6 +5,8 @@
         font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecordNav()")/
       #control-icon.double.no-recording(v-if="isRecordingNav")
         font-awesome-icon.inline.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
+      #control-icon
+        font-awesome-icon.minimize(:icon="['fas', 'user-secret']", @click="minimize()")/
     .settings-wrapper
       .settings(v-if="!isMenuOpen")
           font-awesome-icon.inline.toOpen(:icon="['fas', 'bars']",@click="toggleMenu()")/
@@ -58,6 +60,11 @@ export default {
       const remote = require('electron').remote
       let w = remote.getCurrentWindow()
       w.close()
+    },
+    minimize() {
+      const remote = require('electron').remote
+      var window = remote.getCurrentWindow();
+      window.minimize();
     }
   }
 }
