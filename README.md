@@ -100,6 +100,7 @@ npm install
 ```
 
 ##### Windows
+> Administration privileges may be required.
 
 1. Install Python 2.7 (https://www.python.org/ftp/python/2.7.15/python-2.7.15.amd64.msi).
     1. Open the Control Panel (easy way: click in the Windows search on your task bar, type “Control Panel,” then click the icon).
@@ -107,7 +108,7 @@ npm install
     3. In the `System Variables` section, you will need to either edit an existing `PATH` variable. If you’re editing an existing `PATH`, the values are presented on separate lines in the edit dialog. Add Python path Ex: `C:\Python27`. 
     4. Open `CMD` and check `python` is installed with the command `python --version`.
 
-2. Install `node-gyp`.
+2. Install `node-gyp`. 
 ```
 npm install -g node-gyp
 ```
