@@ -5,11 +5,13 @@ div
     canvas(id="canvas", width="270", height="150")
   .wrapper
     .top-bar
-      .control-wrapper
+      .control-wrapper(style="flex: 1; flex-direction: row;")
         #control-icon(v-if="isRecording")
           font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecord()")/
         #control-icon.double.no-recording(v-if="!isRecording")
             font-awesome-icon.inline.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
+        #control-icon
+            font-awesome-icon.minimize(:icon="['fas', 'user-secret']", @click="minimize()")/
       .settings-wrapper
         SettingNav/
     .play(v-if="!isRecording")
@@ -22,6 +24,8 @@ div
   import {Action} from "@/utils/actions";
   const { globalShortcut } = require('electron').remote
   import {getConfiguration} from "@/utils/configuration";
+  import { drawCanvas } from '@/utils/canvas';
+
   const action = new Action();
 
   faceapi.env.monkeyPatch({
@@ -67,6 +71,7 @@ div
       faceapi.loadTinyFaceDetectorModel(model_url)
         .then(() => console.log('loaded tiny model!')) // eslint-disable-line no-console
         .catch((error) => console.error(error)) // eslint-disable-line no-console
+
     },
     created(){
       globalShortcut.register('CommandOrControl+H', () => {
@@ -124,6 +129,12 @@ div
         const remote = require('electron').remote
         let w = remote.getCurrentWindow()
         w.close()
+      },
+      minimize() {
+        console.log('minimize')
+        const remote = require('electron').remote
+        var window = remote.getCurrentWindow();
+        window.minimize();
       }
     }
   }
