@@ -66,10 +66,6 @@ div
       faceapi.loadSsdMobilenetv1Model(model_url)
         .then(() => console.log('loaded ssd model!')) // eslint-disable-line no-console
         .catch((error) => console.error(error)) // eslint-disable-line no-console
-      faceapi.loadTinyFaceDetectorModel(model_url)
-        .then(() => console.log('loaded tiny model!')) // eslint-disable-line no-console
-        .catch((error) => console.error(error)) // eslint-disable-line no-console
-
     },
     created(){
       globalShortcut.register('CommandOrControl+H', () => {
@@ -89,13 +85,29 @@ div
 
         faceapi.detectAllFaces(videoEl)
           .then((detections) => {
-            if(detections.length>1){
+            //Minimum size of the detected face to consider a shoulder surfing attack.
+            //It prevents from false positives from people situated far from the current device.
+            const minHeadHeight = 50
+            var trueDetectionsNumber = detections.length
+            var trueDetections = []
+            for (var i = 0; i < detections.length; i++) {
+              var box = detections[i].box
+              if(box != undefined) {
+                if (box.height<minHeadHeight) {
+                  trueDetectionsNumber = trueDetectionsNumber - 1
+                } else {
+                  trueDetections.push(detections[i])
+                }
+              }
+
+            }
+            if(trueDetectionsNumber>1){
                action.executeAction()
             }
             canvas.width = videoEl.width
             canvas.height = videoEl.height
             const dims = faceapi.matchDimensions(canvas, videoEl, true)
-            faceapi.draw.drawDetections(canvas, faceapi.resizeResults(detections, dims))
+            faceapi.draw.drawDetections(canvas, faceapi.resizeResults(trueDetections, dims))
           })
           .catch((error) => {
             console.log('Error', error); // eslint-disable-line no-console
@@ -129,7 +141,6 @@ div
         w.close()
       },
       minimize() {
-        console.log('minimize')
         const remote = require('electron').remote
         var window = remote.getCurrentWindow();
         window.minimize();
