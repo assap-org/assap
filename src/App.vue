@@ -16,5 +16,5 @@ export default {
   width: 100%
   border: 0
   // background-color: $body-background-color
-  color: black
+  color: white
 </style>

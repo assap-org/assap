@@ -1,12 +1,18 @@
 <template lang="pug">
-  .setting-nav
-    select(@change="loadAction()",v-model="selectedAction")
-      option(v-for="act in actionList" :selected="act == selectedAction ? true : false")
-        | {{act}}
-    .menu(v-if="!isMenuOpen")
-        font-awesome-icon.inline.toOpen(:icon="['fas', 'bars']",@click="toggleMenu()")/
-    .menu(v-if="isMenuOpen")
-        font-awesome-icon.inline.toClose(:icon="['fas', 'times']",@click="toggleMenu()")/
+  .nav-wrapper
+    .controls-wrapper
+      #control-icon(v-if="!isRecordingNav")
+        font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecordNav()")/
+      #control-icon.double.no-recording(v-if="isRecordingNav")
+        font-awesome-icon.inline.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
+    .settings-wrapper
+      select(@change="loadAction()",v-model="selectedAction")
+        option(v-for="act in actionList" :selected="act == selectedAction ? true : false")
+          | {{act}}
+      .settings(v-if="!isMenuOpen")
+          font-awesome-icon.inline.toOpen(:icon="['fas', 'bars']",@click="toggleMenu()")/
+      .settings(v-if="isMenuOpen")
+          font-awesome-icon.inline.toClose(:icon="['fas', 'times']",@click="toggleMenu()")/
 </template>
 
 <script>
@@ -16,6 +22,7 @@ export default {
   name: 'SettingNav',
   data(){
     return {
+      isRecordingNav: false,
       selectedAction: "",
       actionList: ["No Options"],
       isMenuOpen: false,
@@ -25,6 +32,11 @@ export default {
     const action = new Action("","")
     this.actionList = action.getAvailableActions()
     this.selectedAction = getConfiguration().action
+
+    const {app} = require('electron').remote;
+    app.on('play', () => {
+      this.isRecordingNav = !this.isRecordingNav;
+    });
   },
   methods:{
     loadAction(){
@@ -34,27 +46,75 @@ export default {
       const ipcRenderer = require('electron').ipcRenderer;
       ipcRenderer.send("toggleMenu");
       this.isMenuOpen = !this.isMenuOpen;
+    },
+    toggleRecordNav(){
+      const {app} = require('electron').remote;
+      app.emit('toggle-record');
+    },
+    exitRecord(){
+      const remote = require('electron').remote
+      let w = remote.getCurrentWindow()
+      w.close()
     }
   }
 }
 </script>
 
 <style lang="sass">
-  .setting-nav
+  .controls-wrapper
+    position: relative
+    float: left
+    height: 25px
+    width: 50px
+
+    #control-icon
+      -webkit-app-region: no-drag
+      color: rgb(255, 69, 58)
+      cursor: pointer
+      height: 25px
+      width: 25px
+      svg
+        border-radius: 50%
+        width: 100%
+        height: 100%
+      svg.inline
+        display: inline-block
+        width: 40%
+      svg.stop:hover
+        color: rgb(201, 52, 0)
+      svg.exit:hover
+        color: rgb(201, 52, 0)
+      svg.stop
+        color: rgb(255, 69, 58)
+      svg.exit
+        color: rgb(255, 69, 58)
+
+    #control-icon:hover
+      cursor: pointer
+
+    #control-icon.double
+      width: 55px
+      svg
+        margin-right: 5px
+
+  .settings-wrapper
     -webkit-app-region: no-drag
-    width: 100%
+    float: right
+    position: relative
+    width: 70%
+
     select
       -webkit-app-region: no-drag
       display: inline-block
       width: 80%
-    .menu
+
+    .settings
       -webkit-app-region: no-drag
       cursor: pointer
       height: auto
-      width: 15%
-      margin-left: 20px
-      float: left
+      width: 25px
       display: inline-block
+
       svg
         border-radius: 50%
         width: 100%

@@ -4,20 +4,11 @@ div
     video(@play="onPlay", id="camera", width="270", height="150", preload, autoplay, loop, muted)
     canvas(id="canvas", width="270", height="150")
   .wrapper
-    .top-bar
-      .control-wrapper
-        #control-icon(v-if="isRecording")
-          font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecord()")/
-        #control-icon.double.no-recording(v-if="!isRecording")
-            font-awesome-icon.inline.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
-      .settings-wrapper
-        SettingNav/
     .play(v-if="!isRecording")
       font-awesome-icon.resume(:icon="['fas', 'play-circle']", @click="toggleRecord()")/
 </template>
 
 <script>
-  import SettingNav from '@/components/SettingNav';
   import * as faceapi from 'face-api.js';
   import {Action} from "@/utils/actions";
   const { globalShortcut } = require('electron').remote
@@ -36,13 +27,10 @@ div
   export default {
     name: 'camera',
     components: {
-      SettingNav
     },
     data() {
       return {
         isRecording: true,
-        isSettings: false,
-        text: 'Record',
         error: false,
         track: null
       };
@@ -67,6 +55,12 @@ div
       faceapi.loadTinyFaceDetectorModel(model_url)
         .then(() => console.log('loaded tiny model!')) // eslint-disable-line no-console
         .catch((error) => console.error(error)) // eslint-disable-line no-console
+
+      const {app} = require('electron').remote;
+      app.on('toggle-record', () => {
+        this.toggleRecord()
+      });
+
     },
     created(){
       globalShortcut.register('CommandOrControl+H', () => {
@@ -102,7 +96,8 @@ div
       },
       toggleRecord(){
         this.isRecording = !this.isRecording
-        this.text = this.isRecording ? 'Stop' : 'Record'
+        const {app} = require('electron').remote;
+        app.emit('play');
         if(!this.isRecording) {
           this.track.stop()
         } else {
@@ -117,14 +112,7 @@ div
             })
         }
       },
-      toggleSettings() {
-        this.isSettings = !this.isSettings
-      },
-      exitRecord(){
-        const remote = require('electron').remote
-        let w = remote.getCurrentWindow()
-        w.close()
-      }
+
     }
   }
 </script>
@@ -165,63 +153,4 @@ div
     left: 0
     -webkit-app-region: drag
 
-  .top-bar
-    position: relative
-    background-color: rgba(0,0,0,0.5)
-    height: 45px
-    z-index: 2
-
-  .control-wrapper
-    position: relative
-    float: left
-    top: 10px
-    left: 10px
-    height: 25px
-    width: 50px
-
-  .settings-wrapper
-    position: relative
-    float: right
-    margin-top: 10px
-    margin-right: 10px
-    height: 25px
-    width: 125px
-
-  #control-icon:hover
-    cursor: pointer
-
-  #control-icon.double
-    width: 55px
-    svg
-      margin-right: 5px
-
-  #control-icon
-    -webkit-app-region: no-drag
-    color: rgb(255, 69, 58)
-    cursor: pointer
-    height: 25px
-    width: 25px
-    svg
-      border-radius: 50%
-      width: 100%
-      height: 100%
-    svg.inline
-      display: inline-block
-      width: 40%
-    svg.stop:hover
-      color: rgb(201, 52, 0)
-    svg.exit:hover
-      color: rgb(201, 52, 0)
-    svg.stop
-      color: rgb(255, 69, 58)
-    svg.exit
-      color: rgb(255, 69, 58)
-
-  .menu
-    position: absolute
-    right: 0
-    top: 0
-    z-index: 1
-    width: 200px
-    height: 100%
 </style>
