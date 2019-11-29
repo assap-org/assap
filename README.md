@@ -12,7 +12,7 @@
  <img width="80%" src="./img/use.png">
 </p>
 
-**For more detailed info, visit our [wiki](https://github.com/assap-org/assap/wiki).**
+> **For more detailed info, visit our [wiki](https://github.com/assap-org/assap/wiki).**
 
 
 ## Getting Started
