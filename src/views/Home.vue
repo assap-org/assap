@@ -7,12 +7,12 @@
           Wizard/
       Camera/
     .menu-wrapper(v-if="isMenuOpen")
-      Menu/
+      MenuWindows/
 </template>
 
 <script>
   import Camera from '@/components/Camera';
-  import Menu from '@/components/Menu';
+  import MenuWindows from '@/components/MenuWindows';
   import SettingNav from '@/components/SettingNav';
   import Wizard from '@/components/Wizard';
   import {getConfiguration, setConfigured} from "@/utils/configuration";
@@ -21,7 +21,7 @@
     name: 'home',
     components: {
       Camera,
-      Menu,
+      MenuWindows,
       SettingNav,
       Wizard
     },

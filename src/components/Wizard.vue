@@ -8,7 +8,7 @@
         button(@click="train()") Train!
     .wizard-wrapper( class="step3" v-if="isStep3")
       .button-wrapper
-        button(@click="checkTraining()") Finish!
+        button(@click="checkTraining()") Check It!
 </template>
 
 <script>
