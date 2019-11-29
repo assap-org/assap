@@ -30,7 +30,7 @@ div
     },
     data() {
       return {
-        isRecording: true,
+        isRecording: false,
         error: false,
         isTraining: false,
         track: null
@@ -61,6 +61,18 @@ div
 
       app.on('toggle-training', () => {
         this.isTraining = !this.isTraining;
+
+        const TRAINING_IS_STARTING = !this.isRecording && this.isTraining
+        const TRAINING_IS_ENDING = !this.isTraining && this.isRecording
+
+        if(TRAINING_IS_STARTING) {
+          this.isRecording = true
+          this.toggleRecord()
+        }
+        if(TRAINING_IS_ENDING){
+          this.toggleRecord()
+        }
+
       });
 
     },

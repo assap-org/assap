@@ -2,13 +2,13 @@
   .wizard-container
     .wizard-wrapper( class="step1" v-if="isStep1")
       .button-wrapper
-        button(@click="toStep2()") Continuar
+        button(@click="goTraining()") Start!
     .wizard-wrapper.step2(v-if="isStep2")
       .button-wrapper
-        button(@click="toStep3()") Continuar
+        button(@click="train()") Train!
     .wizard-wrapper.step3(v-if="isStep3")
       .button-wrapper
-        button(@click="toStep3()") Continuar
+        button(@click="checkTraining()") Finish!
 </template>
 
 <script>
@@ -25,13 +25,25 @@ export default {
   mounted(){
   },
   methods:{
-    toStep2(){
+    goTraining(){
       this.isStep1 = false
       this.isStep2 = true
     },
-    toStep3(){
+    train(){
       this.isStep2 = false
       this.isStep3 = true
+    },
+    checkTraining(){
+      const isCheckOk = true //TODO get real check
+      if(isCheckOk){
+        const {app} = require('electron').remote;
+        app.emit('train-finished');
+      } else {
+        this.isStep1 = true
+        this.isStep2 = false
+        this.isStep3 = false
+      }
+      console.log("TODO")
     }
   }
 }
@@ -47,20 +59,28 @@ export default {
       position: relative
       margin: 0
       padding: 0
-      background-color: rgba(125,125,125,0.5)
       display: table
 
       .button-wrapper
         display: table-cell
         text-align: right
         vertical-align: bottom
+        padding-right: 10px
+        padding-bottom: 5px
 
     .step1
-      background-image: url('../assets/focus.png')
+      background-image: url('../assets/setup1.png')
+      background-size: 270px 105px
       background-repeat: no-repeat
       background-position: 50% 10%
     .step2
-      background-color: grey
+      background-image: url('../assets/setup1.png')
+      background-size: 270px 105px
+      background-repeat: no-repeat
+      background-position: 50% 10%
     .step3
-      background-color: red
+      background-image: url('../assets/setup1.png')
+      background-size: 270px 105px
+      background-repeat: no-repeat
+      background-position: 50% 10%
 </style>

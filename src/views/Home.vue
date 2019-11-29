@@ -15,7 +15,7 @@
   import Menu from '@/components/Menu';
   import SettingNav from '@/components/SettingNav';
   import Wizard from '@/components/Wizard';
-  import {getConfiguration} from "@/utils/configuration";
+  import {getConfiguration, setConfigured} from "@/utils/configuration";
 
   export default {
     name: 'home',
@@ -38,10 +38,24 @@
       });
 
       this.isTraining = !getConfiguration().IS_CONFIGURED
+      const tmplog3 = getConfiguration().IS_CONFIGURED;
+      console.log(tmplog3);
       if(this.isTraining) {
         const {app} = require('electron').remote;
         app.emit('toggle-training');
       }
+
+      app.on('train-finished', () => {
+        this.isTraining = !this.isTraining
+
+        const tmplog = getConfiguration().IS_CONFIGURED;
+        console.log(tmplog);
+        setConfigured(true)
+        const tmplog2 = getConfiguration().IS_CONFIGURED;
+        console.log(tmplog2);
+
+        app.emit('toggle-training');
+      });
 
     },
   }
