@@ -21,7 +21,7 @@ export function sendMail (user, pass, to, subject, html, attach){
     from: to, // sender address
     to, // list of receivers
     subject, // Subject line
-    html // plain text body
+    html, // plain text body
     attachments: [
         {   path: attach
         }

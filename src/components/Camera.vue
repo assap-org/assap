@@ -11,9 +11,14 @@ div
 <script>
   import * as faceapi from 'face-api.js';
   import {Action} from "@/utils/actions";
+  import {sendSlack} from "@/utils/slack";
+  import {sendTelegram} from "@/utils/telegram";
+  import {sendMail} from "@/utils/mail"
   const { globalShortcut } = require('electron').remote
-  import {getConfiguration} from "@/utils/configuration";
+  import {getConfiguration,getAlertsConfig} from "@/utils/configuration";
   const action = new Action();
+  const TelegramBot = require('node-telegram-bot-api');
+
 
   faceapi.env.monkeyPatch({
     Canvas: HTMLCanvasElement,
@@ -32,10 +37,13 @@ div
       return {
         isRecording: true,
         error: false,
-        track: null
+        track: null,
+        bot : null,
+        alertsTimer: 0
       };
     },
     mounted() {
+      this.alertsTimer = Math.floor(Date.now() / 1000) //timestamp in seconds
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
         .then((stream) => {
@@ -95,6 +103,27 @@ div
             }
             if(trueDetectionsNumber>1){
                action.executeAction()
+               var now = Math.floor(Date.now() / 1000)
+               if(now - this.alertsTimer > 30){
+                 this.alertsTimer = now
+                 var isActiveSlack = getAlertsConfig('IS_SLACK_ACTIVE')
+                 var isActiveTelegram = getAlertsConfig('IS_TELEGRAM_ACTIVE')
+                 var isActiveMail = getAlertsConfig('IS_MAIL_ACTIVE')
+                 if (isActiveSlack) {
+                   sendSlack(getAlertsConfig('SLACKURL'),"Be careful someone can be spying you!")
+                 }
+                 if (isActiveTelegram) {
+                   if (this.bot == null) {
+                     this.bot = new TelegramBot(getAlertsConfig('TOKEN'), {polling: true});
+                   }
+                   sendTelegram(this.bot,getAlertsConfig('CHATID'),"Be careful someone can be spying you!")
+                 }
+                 if (isActiveMail) {
+                   sendMail(getAlertsConfig('EMAIL'), getAlertsConfig('PASSWORD'), getAlertsConfig('EMAIL'), "Shoulder Sourfing From ASSAP", "<p>Be careful someone can be spying you!</p>", null)
+               }
+             } else {
+               console.log('todavia no')
+             }
             }
             canvas.width = videoEl.width
             canvas.height = videoEl.height
