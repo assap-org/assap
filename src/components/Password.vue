@@ -13,8 +13,8 @@ section
 </template>
 
 <script>
-import {getUserPassword,setUserPassword} from "@/utils/configuration";
-import {encrypt,genRandomString} from "@/utils/cipher";
+import {getUserPassword,setUserPassword,getUserStr} from "@/utils/configuration";
+import {encrypt,genRandomString,decrypt} from "@/utils/cipher";
 export default {
   name: 'Password',
   data(){
@@ -29,13 +29,16 @@ export default {
     var userpass = getUserPassword()
     if (userpass != undefined) {
       this.isLogged = true
-    } else {
-      console.log("need to login")
     }
   },
   methods:{
     checkPass() {
-      return true
+      var savedPass = getUserPassword()
+      var userStr = getUserStr()
+      var decUserPass = decrypt(savedPass,this.userpass)
+      if (userStr === decUserPass) {
+        this.$emit("logginStatus",this.isLogged)
+      }
     },
     register() {
       if (this.register1 == this.register2) {

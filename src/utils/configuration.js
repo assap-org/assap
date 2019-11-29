@@ -38,6 +38,10 @@ export function getUserPassword() {
   return JSON.parse(userpass)
 }
 
+export function getUserStr(){
+  const store = new Store()
+  return store.get("USERSTRING")
+}
 export function setUserPassword(cipherPass,userString) {
   const store = new Store()
   store.set("USERPASSWORD",JSON.stringify(cipherPass))

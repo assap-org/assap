@@ -5,25 +5,33 @@
         SettingNav/
       Camera/
     .menu-wrapper(v-if="isMenuOpen")
-      Password/
+      .div(v-bind:is="component",@logginStatus="processLogginState")
 </template>
 
 <script>
   import Camera from '@/components/Camera';
-  //import Menu from '@/components/Menu';
+  import Menu from '@/components/Menu';
   import SettingNav from '@/components/SettingNav';
   import Password from '@/components/Password';
   export default {
     name: 'home',
     components: {
       Camera,
-      //Menu,
+      Menu,
       SettingNav,
       Password
+    },
+    methods: {
+      processLogginState(status) {
+        if (status) {
+          this.component = Menu
+        }
+      }
     },
     data(){
       return {
         isMenuOpen: false,
+        component: Password
       }
     },
     mounted(){
