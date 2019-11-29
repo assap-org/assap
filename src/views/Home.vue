@@ -7,13 +7,14 @@
           Wizard/
       Camera/
     .menu-wrapper(v-if="isMenuOpen")
-      Menu/
+      .div(v-bind:is="component",@logginStatus="processLogginState")
 </template>
 
 <script>
   import Camera from '@/components/Camera';
   import Menu from '@/components/Menu';
   import SettingNav from '@/components/SettingNav';
+  import Password from '@/components/Password';
   import Wizard from '@/components/Wizard';
   import {getConfiguration, setConfigured} from "@/utils/configuration";
 
@@ -23,11 +24,20 @@
       Camera,
       Menu,
       SettingNav,
-      Wizard
+      Password,
+      Wizard,
+    },
+    methods: {
+      processLogginState(status) {
+        if (status) {
+          this.component = Menu
+        }
+      }
     },
     data(){
       return {
         isMenuOpen: false,
+        component: Password,
         isTraining: false,
       }
     },

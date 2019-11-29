@@ -13,7 +13,7 @@ const algorithm = 'aes-256-gcm';
  * @function
  * @param {number} length - Length of the random string.
  */
-var genRandomString = function(length){
+export var genRandomString = function(length){
     return crypto.randomBytes(Math.ceil(length/2))
             .toString('hex') /** convert to hexadecimal format */
             .slice(0,length);   /** return required number of characters */
@@ -51,8 +51,10 @@ export function encrypt(text, password) {
  */
 export function decrypt(encrypted,password) {
   const key = crypto.scryptSync(password, encrypted.salt, 32);
-  const decipher = crypto.createDecipheriv(algorithm, key, encrypted.iv);
-  decipher.setAuthTag(encrypted.tag);
+  var iv = Buffer.from(encrypted.iv)
+  var tag = Buffer.from(encrypted.tag)
+  const decipher = crypto.createDecipheriv(algorithm, key, iv);
+  decipher.setAuthTag(tag);
   let decrypted = decipher.update(encrypted.content, 'hex', 'utf8');
   decrypted += decipher.final('utf8');
   return decrypted
