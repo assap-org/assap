@@ -35,9 +35,13 @@ export default {
     checkPass() {
       var savedPass = getUserPassword()
       var userStr = getUserStr()
-      var decUserPass = decrypt(savedPass,this.userpass)
-      if (userStr === decUserPass) {
-        this.$emit("logginStatus",this.isLogged)
+      try {
+        var decUserPass = decrypt(savedPass,this.userpass)
+        if (userStr === decUserPass) {
+          this.$emit("logginStatus",this.isLogged)
+        }
+      } catch (err) {
+        this.$buefy.toast.open({'message':'Bad Password','type': 'is-danger'})
       }
     },
     register() {
