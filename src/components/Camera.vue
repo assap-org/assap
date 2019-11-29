@@ -4,7 +4,7 @@ div
     video(@play="onPlay", id="camera", width="270", height="150", preload, autoplay, loop, muted)
     canvas(id="canvas", width="270", height="150")
   .wrapper
-    .play(v-if="!isRecording")
+    .play(v-if="!isRecording && !isTraining")
       font-awesome-icon.resume(:icon="['fas', 'play-circle']", @click="toggleRecord()")/
 </template>
 
@@ -32,6 +32,7 @@ div
       return {
         isRecording: true,
         error: false,
+        isTraining: false,
         track: null
       };
     },
@@ -56,6 +57,10 @@ div
       const {app} = require('electron').remote;
       app.on('toggle-record', () => {
         this.toggleRecord()
+      });
+
+      app.on('toggle-training', () => {
+        this.isTraining = !this.isTraining;
       });
 
     },

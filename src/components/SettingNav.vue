@@ -72,6 +72,9 @@ export default {
 
 <style lang="sass">
   .nav-wrapper
+    padding: 10px
+    padding-left: 20px
+    padding-right: 20px
     .controls-wrapper
       position: relative
       float: left

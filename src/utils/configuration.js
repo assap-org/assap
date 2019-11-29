@@ -13,6 +13,14 @@ export function setAction(action) {
   store.set("ACTION", action);
 }
 
+export function setConfigured(isConfigured) {
+
+  const Store = require('electron-store');
+  const store = new Store();
+
+  store.set("IS_CONFIGURED", isConfigured);
+}
+
 export function getConfiguration() {
 
   const Store = require('electron-store');
@@ -21,5 +29,6 @@ export function getConfiguration() {
   let configuration = {};
   configuration["model_url"] = store.get("MODEL_URL");
   configuration["action"] = store.get("ACTION");
+  configuration["isConfigured"] = store.get("IS_CONFIGURED");
   return configuration;
 }

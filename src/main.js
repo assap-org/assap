@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import App from './App.vue'
 import './assets/styles.sass'
 import router from './router'
-import {setAction, setModelUrl} from "@/utils/configuration";
+import {setAction, setModelUrl, setConfigured} from "@/utils/configuration";
 
 library.add(faStopCircle, faPlayCircle, faTimesCircle, faTimes, faBars, faUserSecret)
 
@@ -23,6 +23,10 @@ const path = require('path');
 if(!store.get("MODEL_URL")){
   const url = 'file://' + path.resolve('./models');
   setModelUrl(url);
+}
+
+if(!store.get("IS_CONFIGURED")){
+  setConfigured(false);
 }
 
 if(!store.get("ACTION")) {
