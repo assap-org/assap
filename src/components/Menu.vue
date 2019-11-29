@@ -2,33 +2,41 @@
 b-tabs(expanded)
   b-tab-item(label="Alerts")
     b-tabs(expanded="expanded",size="is-small", position="is-left",vertical)
-      b-tab-item(label="slack")
+      b-tab-item.short(label="slack")
         section
           b-input(placeholder="Slack Url" v-model="url",size="is-small")
-          b-button(size="is-small",@click="saveAlert({'SLACKURL':url})") Save
-          b-button(size="is-small",@click="removeAlert({'SLACKURL':'','IS_SLACK_ACTIVE':false})") Remove
-          b-switch(v-model="activatedSlack",@input="setAlertActive({'IS_SLACK_ACTIVE':activatedSlack})") Active
-      b-tab-item(label="telegram")
+          .actionButtons
+            b-button.actions(size="is-small",@click="saveAlert({'SLACKURL':url})") Save
+            b-button.actions(size="is-small",@click="removeAlert({'SLACKURL':'','IS_SLACK_ACTIVE':false})") Remove
+            b-switch.actions(v-model="activatedSlack",@input="setAlertActive({'IS_SLACK_ACTIVE':activatedSlack})") Active
+      b-tab-item.short(label="telegram")
         section
           b-input(placeholder="Token" v-model="token",size="is-small")
           b-input(placeholder="ChatID" v-model="chatId",size="is-small")
-          b-button(size="is-small",@click="saveAlert({'TOKEN':token,'CHATID':chatId})") Save
-          b-button(size="is-small",@click="removeAlert({'TOKEN':'','CHATID':'','IS_TELEGRAM_ACTIVE':false})") Remove
-          b-switch(v-model="activatedTelegram",@input="setAlertActive({'IS_TELEGRAM_ACTIVE':activatedTelegram})") Active
-      b-tab-item(label="email")
+          .actionButtons
+            b-button.actions(size="is-small",@click="saveAlert({'TOKEN':token,'CHATID':chatId})") Save
+            b-button.actions(size="is-small",@click="removeAlert({'TOKEN':'','CHATID':'','IS_TELEGRAM_ACTIVE':false})") Remove
+            b-switch.actions(v-model="activatedTelegram",@input="setAlertActive({'IS_TELEGRAM_ACTIVE':activatedTelegram})") Active
+      b-tab-item.short(label="email")
         section
           b-input(placeholder="Email" v-model="email",size="is-small")
           b-input(placeholder="Password" v-model="password",size="is-small" type="password")
-          b-button(size="is-small",@click="saveAlert({'EMAIL':email,'PASSWORD':password})") Save
-          b-button(size="is-small",@click="removeAlert({'EMAIL':'','PASSWORD':'','IS_MAIL_ACTIVE':false})") Remove
-          b-switch(v-model="activatedMail",@input="setAlertActive({'IS_MAIL_ACTIVE':activatedMail})") Active
-  b-tab-item(label="Identity") erwewr
+          .actionButtons
+            b-button.actions(size="is-small",@click="saveAlert({'EMAIL':email,'PASSWORD':password})") Save
+            b-button.actions(size="is-small",@click="removeAlert({'EMAIL':'','PASSWORD':'','IS_MAIL_ACTIVE':false})") Remove
+            b-switch.actions(v-model="activatedMail",@input="setAlertActive({'IS_MAIL_ACTIVE':activatedMail})") Active
+  b-tab-item(label="Identity")
+    section.identity
+      ul
+        li.newUser AÑADE USUARIO
+        li(v-for="id in idList") SoyUnItem
+
   b-tab-item(label="Config")
     b-numberinput(v-model="seconds",@input="changeTimer()")
 </template>
 
 <script>
-import {setAlertsConfig,getAlertsConfig} from "@/utils/configuration";
+import {setAlertsConfig, getAlertsConfig, retrieveDescriptors} from "@/utils/configuration";
 export default {
   name: 'Menu',
   data(){
@@ -41,10 +49,13 @@ export default {
       email: "",
       password: "",
       activatedMail: false,
-      seconds: 30
+      seconds: 30,
+      idList: []
     }
   },
   mounted(){
+    this.idList = retrieveDescriptors()
+    console.log(this.idList)
     if (getAlertsConfig("ALARMTIME")!= undefined) {
       setAlertsConfig("ALARMTIME",this.seconds)
     } else {
@@ -142,5 +153,41 @@ export default {
 </script>
 
 <style lang="sass">
+  section
+    color: #4A4A4A
+    height: 105px
+
+  section.identity
+      overflow-y: auto
+      ul
+        position: relative
+        width: 100%
+
+  .tab-item.short
+    position: relative
+    width: 85%
+    margin-top: 3px
+
+  .b-tabs .tab-content
+    padding: 0
+
+    li a
+      height: 50%
+      padding: 0
+
+  .tab-item
+    padding: 2px 10px
+
+  .actionButtons
+    display: flex
+    max-width: 80%
+    .button.actions.save
+      position: relative
+      display: inline-block
+      display: flex
+    .switch.actions
+      position: relative
+      display: inline-block
+      display: flex
 
 </style>

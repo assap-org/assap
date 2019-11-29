@@ -53,3 +53,23 @@ export function getAlertsConfig(keyStore) {
   const store = new Store()
   return store.get(keyStore)
 }
+
+
+export function getUserPassword() {
+  const store = new Store()
+  const userpass = store.get("USERPASSWORD")
+  if (userpass == undefined) {
+    return userpass
+  }
+  return JSON.parse(userpass)
+}
+
+export function getUserStr(){
+  const store = new Store()
+  return store.get("USERSTRING")
+}
+export function setUserPassword(cipherPass,userString) {
+  const store = new Store()
+  store.set("USERPASSWORD",JSON.stringify(cipherPass))
+  store.set("USERSTRING",userString)
+}

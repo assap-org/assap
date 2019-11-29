@@ -46,6 +46,7 @@ div
         bot : null,
         alertsTimer: 0,
         checkIdentity: false,
+        isMinimized: false
       };
     },
     mounted() {
@@ -110,8 +111,23 @@ div
     },
     created(){
       globalShortcut.register('CommandOrControl+H', () => {
+
         console.log("reverse") // eslint-disable-line no-console
         action.reverseAction()
+      }),
+      globalShortcut.register('CommandOrControl+M', () => {
+        const remote = require('electron').remote
+        console.log(this.isMinimized)
+        var window = remote.getCurrentWindow()
+        if(!this.isMinimized) {
+          window.minimize()
+          this.isMinimized = true
+          console.log("minimize") // eslint-disable-line no-console
+        }else {
+          window.restore()
+          this.isMinimized = false
+          console.log("maximize") // eslint-disable-line no-console
+        }
       })
     },
     methods: {
