@@ -25,7 +25,6 @@ b-tabs(expanded)
   b-tab-item(label="Identity") erwewr
   b-tab-item(label="Config")
     b-numberinput(v-model="seconds",@input="changeTimer()")
-
 </template>
 
 <script>
@@ -49,7 +48,7 @@ export default {
     if (getAlertsConfig("ALARMTIME")!= undefined) {
       setAlertsConfig("ALARMTIME",this.seconds)
     } else {
-      this.seconds = getAlertsConfig()
+      this.seconds = getAlertsConfig("ALARMTIME")
     }
     var alertsActive = ['IS_SLACK_ACTIVE','IS_MAIL_ACTIVE','IS_TELEGRAM_ACTIVE']
     alertsActive.forEach(obj => {
