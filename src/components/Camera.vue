@@ -16,8 +16,10 @@ div
   import {sendTelegram} from "@/utils/telegram";
   import {sendMail} from "@/utils/mail"
   const { globalShortcut } = require('electron').remote
-  import {getConfiguration, getAlertsConfig, saveDescriptors} from "@/utils/configuration";
+  import {getConfiguration, getAlertsConfig, saveDescriptors, retrieveDescriptors} from "@/utils/configuration";
   import {serialize} from "@/utils/descriptors";
+  import {screenshot, identify} from "@/utils/identification";
+
   const action = new Action();
   const TelegramBot = require('node-telegram-bot-api');
 
@@ -99,6 +101,10 @@ div
         this.takeSnapshot = true
       });
 
+      app.on('check', () => {
+        this.check = true
+      });
+
     },
     created(){
       globalShortcut.register('CommandOrControl+H', () => {
@@ -137,11 +143,8 @@ div
 
             if(trueDetectionsNumber == 1 && this.takeSnapshot) {
               this.takeSnapshot = false
-              canvas.width = videoEl.videoWidth;
-              canvas.height = videoEl.videoHeight;
-              canvas.getContext('2d').drawImage(videoEl, 0, 0);
-              // Other browsers will fall back to image/png
-              img.src = canvas.toDataURL('image/webp');
+              screenshot(canvas, videoEl, img);
+
               faceapi.detectAllFaces(img)
                     .withFaceLandmarks()
                     .withFaceDescriptors()
@@ -150,6 +153,11 @@ div
                         const json = serialize(results);
                         saveDescriptors(json);
                         console.log("NUMERO VECES GUARDADO")
+
+                        if(this.check){
+                          const descriptors = retrieveDescriptors()
+                          identify(descriptors, results, canvas)
+                        }
                       }
                       //TODO EMIT EVENT OK
                     }).catch((error) => {
@@ -157,6 +165,9 @@ div
                       //TODO EMIT EVENT BAD
                     });
             }
+
+
+
             if(trueDetectionsNumber>1){
                action.executeAction()
                var now = Math.floor(Date.now() / 1000)

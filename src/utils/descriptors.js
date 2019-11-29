@@ -7,7 +7,7 @@ export function serialize(data) {
   return json;
 }
 
-export function deserealize(data) {
+export function deserialize(data) {
   let obj = new Array(Object.values(JSON.parse(data.toString())))
   let arrayDescriptor = new Array(obj[0].length)
   let i = 0
