@@ -3,10 +3,10 @@
     .wizard-wrapper( class="step1" v-if="isStep1")
       .button-wrapper
         button(@click="goTraining()") Start!
-    .wizard-wrapper.step2(v-if="isStep2")
+    .wizard-wrapper( class="step2" v-if="isStep2")
       .button-wrapper
         button(@click="train()") Train!
-    .wizard-wrapper.step3(v-if="isStep3")
+    .wizard-wrapper( class="step3" v-if="isStep3")
       .button-wrapper
         button(@click="checkTraining()") Finish!
 </template>
@@ -74,12 +74,12 @@ export default {
       background-repeat: no-repeat
       background-position: 50% 10%
     .step2
-      background-image: url('../assets/setup1.png')
+      background-image: url('../assets/setup2.png')
       background-size: 270px 105px
       background-repeat: no-repeat
       background-position: 50% 10%
     .step3
-      background-image: url('../assets/setup1.png')
+      background-image: url('../assets/setup3.png')
       background-size: 270px 105px
       background-repeat: no-repeat
       background-position: 50% 10%
