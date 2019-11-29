@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  .section
+  .camera-section
     img(id="img", width="270", height="150")
     video(@play="onPlay", id="camera", width="270", height="150", preload, autoplay, loop, muted)
     canvas(id="canvas", width="270", height="150")
