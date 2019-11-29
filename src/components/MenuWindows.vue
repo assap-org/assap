@@ -1,19 +1,21 @@
 <template lang="pug">
  .menuWindows-container
-   Menu/
+   .div(v-bind:is="component",@logginStatus="processLogginState")
 </template>
 
 <script>
 import Menu from '@/components/Menu';
+import Password from '@/components/Password';
 
 export default {
   name: 'MenuWindows',
   components: {
-    Menu
+    Menu,
+    Password
   },
   data(){
     return {
-
+      component: Password,
     }
   },
   mounted(){
@@ -21,7 +23,11 @@ export default {
 
   },
   methods:{
-
+    processLogginState(status) {
+      if (status) {
+        this.component = Menu
+      }
+    }
   }
 }
 </script>

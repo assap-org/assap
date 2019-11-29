@@ -23,7 +23,10 @@
       Camera,
       MenuWindows,
       SettingNav,
-      Wizard
+      Wizard,
+    },
+    methods: {
+
     },
     data(){
       return {
@@ -38,8 +41,7 @@
       });
 
       this.isTraining = !getConfiguration().IS_CONFIGURED
-      const tmplog3 = getConfiguration().IS_CONFIGURED;
-      console.log(tmplog3);
+      
       if(this.isTraining) {
         const {app} = require('electron').remote;
         app.emit('toggle-training');
