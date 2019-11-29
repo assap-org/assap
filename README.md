@@ -12,6 +12,8 @@
  <img width="80%" src="./img/use.png">
 </p>
 
+**For more detailed info, visit our [wiki](https://github.com/assap-org/assap/wiki).**
+
 ## Features
 
 > The size of the application window is small in order not to disturb user work. Furthermore, it is draggable to place it where least bothers in each moment.
