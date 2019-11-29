@@ -25,7 +25,6 @@ b-tabs(expanded)
   b-tab-item(label="Identity") erwewr
   b-tab-item(label="Config")
     b-numberinput(v-model="seconds",@input="changeTimer()")
-
 </template>
 
 <script>
