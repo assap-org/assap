@@ -8,7 +8,7 @@ b-tabs(expanded)
           .actionButtons
             b-button.actions(size="is-small",@click="saveAlert({'SLACKURL':url})") Save
             b-button.actions(size="is-small",@click="removeAlert({'SLACKURL':'','IS_SLACK_ACTIVE':false})") Remove
-            b-switch.actions(v-model="activatedSlack",@input="setAlertActive({'IS_SLACK_ACTIVE':activatedSlack})") Active
+            b-switch.actions(v-model="activatedSlack",@input="setAlertActive({'IS_SLACK_ACTIVE':activatedSlack})")
       b-tab-item.short(label="telegram")
         section
           b-input(placeholder="Token" v-model="token",size="is-small")
@@ -16,7 +16,7 @@ b-tabs(expanded)
           .actionButtons
             b-button.actions(size="is-small",@click="saveAlert({'TOKEN':token,'CHATID':chatId})") Save
             b-button.actions(size="is-small",@click="removeAlert({'TOKEN':'','CHATID':'','IS_TELEGRAM_ACTIVE':false})") Remove
-            b-switch.actions(v-model="activatedTelegram",@input="setAlertActive({'IS_TELEGRAM_ACTIVE':activatedTelegram})") Active
+            b-switch.actions(v-model="activatedTelegram",@input="setAlertActive({'IS_TELEGRAM_ACTIVE':activatedTelegram})")
       b-tab-item.short(label="email")
         section
           b-input(placeholder="Email" v-model="email",size="is-small")
@@ -24,11 +24,13 @@ b-tabs(expanded)
           .actionButtons
             b-button.actions(size="is-small",@click="saveAlert({'EMAIL':email,'PASSWORD':password})") Save
             b-button.actions(size="is-small",@click="removeAlert({'EMAIL':'','PASSWORD':'','IS_MAIL_ACTIVE':false})") Remove
-            b-switch.actions(v-model="activatedMail",@input="setAlertActive({'IS_MAIL_ACTIVE':activatedMail})") Active
+            b-switch.actions(v-model="activatedMail",@input="setAlertActive({'IS_MAIL_ACTIVE':activatedMail})")
   b-tab-item(label="Identity")
     section.identity
+      button.button
+        b-icon(pack="fas", icon="times", size="is-small")
+      b-button.button.newUser(size="small") AÑADE USUARIO
       ul
-        li.newUser AÑADE USUARIO
         li(v-for="id in idList") SoyUnItem
 
   b-tab-item(label="Config")

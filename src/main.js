@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import App from './App.vue'
 import './assets/styles.sass'
 import router from './router'
-import { Tabs, Input, Button, Switch, Numberinput,Field} from 'buefy'
+import { Tabs, Input, Button, Switch, Numberinput,Field, Icon} from 'buefy'
+import Buefy from 'buefy'
 import {setAction, setModelUrl, setConfigured} from "@/utils/configuration";
 
 Vue.use(Tabs)
@@ -16,6 +17,12 @@ Vue.use(Button)
 Vue.use(Switch)
 Vue.use(Numberinput)
 Vue.use(Field)
+Vue.use(Icon)
+
+Vue.use(Buefy, {
+  defaultIconComponent: 'vue-fontawesome',
+  defaultIconPack: 'fas',
+});
 
 library.add(faStopCircle, faPlayCircle, faTimesCircle, faTimes, faBars, faUserSecret)
 

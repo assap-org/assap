@@ -1,7 +1,7 @@
 <template lang="pug">
-section
+.container
   .div(v-if="isLogged")
-    b-field( label="Password")
+    b-field(label="Password")
       b-input(v-model="userpass", type="password",required, minlength="6", validation-message="Minimum 6 characters",size="is-small")
     b-button(@click="checkPass()") Login
   .div(v-else)
