@@ -32,6 +32,8 @@ export default {
     train(){
       this.isStep2 = false
       this.isStep3 = true
+      const {app} = require('electron').remote;
+      app.emit('snapshot');
     },
     checkTraining(){
       const isCheckOk = true //TODO get real check
@@ -80,6 +82,16 @@ export default {
       background-position: 50% 10%
     .step3
       background-image: url('../assets/setup3.png')
+      background-size: 270px 105px
+      background-repeat: no-repeat
+      background-position: 50% 10%
+    .stepRepeat
+      background-image: url('../assets/setupRepeat.png')
+      background-size: 270px 105px
+      background-repeat: no-repeat
+      background-position: 50% 10%
+    .stepOk
+      background-image: url('../assets/setupOK.png')
       background-size: 270px 105px
       background-repeat: no-repeat
       background-position: 50% 10%

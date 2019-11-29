@@ -47,13 +47,7 @@
 
       app.on('train-finished', () => {
         this.isTraining = !this.isTraining
-
-        const tmplog = getConfiguration().IS_CONFIGURED;
-        console.log(tmplog);
         setConfigured(true)
-        const tmplog2 = getConfiguration().IS_CONFIGURED;
-        console.log(tmplog2);
-
         app.emit('toggle-training');
       });
 

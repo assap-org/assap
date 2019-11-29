@@ -21,6 +21,22 @@ export function setConfigured(isConfigured) {
   store.set("IS_CONFIGURED", isConfigured);
 }
 
+export function saveDescriptors(data) {
+  const Store = require('electron-store');
+  const store = new Store();
+  const descriptorsList = JSON.parse(store.get("DESCRIPTORS"))
+  descriptorsList.push(data)
+  store.set("DESCRIPTORS", JSON.stringify(descriptorsList));
+}
+
+export function retrieveDescriptors() {
+  const Store = require('electron-store');
+  const store = new Store();
+  const descriptorsList = JSON.parse(store.get("DESCRIPTORS"))
+
+  return descriptorsList;
+}
+
 export function getConfiguration() {
 
   const Store = require('electron-store');
