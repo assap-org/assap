@@ -5,19 +5,21 @@
         SettingNav/
       Camera/
     .menu-wrapper(v-if="isMenuOpen")
-      Menu/
+      Password/
 </template>
 
 <script>
   import Camera from '@/components/Camera';
-  import Menu from '@/components/Menu';
+  //import Menu from '@/components/Menu';
   import SettingNav from '@/components/SettingNav';
+  import Password from '@/components/Password';
   export default {
     name: 'home',
     components: {
       Camera,
-      Menu,
-      SettingNav
+      //Menu,
+      SettingNav,
+      Password
     },
     data(){
       return {
