@@ -3,10 +3,10 @@
     .controls-wrapper
       #control-icon(v-if="!isRecordingNav")
         font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecordNav()")/
-      #control-icon.double.no-recording(v-if="isRecordingNav")
-        font-awesome-icon.inline.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
+      #control-icon.no-recording(v-if="isRecordingNav")
+        font-awesome-icon.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
       #control-icon
-        font-awesome-icon.minimize(:icon="['fas', 'user-secret']", @click="minimize()")/
+        font-awesome-icon.secret.minimize(:icon="['fas', 'user-secret']", @click="minimize()")/
     .settings-wrapper
       .settings(v-if="!isMenuOpen")
           font-awesome-icon.inline.toOpen(:icon="['fas', 'bars']",@click="toggleMenu()")/
@@ -72,6 +72,9 @@ export default {
 
 <style lang="sass">
   .nav-wrapper
+    padding: 10px
+    padding-left: 20px
+    padding-right: 20px
     .controls-wrapper
       position: relative
       float: left
@@ -83,6 +86,8 @@ export default {
         cursor: pointer
         height: 25px
         width: 25px
+        display: inline-block
+
         svg
           border-radius: 50%
           width: 100%
@@ -98,6 +103,8 @@ export default {
           color: rgb(255, 69, 58)
         svg.exit
           color: rgb(255, 69, 58)
+        svg.secret
+          color: #800080
 
       #control-icon:hover
         cursor: pointer

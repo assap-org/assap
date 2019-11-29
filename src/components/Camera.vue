@@ -1,10 +1,11 @@
 <template lang="pug">
 div
   .section
+    img(id="img", width="270", height="150")
     video(@play="onPlay", id="camera", width="270", height="150", preload, autoplay, loop, muted)
     canvas(id="canvas", width="270", height="150")
   .wrapper
-    .play(v-if="!isRecording")
+    .play(v-if="!isRecording && !isTraining")
       font-awesome-icon.resume(:icon="['fas', 'play-circle']", @click="toggleRecord()")/
 </template>
 
@@ -15,7 +16,8 @@ div
   import {sendTelegram} from "@/utils/telegram";
   import {sendMail} from "@/utils/mail"
   const { globalShortcut } = require('electron').remote
-  import {getConfiguration,getAlertsConfig} from "@/utils/configuration";
+  import {getConfiguration, getAlertsConfig, saveDescriptors} from "@/utils/configuration";
+  import {serialize} from "@/utils/descriptors";
   const action = new Action();
   const TelegramBot = require('node-telegram-bot-api');
 
@@ -35,9 +37,11 @@ div
     },
     data() {
       return {
-        isRecording: true,
+        isRecording: false,
         error: false,
+        isTraining: false,
         track: null,
+        takeSnapshot: false,
         bot : null,
         alertsTimer: 0
       };
@@ -60,10 +64,39 @@ div
       faceapi.loadSsdMobilenetv1Model(model_url)
         .then(() => console.log('loaded ssd model!')) // eslint-disable-line no-console
         .catch((error) => console.error(error)) // eslint-disable-line no-console
+      faceapi.loadTinyFaceDetectorModel(model_url)
+        .then(() => console.log('loaded tiny model!')) // eslint-disable-line no-console
+        .catch((error) => console.error(error)) // eslint-disable-line no-console
+      faceapi.loadFaceLandmarkModel(model_url)
+        .then(() => console.log('loaded landmarks!')) // eslint-disable-line no-console
+        .catch((error) => console.error(error))
+      faceapi.loadFaceRecognitionModel(model_url)
+        .then(() => console.log('loaded recognition!')) // eslint-disable-line no-console
+        .catch((error) => console.error(error))
 
       const {app} = require('electron').remote;
       app.on('toggle-record', () => {
         this.toggleRecord()
+      });
+
+      app.on('toggle-training', () => {
+        this.isTraining = !this.isTraining;
+
+        const TRAINING_IS_STARTING = !this.isRecording && this.isTraining
+        const TRAINING_IS_ENDING = !this.isTraining && this.isRecording
+
+        if(TRAINING_IS_STARTING) {
+          this.isRecording = true
+          this.toggleRecord()
+        }
+        if(TRAINING_IS_ENDING){
+          this.toggleRecord()
+        }
+
+      });
+
+      app.on('snapshot', () => {
+        this.takeSnapshot = true
       });
 
     },
@@ -79,6 +112,7 @@ div
       onPlay() {
         const videoEl = document.getElementById('camera')
         const canvas = document.getElementById('canvas')
+        const img = document.getElementById('img')
 
         if(videoEl.paused || videoEl.ended)
           return setTimeout(() => this.onPlay())
@@ -99,7 +133,29 @@ div
                   trueDetections.push(detections[i])
                 }
               }
+            }
 
+            if(trueDetectionsNumber == 1 && this.takeSnapshot) {
+              this.takeSnapshot = false
+              canvas.width = videoEl.videoWidth;
+              canvas.height = videoEl.videoHeight;
+              canvas.getContext('2d').drawImage(videoEl, 0, 0);
+              // Other browsers will fall back to image/png
+              img.src = canvas.toDataURL('image/webp');
+              faceapi.detectAllFaces(img)
+                    .withFaceLandmarks()
+                    .withFaceDescriptors()
+                    .then((results) => {
+                      if(results.length > 0) {
+                        const json = serialize(results);
+                        saveDescriptors(json);
+                        console.log("NUMERO VECES GUARDADO")
+                      }
+                      //TODO EMIT EVENT OK
+                    }).catch((error) => {
+                      console.log('error', error)
+                      //TODO EMIT EVENT BAD
+                    });
             }
             if(trueDetectionsNumber>1){
                action.executeAction()
