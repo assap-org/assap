@@ -8,7 +8,13 @@
         button(@click="train()") Train!
     .wizard-wrapper( class="step3" v-if="isStep3")
       .button-wrapper
-        button(@click="checkTraining()") Check It!
+        button(@click="checkTraining()") Verify!
+    .wizard-wrapper( class="stepRepeat" v-if="isStepRepeat")
+      .button-wrapper
+        button(@click="goTraining()") Repeat!
+    .wizard-wrapper( class="stepOk" v-if="isStepOk")
+      .button-wrapper
+        button(@click="endTraining()") End!
 </template>
 
 <script>
@@ -19,33 +25,61 @@ export default {
     return {
       isStep1: true,
       isStep2: false,
-      isStep3: false
+      isStep3: false,
+      isStepRepeat: false,
+      isStepOk: false
     }
   },
   mounted(){
+
+    const {app} = require('electron').remote;
+
+    app.on('identify-ok', () => {
+      this.isStep1 = false
+      this.isStep2 = false
+      this.isStep3 = false
+      this.isStepRepeat = false
+      this.isStepOk = true
+    });
+
+    app.on('identify-fail', () => {
+      this.isStep1 = false
+      this.isStep2 = false
+      this.isStep3 = false
+      this.isStepRepeat = true
+      this.isStepOk = false
+    });
+
   },
   methods:{
     goTraining(){
       this.isStep1 = false
       this.isStep2 = true
+      this.isStep3 = false
+      this.isStepRepeat = false
+      this.isStepOk = false
     },
     train(){
+      this.isStep1 = false
       this.isStep2 = false
       this.isStep3 = true
+      this.isStepRepeat = false
+      this.isStepOk = false
       const {app} = require('electron').remote;
       app.emit('snapshot');
     },
     checkTraining(){
-      const isCheckOk = true //TODO get real check
-      if(isCheckOk){
-        const {app} = require('electron').remote;
-        app.emit('train-finished');
-      } else {
-        this.isStep1 = true
-        this.isStep2 = false
-        this.isStep3 = false
-      }
-      console.log("TODO")
+      const {app} = require('electron').remote;
+      app.emit('check');
+    },
+    endTraining(){
+      this.isStep1 = false
+      this.isStep2 = false
+      this.isStep3 = false
+      this.isStepRepeat = false
+      this.isStepOk = false
+      const {app} = require('electron').remote;
+      app.emit('train-finished');
     }
   }
 }
