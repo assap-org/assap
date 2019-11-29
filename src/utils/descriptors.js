@@ -9,7 +9,7 @@ export function serialize(data, label) {
 
 export function deserialize(data) {
   const {label, descriptors} = JSON.parse(data)
-  let obj = new Array(Object.values(descriptors.toString()))
+  let obj = new Array(Object.values(descriptors))
   let arrayDescriptor = new Array(obj[0].length)
   let i = 0
   obj[0].forEach((entry) => {

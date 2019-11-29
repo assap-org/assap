@@ -37,9 +37,7 @@
         this.isMenuOpen = !this.isMenuOpen;
       });
 
-      this.isTraining = !getConfiguration().IS_CONFIGURED
-      const tmplog3 = getConfiguration().IS_CONFIGURED;
-      console.log(tmplog3);
+      this.isTraining = !getConfiguration().isConfigured
       if(this.isTraining) {
         const {app} = require('electron').remote;
         app.emit('toggle-training');

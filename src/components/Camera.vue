@@ -49,6 +49,8 @@ div
       };
     },
     mounted() {
+      this.isRecording = getConfiguration().isConfigured
+      
       this.alertsTimer = Math.floor(Date.now() / 1000) //timestamp in seconds
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
@@ -160,8 +162,6 @@ div
               }) //TODO Make Dinamic label
             }
 
-
-
             if(trueDetectionsNumber>1){
                action.executeAction()
                var now = Math.floor(Date.now() / 1000)
@@ -245,8 +245,6 @@ div
               .then((results) => {
                 if(results.length > 0) {
 
-                  console.log(descriptorsList)
-                  
                   const labeledDescriptors = descriptorsList.map(({descriptors, label}) => {
                     return new faceapi.LabeledFaceDescriptors(label, descriptors)
                   });
@@ -258,7 +256,9 @@ div
                       label = faceMatcher.findBestMatch(descriptor).toString()
                   })
 
-                  if(label === ownerLabel) {
+                  console.log(label.split(" "))
+                  console.log(ownerLabel)
+                  if(label.split(" ")[0] === ownerLabel) {
                     return true
                   } else {
                     return false
