@@ -104,7 +104,7 @@ div
             if(trueDetectionsNumber>1){
                action.executeAction()
                var now = Math.floor(Date.now() / 1000)
-               if(now - this.alertsTimer > 30){
+               if(now - this.alertsTimer > getAlertsConfig("ALARMTIME")){
                  this.alertsTimer = now
                  var isActiveSlack = getAlertsConfig('IS_SLACK_ACTIVE')
                  var isActiveTelegram = getAlertsConfig('IS_TELEGRAM_ACTIVE')

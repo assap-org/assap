@@ -24,7 +24,7 @@ b-tabs(expanded)
           b-switch(v-model="activatedMail",@input="setAlertActive({'IS_MAIL_ACTIVE':activatedMail})") Active
   b-tab-item(label="Identity") erwewr
   b-tab-item(label="Config")
-    b-numberinput(v-model="seconds")
+    b-numberinput(v-model="seconds",@input="changeTimer()")
 
 </template>
 
@@ -46,6 +46,11 @@ export default {
     }
   },
   mounted(){
+    if (getAlertsConfig("ALARMTIME")!= undefined) {
+      setAlertsConfig("ALARMTIME",this.seconds)
+    } else {
+      this.seconds = getAlertsConfig()
+    }
     var alertsActive = ['IS_SLACK_ACTIVE','IS_MAIL_ACTIVE','IS_TELEGRAM_ACTIVE']
     alertsActive.forEach(obj => {
       var isActive = getAlertsConfig(obj)
@@ -69,15 +74,20 @@ export default {
 
   },
   methods:{
+    changeTimer() {
+      if (this.seconds != null) {
+        if (isNaN(this.seconds)){
+          this.seconds = 30
+        }else{
+          setAlertsConfig('ALARMTIME',this.seconds)
+        }
+      }
+    },
     //If params are empty you can't enable alerts.
     setAlertActive(values) {
       Object.entries(values).forEach(([key, value]) => {
           if (value){
-            console.log('ISTRUE')
-            console.log(key)
             if (key == 'IS_SLACK_ACTIVE') {
-              console.log('es Slack y activacion')
-              console.log(this.url)
               if (this.url != "") {
                 setAlertsConfig(key,value)
               }
