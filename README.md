@@ -18,6 +18,7 @@
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine.
+You can directly download the [binaries](https://github.com/assap-org/assap/releases) for you OS or follow the next steps.
 
 ### Prerequisites
 
