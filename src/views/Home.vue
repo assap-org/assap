@@ -26,12 +26,27 @@
       Wizard,
     },
     methods: {
+      setFacialConfiguration() {
+        const {app} = require('electron').remote;
+        this.isTraining = !getConfiguration().isConfigured
 
+        if(this.isTraining) {
+          const {app} = require('electron').remote;
+          app.emit('toggle-training');
+        }
+
+        app.on('train-finished', () => {
+          this.isTraining = !this.isTraining
+          setConfigured(true)
+          app.emit('toggle-training');
+        });
+      }
     },
     data(){
       return {
         isMenuOpen: false,
         isTraining: false,
+        userpass: null
       }
     },
     mounted(){
@@ -40,19 +55,9 @@
         this.isMenuOpen = !this.isMenuOpen;
       });
 
-      this.isTraining = !getConfiguration().isConfigured
-
-      if(this.isTraining) {
-        const {app} = require('electron').remote;
-        app.emit('toggle-training');
-      }
-
-      app.on('train-finished', () => {
-        this.isTraining = !this.isTraining
-        setConfigured(true)
-        app.emit('toggle-training');
-      });
-
+      this.$root.$on("InitialFacialConfiguration",()=>{
+        this.setFacialConfiguration()
+      })
     },
   }
 </script>

@@ -1,9 +1,9 @@
 <template lang="pug">
-section
+.container
   .div(v-if="isLogged")
-    b-field( label="Password")
+    b-field(label="Password")
       b-input(v-model="userpass", type="password",required, minlength="6", validation-message="Minimum 6 characters",size="is-small")
-    b-button(@click="checkPass()") Login
+    b-button(@click="checkPass()",size="is-small") Login
   .div(v-else)
     b-field(label="Password")
       b-input(v-model="register1", type="password",required, minlength="6", validation-message="Minimum 6 characters",size="is-small")
@@ -13,7 +13,7 @@ section
 </template>
 
 <script>
-import {getUserPassword,setUserPassword,getUserStr} from "@/utils/configuration";
+import {getUserPassword,setUserPassword,getUserStr,getConfiguration} from "@/utils/configuration";
 import {encrypt,genRandomString,decrypt} from "@/utils/cipher";
 export default {
   name: 'Password',
@@ -38,7 +38,13 @@ export default {
       try {
         var decUserPass = decrypt(savedPass,this.userpass)
         if (userStr === decUserPass) {
-          this.$emit("logginStatus",this.isLogged)
+          this.$emit("logginStatus",this.isLogged,this.userpass)
+          this.$root.$emit("userPassToCipher",this.userpass)
+          var isConfigured = getConfiguration().isConfigured
+          console.log(isConfigured)
+          if (!isConfigured || isConfigured==undefined) {
+            this.$root.$emit("InitialFacialConfiguration")
+          }
         }
       } catch (err) {
         this.$buefy.toast.open({'message':'Bad Password','type': 'is-danger'})
@@ -50,6 +56,8 @@ export default {
           var secTex = genRandomString(16)
           setUserPassword(encrypt(secTex,this.register1),secTex)
           this.isLogged = true
+          //Configure First Identification
+          this.$root.$emit("InitialFacialConfiguration")
         }
       }
     }
