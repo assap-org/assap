@@ -16,8 +16,9 @@ div
   import {sendTelegram} from "@/utils/telegram";
   import {sendMail} from "@/utils/mail"
   const { globalShortcut } = require('electron').remote
-  import {getConfiguration, getAlertsConfig, saveDescriptors} from "@/utils/configuration";
+  import {getConfiguration, getAlertsConfig, saveDescriptors, retrieveDescriptors} from "@/utils/configuration";
   import {serialize} from "@/utils/descriptors";
+
   const action = new Action();
   const TelegramBot = require('node-telegram-bot-api');
   import {encrypt} from "@/utils/cipher";
@@ -45,13 +46,18 @@ div
         takeSnapshot: false,
         bot : null,
         alertsTimer: 0,
-        userpass: null
+        userpass: null,
+        checkIdentity: false,
+        isMinimized: false
       };
     },
     mounted() {
+      this.isRecording = getConfiguration().isConfigured
+
       this.$root.$on("userPassToCipher",(userpass)=>{
         this.userpass = userpass
-      })
+      })    
+      
       this.alertsTimer = Math.floor(Date.now() / 1000) //timestamp in seconds
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
@@ -104,11 +110,30 @@ div
         this.takeSnapshot = true
       });
 
+      app.on('check', () => {
+        this.checkIdentity = true
+      });
+
     },
     created(){
       globalShortcut.register('CommandOrControl+H', () => {
+
         console.log("reverse") // eslint-disable-line no-console
         action.reverseAction()
+      }),
+      globalShortcut.register('CommandOrControl+M', () => {
+        const remote = require('electron').remote
+        console.log(this.isMinimized)
+        var window = remote.getCurrentWindow()
+        if(!this.isMinimized) {
+          window.minimize()
+          this.isMinimized = true
+          console.log("minimize") // eslint-disable-line no-console
+        }else {
+          window.restore()
+          this.isMinimized = false
+          console.log("maximize") // eslint-disable-line no-console
+        }
       })
     },
     methods: {
@@ -118,6 +143,7 @@ div
         const videoEl = document.getElementById('camera')
         const canvas = document.getElementById('canvas')
         const img = document.getElementById('img')
+        const {app} = require('electron').remote;
 
         if(videoEl.paused || videoEl.ended)
           return setTimeout(() => this.onPlay())
@@ -142,29 +168,22 @@ div
 
             if(trueDetectionsNumber == 1 && this.takeSnapshot) {
               this.takeSnapshot = false
-              canvas.width = videoEl.videoWidth;
-              canvas.height = videoEl.videoHeight;
-              canvas.getContext('2d').drawImage(videoEl, 0, 0);
-              // Other browsers will fall back to image/png
-              img.src = canvas.toDataURL('image/webp');
-              faceapi.detectAllFaces(img)
-                    .withFaceLandmarks()
-                    .withFaceDescriptors()
-                    .then((results) => {
-                      if(results.length > 0) {
-                        const json = serialize(results);
-                        //Cipher facial characteristics
-                        var cipher_json=encrypt(json,this.userpass)
-                        saveDescriptors(cipher_json);
-                        console.log('Saved',cipher_json)
-                        console.log("NUMERO VECES GUARDADO")
-                      }
-                      //TODO EMIT EVENT OK
-                    }).catch((error) => {
-                      console.log('error', error)
-                      //TODO EMIT EVENT BAD
-                    });
+              this.screenshot(canvas, videoEl, img);
+              this.createId(img, "owner"); //TODO Make Dinamic
             }
+
+            if(trueDetectionsNumber == 1 && this.checkIdentity) {
+              this.screenshot(canvas, videoEl, img);
+              const descriptorsList = retrieveDescriptors()
+              this.identify(img, descriptorsList, "owner").then(isOwner => {
+                if(isOwner) {
+                  app.emit('identify-ok');
+                } else {
+                  app.emit('identify-fail');
+                }
+              }) //TODO Make Dinamic label
+            }
+
             if(trueDetectionsNumber>1){
                action.executeAction()
                var now = Math.floor(Date.now() / 1000)
@@ -218,7 +237,60 @@ div
             })
         }
       },
+      screenshot(canvas, videoEl, img) {
+        canvas.width = videoEl.videoWidth;
+        canvas.height = videoEl.videoHeight;
+        canvas.getContext('2d').drawImage(videoEl, 0, 0);
+        img.src = canvas.toDataURL('image/webp');
+      },
+      createId(img, label){
+        const {app} = require('electron').remote;
+        faceapi.detectAllFaces(img)
+              .withFaceLandmarks()
+              .withFaceDescriptors()
+              .then((results) => {
+                if(results.length > 0) {
+                  const json = serialize(results, label);
+                  var cipher_json=encrypt(json,this.userpass)
+                  saveDescriptors(cipher_json);
+                  console.log("Descriptor-Saved")
+                  app.emit('descriptor-saved');
+                }
+              }).catch((error) => {
+                console.log('error', error)
+                app.emit('descriptor-not-saved');
+              });
+      },
+      identify(img, descriptorsList, ownerLabel){
+        return faceapi.detectAllFaces(img)
+              .withFaceLandmarks()
+              .withFaceDescriptors()
+              .then((results) => {
+                if(results.length > 0) {
 
+                  const labeledDescriptors = descriptorsList.map(({descriptors, label}) => {
+                    return new faceapi.LabeledFaceDescriptors(label, descriptors)
+                  });
+
+                  const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors)
+
+                  let label = ""
+                  results.forEach(({ descriptor }) => {
+                      label = faceMatcher.findBestMatch(descriptor).toString()
+                  })
+                  
+                  if(label.split(" ")[0] === ownerLabel) {
+                    return true
+                  } else {
+                    return false
+                  }
+
+                }
+              }).catch((error) => {
+                console.log("Detection error", error)
+                return false
+              });
+      }
     }
   }
 </script>

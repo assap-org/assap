@@ -28,7 +28,7 @@
     methods: {
       setFacialConfiguration() {
         const {app} = require('electron').remote;
-        this.isTraining = !getConfiguration().IS_CONFIGURED
+        this.isTraining = !getConfiguration().isConfigured
 
         if(this.isTraining) {
           const {app} = require('electron').remote;
@@ -54,6 +54,7 @@
       app.on('menuToggled', () => {
         this.isMenuOpen = !this.isMenuOpen;
       });
+
       this.$root.$on("InitialFacialConfiguration",()=>{
         this.setFacialConfiguration()
       })

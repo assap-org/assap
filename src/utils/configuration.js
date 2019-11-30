@@ -1,4 +1,5 @@
 const Store = require('electron-store');
+import {deserialize} from './descriptors';
 
 export function setModelUrl(model_url) {
   const store = new Store()
@@ -30,8 +31,8 @@ export function retrieveDescriptors() {
   const Store = require('electron-store');
   const store = new Store();
   const descriptorsList = JSON.parse(store.get("DESCRIPTORS"))
-
-  return descriptorsList;
+  const deserializedList = descriptorsList.map(deserialize)
+  return deserializedList;
 }
 
 export function getConfiguration() {

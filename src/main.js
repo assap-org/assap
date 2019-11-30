@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import App from './App.vue'
 import './assets/styles.sass'
 import router from './router'
-import { Tabs, Input, Button, Switch, Numberinput,Field, Icon, Checkbox} from 'buefy'
+import { Tabs, Input, Button, Switch, Numberinput,Field, Icon, Checkbox, Toast} from 'buefy'
 import Buefy from 'buefy'
 import {setAction, setModelUrl, setConfigured} from "@/utils/configuration";
 
@@ -16,6 +16,7 @@ Vue.use(Button)
 Vue.use(Switch)
 Vue.use(Numberinput)
 Vue.use(Field)
+Vue.use(Toast)
 Vue.use(Icon)
 Vue.use(Checkbox)
 
