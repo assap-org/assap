@@ -174,7 +174,9 @@ div
 
             if(trueDetectionsNumber == 1 && this.checkIdentity) {
               this.screenshot(canvas, videoEl, img);
+              console.log('fromCamera')
               const descriptorsList = retrieveDescriptors(this.userpass)
+              console.log('descFromCamera',descriptorsList)
               this.identify(img, descriptorsList, "owner").then(isOwner => {
                 if(isOwner) {
                   app.emit('identify-ok');

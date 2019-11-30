@@ -33,6 +33,7 @@ export function saveDescriptors(data,userpass) {
   }
   decrypted_desriptors.push(data)
   var encrypted_descriptors = encrypt(JSON.stringify(decrypted_desriptors),userpass)
+  console.log("SAVE",encrypted_descriptors)
   store.set("DESCRIPTORS", encrypted_descriptors);
 }
 
@@ -40,13 +41,17 @@ export function retrieveDescriptors(userpass) {
   const Store = require('electron-store');
   const store = new Store();
   var encrypted_descriptors = store.get("DESCRIPTORS")
+  console.log('STORED',encrypted_descriptors)
   var decrypted_desriptors = []
-  if (encrypted_descriptors.length > 0 || encrypted_descriptors != undefined) {
+  if (encrypted_descriptors != undefined) {
     decrypted_desriptors = decrypt(encrypted_descriptors,userpass)
+    const descriptorsList = JSON.parse(decrypted_desriptors)
+    const deserializedList = descriptorsList.map(deserialize)
+    return deserializedList;
+    console.log(decrypted_desriptors)
+  } else {
+    return []
   }
-  const descriptorsList = JSON.parse(decrypted_desriptors)
-  const deserializedList = descriptorsList.map(deserialize)
-  return deserializedList;
 }
 
 export function getConfiguration() {

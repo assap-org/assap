@@ -41,7 +41,9 @@ export default {
         if (userStr === decUserPass) {
           this.$emit("logginStatus",this.isLogged,this.userpass)
           this.$root.$emit("userPassToCipher",this.userpass)
-
+          const { ipcMain } = require('electron').remote
+          ipcMain.emit('menu-userPassToCipher', this.userpass)
+          console.log('envia',this.userpass)
           var isConfigured = getConfiguration().isConfigured
           if (!isConfigured || isConfigured==undefined) {
             this.$root.$emit("InitialFacialConfiguration")
