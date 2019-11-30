@@ -50,7 +50,9 @@ div
         isMinimized: false,
         falsePositivesThreshold: 0,
         toastTimerMiliSec: 5000,
-        lastTimeMiliSec: 0
+        lastTimeMiliSec: 0,
+        isDetectionNumberChanged: false,
+        lastDetectionNumber: 0,
       };
     },
     mounted() {
@@ -179,6 +181,11 @@ div
               }
             }
 
+            if(this.lastDetectionNumber !== trueDetectionsNumber){
+              this.lastDetectionNumber = trueDetectionsNumber
+              this.isDetectionNumberChanged = true
+            }
+
             if(trueDetectionsNumber == 1 && this.takeSnapshot) {
               this.takeSnapshot = false
               this.screenshot(canvas, videoEl, img);
@@ -200,8 +207,6 @@ div
               }) //TODO Make Dinamic label
             }
 
-            console.log(trueDetectionsNumber)
-            console.log(!this.checkIdentity)
             if(trueDetectionsNumber == 1 && !this.checkIdentity) {
               console.log("continous detection")
               this.screenshot(canvas, videoEl, img);
@@ -213,7 +218,8 @@ div
                   var now = Math.floor(Date.now() / 1000)
                   if(this.lastTimeMiliSec == 0 ) this.lastTimeMiliSec = now
                   var isTime = (now - this.lastTimeMiliSec) >= 5
-                  if(this.falsePositivesThreshold >= 5 && isTime){
+                  if(this.falsePositivesThreshold >= 5 && isTime && this.isDetectionNumberChanged){
+                    this.isDetectionNumberChanged = false
                     this.lastTimeMiliSec = 0
                     this.$buefy.toast.open({'message':'YOU ARE NOT OWNER','type': 'is-danger'})
                   }
