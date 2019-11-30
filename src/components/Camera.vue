@@ -21,7 +21,6 @@ div
 
   const action = new Action();
   const TelegramBot = require('node-telegram-bot-api');
-  import {encrypt} from "@/utils/cipher";
 
 
   faceapi.env.monkeyPatch({
@@ -56,8 +55,9 @@ div
 
       this.$root.$on("userPassToCipher",(userpass)=>{
         this.userpass = userpass
-      })    
-      
+        console.log("setpass",this.userpass)
+      })
+
       this.alertsTimer = Math.floor(Date.now() / 1000) //timestamp in seconds
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
@@ -174,7 +174,7 @@ div
 
             if(trueDetectionsNumber == 1 && this.checkIdentity) {
               this.screenshot(canvas, videoEl, img);
-              const descriptorsList = retrieveDescriptors()
+              const descriptorsList = retrieveDescriptors(this.userpass)
               this.identify(img, descriptorsList, "owner").then(isOwner => {
                 if(isOwner) {
                   app.emit('identify-ok');
@@ -251,8 +251,8 @@ div
               .then((results) => {
                 if(results.length > 0) {
                   const json = serialize(results, label);
-                  var cipher_json=encrypt(json,this.userpass)
-                  saveDescriptors(cipher_json);
+                  console.log('SAVE')
+                  saveDescriptors(json,this.userpass);
                   console.log("Descriptor-Saved")
                   app.emit('descriptor-saved');
                 }
@@ -278,7 +278,7 @@ div
                   results.forEach(({ descriptor }) => {
                       label = faceMatcher.findBestMatch(descriptor).toString()
                   })
-                  
+
                   if(label.split(" ")[0] === ownerLabel) {
                     return true
                   } else {

@@ -38,7 +38,6 @@ b-tabs(expanded)
 
 <script>
 import {setAlertsConfig, getAlertsConfig, retrieveDescriptors} from "@/utils/configuration";
-import {decrypt} from "@/utils/cipher";
 export default {
   name: 'Menu',
   data(){
@@ -60,12 +59,12 @@ export default {
     this.$root.$on("userPassToCipher",(userpass)=>{
       this.userpass = userpass
       console.log("entraaa",this.userpass)
+      this.idList = retrieveDescriptors(this.userpass)
+      console.log("DESDE MENU")
+      console.log('descriptors')
+      console.log(this.idList)
     })
-    //TODO decrypt descriptors
-    var decrypted_desriptors=decrypt(retrieveDescriptors(),this.userpass)
-    console.log('dadeasd',decrypted_desriptors)
-    this.idList = retrieveDescriptors()
-    console.log(this.idList)
+
     if (getAlertsConfig("ALARMTIME")!= undefined) {
       setAlertsConfig("ALARMTIME",this.seconds)
     } else {

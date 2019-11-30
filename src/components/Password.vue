@@ -57,7 +57,8 @@ export default {
           setUserPassword(encrypt(secTex,this.register1),secTex)
           this.isLogged = true
           //Configure First Identification
-          this.$root.$emit("InitialFacialConfiguration")
+          //this.$root.$emit("userPassToCipher",this.userpass)
+          //this.$root.$emit("InitialFacialConfiguration")
         }
       }
     }
