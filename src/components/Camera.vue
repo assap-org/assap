@@ -20,6 +20,7 @@ div
   import {serialize} from "@/utils/descriptors";
   const action = new Action();
   const TelegramBot = require('node-telegram-bot-api');
+  import {encrypt} from "@/utils/cipher";
 
 
   faceapi.env.monkeyPatch({
@@ -43,10 +44,14 @@ div
         track: null,
         takeSnapshot: false,
         bot : null,
-        alertsTimer: 0
+        alertsTimer: 0,
+        userpass: null
       };
     },
     mounted() {
+      this.$root.$on("userPassToCipher",(userpass)=>{
+        this.userpass = userpass
+      })
       this.alertsTimer = Math.floor(Date.now() / 1000) //timestamp in seconds
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
@@ -148,7 +153,10 @@ div
                     .then((results) => {
                       if(results.length > 0) {
                         const json = serialize(results);
-                        saveDescriptors(json);
+                        //Cipher facial characteristics
+                        var cipher_json=encrypt(json,this.userpass)
+                        saveDescriptors(cipher_json);
+                        console.log('Saved',cipher_json)
                         console.log("NUMERO VECES GUARDADO")
                       }
                       //TODO EMIT EVENT OK

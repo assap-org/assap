@@ -27,18 +27,18 @@ b-tabs(expanded)
             b-switch.actions(v-model="activatedMail",@input="setAlertActive({'IS_MAIL_ACTIVE':activatedMail})")
   b-tab-item(label="Identity")
     section.identity
-      button.button
-        b-icon(pack="fas", icon="times", size="is-small")
-      b-button.button.newUser(size="small") AÑADE USUARIO
+      b-button.button.newUser(size="is-small") AÑADIR USUARIO
       ul
-        li(v-for="id in idList") SoyUnItem
-
+        li(v-for="id in idList")
+          b-checkbox(size="is-small") SoyUnItem
+            b-button.button.delete(size="is-small",type="is-danger")
   b-tab-item(label="Config")
     b-numberinput(v-model="seconds",@input="changeTimer()")
 </template>
 
 <script>
 import {setAlertsConfig, getAlertsConfig, retrieveDescriptors} from "@/utils/configuration";
+import {decrypt} from "@/utils/cipher";
 export default {
   name: 'Menu',
   data(){
@@ -52,10 +52,18 @@ export default {
       password: "",
       activatedMail: false,
       seconds: 30,
-      idList: []
+      idList: [],
+      userpass: null,
     }
   },
   mounted(){
+    this.$root.$on("userPassToCipher",(userpass)=>{
+      this.userpass = userpass
+      console.log("entraaa",this.userpass)
+    })
+    //TODO decrypt descriptors
+    var decrypted_desriptors=decrypt(retrieveDescriptors(),this.userpass)
+    console.log('dadeasd',decrypted_desriptors)
     this.idList = retrieveDescriptors()
     console.log(this.idList)
     if (getAlertsConfig("ALARMTIME")!= undefined) {
@@ -86,6 +94,10 @@ export default {
 
   },
   methods:{
+    processLogginState(status) {
+      console.log("recibe eventoooo")
+      console.log(status)
+    },
     changeTimer() {
       if (this.seconds != null) {
         if (isNaN(this.seconds)){

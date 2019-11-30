@@ -3,11 +3,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStopCircle, faPlayCircle, faTimesCircle, faTimes, faBars, faUserSecret } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
 import App from './App.vue'
 import './assets/styles.sass'
 import router from './router'
-import { Tabs, Input, Button, Switch, Numberinput,Field, Icon} from 'buefy'
+import { Tabs, Input, Button, Switch, Numberinput,Field, Icon, Checkbox} from 'buefy'
 import Buefy from 'buefy'
 import {setAction, setModelUrl, setConfigured} from "@/utils/configuration";
 
@@ -18,11 +17,13 @@ Vue.use(Switch)
 Vue.use(Numberinput)
 Vue.use(Field)
 Vue.use(Icon)
+Vue.use(Checkbox)
 
 Vue.use(Buefy, {
   defaultIconComponent: 'vue-fontawesome',
   defaultIconPack: 'fas',
 });
+Vue.component('vue-fontawesome', FontAwesomeIcon);
 
 library.add(faStopCircle, faPlayCircle, faTimesCircle, faTimes, faBars, faUserSecret)
 
