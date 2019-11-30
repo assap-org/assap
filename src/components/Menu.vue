@@ -56,14 +56,17 @@ export default {
     }
   },
   mounted(){
-    this.$root.$on("userPassToCipher",(userpass)=>{
-      this.userpass = userpass
-      console.log("entraaa",this.userpass)
-      this.idList = retrieveDescriptors(this.userpass)
-      console.log("DESDE MENU")
-      console.log('descriptors')
-      console.log(this.idList)
+    const { ipcMain } = require('electron')
+    ipcMain.on('menu-userPassToCipher', (event, arg) => {
+      console.log(arg) // prints "ping"
+      this.userpass = arg
+      console.log('pass', this.userpass)
     })
+
+    console.log("entraaa",this.userpass)
+    this.idList = retrieveDescriptors(this.userpass)
+    console.log(this.idList)
+
 
     if (getAlertsConfig("ALARMTIME")!= undefined) {
       setAlertsConfig("ALARMTIME",this.seconds)

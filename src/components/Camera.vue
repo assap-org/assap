@@ -55,7 +55,6 @@ div
 
       this.$root.$on("userPassToCipher",(userpass)=>{
         this.userpass = userpass
-        console.log("setpass",this.userpass)
       })
 
       this.alertsTimer = Math.floor(Date.now() / 1000) //timestamp in seconds
@@ -204,8 +203,6 @@ div
                  if (isActiveMail) {
                    sendMail(getAlertsConfig('EMAIL'), getAlertsConfig('PASSWORD'), getAlertsConfig('EMAIL'), "Shoulder Sourfing From ASSAP", "<p>Be careful someone can be spying you!</p>", null)
                }
-             } else {
-               console.log('todavia no')
              }
             }
             canvas.width = videoEl.width
@@ -251,7 +248,6 @@ div
               .then((results) => {
                 if(results.length > 0) {
                   const json = serialize(results, label);
-                  console.log('SAVE')
                   saveDescriptors(json,this.userpass);
                   console.log("Descriptor-Saved")
                   app.emit('descriptor-saved');
