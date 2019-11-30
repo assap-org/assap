@@ -5,11 +5,12 @@
       b-input(v-model="userpass", type="password",required, minlength="6", validation-message="Minimum 6 characters",size="is-small")
     b-button(@click="checkPass()",size="is-small") Login
   .div(v-else)
-    b-field(label="Password")
-      b-input(v-model="register1", type="password",required, minlength="6", validation-message="Minimum 6 characters",size="is-small")
-    b-field(label="Repeat Password")
-      b-input(v-model="register2", type="password",required, minlength="6", validation-message="Minimum 6 characters",size="is-small")
-    b-button(@click="register()",size="is-small") Register
+    .register-wrapper
+      b-field(label="Password")
+        b-input(v-model="register1", type="password",required, minlength="6", validation-message="Minimum 6 characters",size="is-small")
+      b-field(label="Repeat Password")
+        b-input(v-model="register2", type="password",required, minlength="6", validation-message="Minimum 6 characters",size="is-small")
+      b-button(@click="register()",size="is-small") Register
 </template>
 
 <script>
@@ -66,5 +67,18 @@ export default {
 </script>
 
 <style lang="sass">
-
+  .register-wrapper
+    width: 100%
+    height: 100%
+    padding: 5px 10px
+    .field
+      margin-bottom: 0
+      width: 100%
+      .label
+        margin-bottom: 0
+    .button
+      padding: 0
+      height: 25px
+      margin-top: 6px
+      float: right
 </style>
