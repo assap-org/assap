@@ -6,7 +6,7 @@ div
     canvas(id="canvas", width="270", height="150")
   .wrapper
     .play(v-if="!isRecording && !isTraining")
-      font-awesome-icon.resume(:icon="['fas', 'play-circle']", @click="toggleRecord()")/
+      font-awesome-icon.resume(:icon="['fas', 'play-circle']", @click="startRecord()")/
 </template>
 
 <script>
@@ -56,15 +56,15 @@ div
 
       this.$root.$on("userPassToCipher",(userpass)=>{
         this.userpass = userpass
-      })    
-      
+      })
+
       this.alertsTimer = Math.floor(Date.now() / 1000) //timestamp in seconds
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
         .then((stream) => {
           videoEl.srcObject = stream
           this.track = stream.getTracks()[0];
-          this.toggleRecord()
+          this.stopRecord()
         })
         .catch((error) => {
           console.log('Error!', error); // eslint-disable-line no-console
@@ -86,32 +86,33 @@ div
         .catch((error) => console.error(error))
 
       const {app} = require('electron').remote;
-      app.on('toggle-record', () => {
-        this.toggleRecord()
+
+      app.on('cam-start-training', () => {
+        this.isTraining = true
+        this.startRecord()
       });
 
-      app.on('toggle-training', () => {
-        this.isTraining = !this.isTraining;
-
-        const TRAINING_IS_STARTING = !this.isRecording && this.isTraining
-        const TRAINING_IS_ENDING = !this.isTraining && this.isRecording
-
-        if(TRAINING_IS_STARTING) {
-          this.isRecording = true
-          this.toggleRecord()
-        }
-        if(TRAINING_IS_ENDING){
-          this.toggleRecord()
-        }
-
+      app.on('cam-stop-training', () => {
+        this.isTraining = false
+        this.stopRecord()
       });
 
-      app.on('snapshot', () => {
+      app.on('cam-start-record', () => {
+        this.startRecord()
+      });
+
+      app.on('cam-stop-record', () => {
+        this.stopRecord()
+      });
+
+      app.on('cam-snapshot', () => {
         this.takeSnapshot = true
       });
 
-      app.on('check', () => {
+      app.on('cam-check', () => {
         this.checkIdentity = true
+        this.isTraining = true
+        this.startRecord()
       });
 
     },
@@ -219,23 +220,25 @@ div
 
         setTimeout(() => this.onPlay())
       },
-      toggleRecord(){
-        this.isRecording = !this.isRecording
+      startRecord(){
         const {app} = require('electron').remote;
-        app.emit('play');
-        if(!this.isRecording) {
-          this.track.stop()
-        } else {
-          const videoEl = document.getElementById('camera');
-          navigator.mediaDevices.getUserMedia({ video: {} })
-            .then((stream) => {
-              videoEl.srcObject = stream
-              this.track = stream.getTracks()[0];
-            })
-            .catch((error) => {
-              console.log('Error!', error); // eslint-disable-line no-console
-            })
-        }
+        this.isRecording = true
+        const videoEl = document.getElementById('camera');
+        navigator.mediaDevices.getUserMedia({ video: {} })
+          .then((stream) => {
+            videoEl.srcObject = stream
+            this.track = stream.getTracks()[0];
+            app.emit('nav-start-record');
+          })
+          .catch((error) => {
+            console.log('Error!', error); // eslint-disable-line no-console
+          })
+      },
+      stopRecord(){
+        const {app} = require('electron').remote;
+        this.isRecording = false
+        this.track.stop()
+        app.emit('nav-stop-record');
       },
       screenshot(canvas, videoEl, img) {
         canvas.width = videoEl.videoWidth;
@@ -278,7 +281,7 @@ div
                   results.forEach(({ descriptor }) => {
                       label = faceMatcher.findBestMatch(descriptor).toString()
                   })
-                  
+
                   if(label.split(" ")[0] === ownerLabel) {
                     return true
                   } else {
