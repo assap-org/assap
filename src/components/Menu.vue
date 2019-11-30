@@ -56,17 +56,13 @@ export default {
     }
   },
   mounted(){
-    const { ipcMain } = require('electron')
+    const { ipcMain } = require('electron').remote
     ipcMain.on('menu-userPassToCipher', (event, arg) => {
       console.log(arg) // prints "ping"
       this.userpass = arg
-      console.log('pass', this.userpass)
+      this.idList = retrieveDescriptors(this.userpass)
+      console.log(this.idList)
     })
-
-    console.log("entraaa",this.userpass)
-    this.idList = retrieveDescriptors(this.userpass)
-    console.log(this.idList)
-
 
     if (getAlertsConfig("ALARMTIME")!= undefined) {
       setAlertsConfig("ALARMTIME",this.seconds)

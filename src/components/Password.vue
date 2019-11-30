@@ -40,9 +40,6 @@ export default {
         if (userStr === decUserPass) {
           this.$emit("logginStatus",this.isLogged,this.userpass)
           this.$root.$emit("userPassToCipher",this.userpass)
-          console.log('hasta aqui va')
-          const { ipcMain } = require('electron')
-          ipcMain.emit('menu-userPassToCipher', this.userpass)
 
           var isConfigured = getConfiguration().isConfigured
           if (!isConfigured || isConfigured==undefined) {

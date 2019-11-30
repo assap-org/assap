@@ -21,24 +21,18 @@ export function setConfigured(isConfigured) {
 }
 
 export function saveDescriptors(data,userpass) {
-  console.log("SAVE DESC")
-  console.log(userpass)
   const Store = require('electron-store');
   const store = new Store();
   var decrypted_desriptors = []
   var encrypted_descriptors_old= store.get("DESCRIPTORS")
   if (encrypted_descriptors_old != undefined) {
-    console.log("initialList",encrypted_descriptors_old)
     if(encrypted_descriptors_old.length > 0){
       decrypted_desriptors = decrypt(encrypted_descriptors_old,userpass)
-      console.log(decrypted_desriptors)
       //TODO check if it works
     }
   }
   decrypted_desriptors.push(data)
   var encrypted_descriptors = encrypt(JSON.stringify(decrypted_desriptors),userpass)
-  console.log(encrypted_descriptors)
-
   store.set("DESCRIPTORS", encrypted_descriptors);
 }
 
