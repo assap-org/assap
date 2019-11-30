@@ -46,9 +46,6 @@ if(!store.get("IS_CONFIGURED")){
   setConfigured(false);
 }
 
-if(!store.get("DESCRIPTORS")){
-  store.set("DESCRIPTORS", JSON.stringify([]));
-}
 
 if(!store.get("ACTION")) {
   setAction("notification")

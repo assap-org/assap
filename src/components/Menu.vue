@@ -38,7 +38,6 @@ b-tabs(expanded)
 
 <script>
 import {setAlertsConfig, getAlertsConfig, retrieveDescriptors} from "@/utils/configuration";
-import {decrypt} from "@/utils/cipher";
 export default {
   name: 'Menu',
   data(){
@@ -57,15 +56,14 @@ export default {
     }
   },
   mounted(){
-    this.$root.$on("userPassToCipher",(userpass)=>{
-      this.userpass = userpass
-      console.log("entraaa",this.userpass)
+    const { ipcMain } = require('electron').remote
+    ipcMain.on('menu-userPassToCipher', (event, arg) => {
+      console.log(arg) // prints "ping"
+      this.userpass = arg
+      this.idList = retrieveDescriptors(this.userpass)
+      console.log(this.idList)
     })
-    //TODO decrypt descriptors
-    var decrypted_desriptors=decrypt(retrieveDescriptors(),this.userpass)
-    console.log('dadeasd',decrypted_desriptors)
-    this.idList = retrieveDescriptors()
-    console.log(this.idList)
+
     if (getAlertsConfig("ALARMTIME")!= undefined) {
       setAlertsConfig("ALARMTIME",this.seconds)
     } else {

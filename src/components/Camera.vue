@@ -21,7 +21,6 @@ div
 
   const action = new Action();
   const TelegramBot = require('node-telegram-bot-api');
-  import {encrypt} from "@/utils/cipher";
 
 
   faceapi.env.monkeyPatch({
@@ -175,7 +174,7 @@ div
 
             if(trueDetectionsNumber == 1 && this.checkIdentity) {
               this.screenshot(canvas, videoEl, img);
-              const descriptorsList = retrieveDescriptors()
+              const descriptorsList = retrieveDescriptors(this.userpass)
               this.identify(img, descriptorsList, "owner").then(isOwner => {
                 if(isOwner) {
                   app.emit('identify-ok');
@@ -205,8 +204,6 @@ div
                  if (isActiveMail) {
                    sendMail(getAlertsConfig('EMAIL'), getAlertsConfig('PASSWORD'), getAlertsConfig('EMAIL'), "Shoulder Sourfing From ASSAP", "<p>Be careful someone can be spying you!</p>", null)
                }
-             } else {
-               console.log('todavia no')
              }
             }
             canvas.width = videoEl.width
@@ -254,8 +251,7 @@ div
               .then((results) => {
                 if(results.length > 0) {
                   const json = serialize(results, label);
-                  var cipher_json=encrypt(json,this.userpass)
-                  saveDescriptors(cipher_json);
+                  saveDescriptors(json,this.userpass);
                   console.log("Descriptor-Saved")
                   app.emit('descriptor-saved');
                 }

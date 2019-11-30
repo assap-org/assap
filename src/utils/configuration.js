@@ -1,5 +1,6 @@
 const Store = require('electron-store');
 import {deserialize} from './descriptors';
+import {encrypt,decrypt} from "@/utils/cipher";
 
 export function setModelUrl(model_url) {
   const store = new Store()
@@ -19,18 +20,31 @@ export function setConfigured(isConfigured) {
   store.set("IS_CONFIGURED", isConfigured);
 }
 
-export function saveDescriptors(data) {
+export function saveDescriptors(data,userpass) {
   const Store = require('electron-store');
   const store = new Store();
-  const descriptorsList = JSON.parse(store.get("DESCRIPTORS"))
-  descriptorsList.push(data)
-  store.set("DESCRIPTORS", JSON.stringify(descriptorsList));
+  var decrypted_desriptors = []
+  var encrypted_descriptors_old= store.get("DESCRIPTORS")
+  if (encrypted_descriptors_old != undefined) {
+    if(encrypted_descriptors_old.length > 0){
+      decrypted_desriptors = decrypt(encrypted_descriptors_old,userpass)
+      //TODO check if it works
+    }
+  }
+  decrypted_desriptors.push(data)
+  var encrypted_descriptors = encrypt(JSON.stringify(decrypted_desriptors),userpass)
+  store.set("DESCRIPTORS", encrypted_descriptors);
 }
 
-export function retrieveDescriptors() {
+export function retrieveDescriptors(userpass) {
   const Store = require('electron-store');
   const store = new Store();
-  const descriptorsList = JSON.parse(store.get("DESCRIPTORS"))
+  var encrypted_descriptors = store.get("DESCRIPTORS")
+  var decrypted_desriptors = []
+  if (encrypted_descriptors.length > 0 || encrypted_descriptors != undefined) {
+    decrypted_desriptors = decrypt(encrypted_descriptors,userpass)
+  }
+  const descriptorsList = JSON.parse(decrypted_desriptors)
   const deserializedList = descriptorsList.map(deserialize)
   return deserializedList;
 }

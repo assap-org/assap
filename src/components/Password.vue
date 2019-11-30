@@ -41,13 +41,14 @@ export default {
         if (userStr === decUserPass) {
           this.$emit("logginStatus",this.isLogged,this.userpass)
           this.$root.$emit("userPassToCipher",this.userpass)
+
           var isConfigured = getConfiguration().isConfigured
-          console.log(isConfigured)
           if (!isConfigured || isConfigured==undefined) {
             this.$root.$emit("InitialFacialConfiguration")
           }
         }
       } catch (err) {
+        console.log(err)
         this.$buefy.toast.open({'message':'Bad Password','type': 'is-danger'})
       }
     },
@@ -57,8 +58,6 @@ export default {
           var secTex = genRandomString(16)
           setUserPassword(encrypt(secTex,this.register1),secTex)
           this.isLogged = true
-          //Configure First Identification
-          this.$root.$emit("InitialFacialConfiguration")
         }
       }
     }
