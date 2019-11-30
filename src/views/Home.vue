@@ -28,17 +28,17 @@
     methods: {
       setFacialConfiguration() {
         const {app} = require('electron').remote;
-        this.isTraining = !getConfiguration().isConfigured
 
+        this.isTraining = !getConfiguration().isConfigured
         if(this.isTraining) {
           const {app} = require('electron').remote;
-          app.emit('toggle-training');
+          app.emit('cam-start-training');
         }
 
-        app.on('train-finished', () => {
-          this.isTraining = !this.isTraining
+        app.on('home-wizard-finished', () => {
+          this.isTraining = false
           setConfigured(true)
-          app.emit('toggle-training');
+          app.emit('cam-stop-training');
         });
       }
     },

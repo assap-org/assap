@@ -48,6 +48,7 @@ export default {
       this.isStep3 = false
       this.isStepRepeat = true
       this.isStepOk = false
+      app.emit('cam-start-training')
     });
 
   },
@@ -66,11 +67,11 @@ export default {
       this.isStepRepeat = false
       this.isStepOk = false
       const {app} = require('electron').remote;
-      app.emit('snapshot');
+      app.emit('cam-snapshot');
     },
     checkTraining(){
       const {app} = require('electron').remote;
-      app.emit('check');
+      app.emit('cam-check');
     },
     endTraining(){
       this.isStep1 = false
@@ -79,7 +80,7 @@ export default {
       this.isStepRepeat = false
       this.isStepOk = false
       const {app} = require('electron').remote;
-      app.emit('train-finished');
+      app.emit('home-wizard-finished');
     }
   }
 }

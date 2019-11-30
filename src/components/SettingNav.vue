@@ -1,9 +1,9 @@
 <template lang="pug">
   .nav-wrapper
     .controls-wrapper
-      #control-icon(v-if="!isRecordingNav")
-        font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="toggleRecordNav()")/
-      #control-icon.no-recording(v-if="isRecordingNav")
+      #control-icon(v-if="isRecordingNav")
+        font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="stopRecordNav()")/
+      #control-icon.no-recording(v-if="!isRecordingNav")
         font-awesome-icon.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
       #control-icon
         font-awesome-icon.secret.minimize(:icon="['fas', 'user-secret']", @click="minimize()")/
@@ -37,8 +37,12 @@ export default {
     this.selectedAction = getConfiguration().action
 
     const {app} = require('electron').remote;
-    app.on('play', () => {
-      this.isRecordingNav = !this.isRecordingNav;
+    app.on('nav-start-record', () => {
+      this.isRecordingNav = true;
+    });
+
+    app.on('nav-stop-record', () => {
+      this.isRecordingNav = false;
     });
   },
   methods:{
@@ -52,9 +56,9 @@ export default {
       app.emit('menuToggled');
       this.isMenuOpen = !this.isMenuOpen;
     },
-    toggleRecordNav(){
+    stopRecordNav(){
       const {app} = require('electron').remote;
-      app.emit('toggle-record');
+      app.emit('cam-stop-record');
     },
     exitRecord(){
       const remote = require('electron').remote
