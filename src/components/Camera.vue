@@ -88,20 +88,28 @@ div
 
       app.on('cam-start-training', () => {
         this.isTraining = true
-        this.startRecord()
+        if(!this.isRecording) {
+          this.startRecord()
+        }
       });
 
       app.on('cam-stop-training', () => {
         this.isTraining = false
-        this.stopRecord()
+        if(this.isRecording) {
+          this.stopRecord()
+        }
       });
 
       app.on('cam-start-record', () => {
-        this.startRecord()
+        if(!this.isRecording) {
+          this.startRecord()
+        }
       });
 
       app.on('cam-stop-record', () => {
-        this.stopRecord()
+        if(this.isRecording) {
+          this.stopRecord()
+        }
       });
 
       app.on('cam-snapshot', () => {
@@ -111,7 +119,9 @@ div
       app.on('cam-check', () => {
         this.checkIdentity = true
         this.isTraining = true
-        this.startRecord()
+        if(!this.isRecording) {
+          this.startRecord()
+        }
       });
 
     },
@@ -179,10 +189,13 @@ div
               console.log('descFromCamera',descriptorsList)
               this.identify(img, descriptorsList, "owner").then(isOwner => {
                 if(isOwner) {
+                  this.checkIdentity = false
                   app.emit('identify-ok');
                 } else {
                   app.emit('identify-fail');
                 }
+              }).catch(error => {
+                console.log('error', error)
               }) //TODO Make Dinamic label
             }
 
@@ -195,23 +208,26 @@ div
                  var isActiveTelegram = getAlertsConfig('IS_TELEGRAM_ACTIVE')
                  var isActiveMail = getAlertsConfig('IS_MAIL_ACTIVE')
                  if (isActiveSlack) {
-                   sendSlack(getAlertsConfig('SLACKURL'),"Be careful someone can be spying you!")
+                   sendSlack(getAlertsConfig('SLACKURL'),"Be careful someone can be spying on you!")
                  }
                  if (isActiveTelegram) {
                    if (this.bot == null) {
                      this.bot = new TelegramBot(getAlertsConfig('TOKEN'), {polling: true});
                    }
-                   sendTelegram(this.bot,getAlertsConfig('CHATID'),"Be careful someone can be spying you!")
+                   sendTelegram(this.bot,getAlertsConfig('CHATID'),"Be careful someone can be spying on you!")
                  }
                  if (isActiveMail) {
-                   sendMail(getAlertsConfig('EMAIL'), getAlertsConfig('PASSWORD'), getAlertsConfig('EMAIL'), "Shoulder Sourfing From ASSAP", "<p>Be careful someone can be spying you!</p>", null)
+                   sendMail(getAlertsConfig('EMAIL'), getAlertsConfig('PASSWORD'), getAlertsConfig('EMAIL'), "Shoulder Sourfing From ASSAP", "<p>Be careful someone can be spying on you!</p>", null)
                }
              }
             }
+
             canvas.width = videoEl.width
             canvas.height = videoEl.height
-            const dims = faceapi.matchDimensions(canvas, videoEl, true)
-            faceapi.draw.drawDetections(canvas, faceapi.resizeResults(trueDetections, dims))
+            if(canvas.height > 0 && canvas.height > 0 ) {
+              const dims = faceapi.matchDimensions(canvas, videoEl, true)
+              faceapi.draw.drawDetections(canvas, faceapi.resizeResults(trueDetections, dims))
+            }
           })
           .catch((error) => {
             console.log('Error', error); // eslint-disable-line no-console
