@@ -47,7 +47,10 @@ div
         alertsTimer: 0,
         userpass: null,
         checkIdentity: false,
-        isMinimized: false
+        isMinimized: false,
+        falsePositivesThreshold: 0,
+        toastTimerMiliSec: 5000,
+        lastTimeMiliSec: 0
       };
     },
     mounted() {
@@ -197,7 +200,32 @@ div
               }) //TODO Make Dinamic label
             }
 
-            if(trueDetectionsNumber>1){
+            console.log(trueDetectionsNumber)
+            console.log(!this.checkIdentity)
+            if(trueDetectionsNumber == 1 && !this.checkIdentity) {
+              console.log("continous detection")
+              this.screenshot(canvas, videoEl, img);
+              const descriptorsList = retrieveDescriptors(this.userpass)
+              this.identify(img, descriptorsList, "owner").then(isOwner => {
+                console.log('owner', isOwner)
+                if(!isOwner) {
+                  this.falsePositivesThreshold = this.falsePositivesThreshold + 1
+                  var now = Math.floor(Date.now() / 1000)
+                  if(this.lastTimeMiliSec == 0 ) this.lastTimeMiliSec = now
+                  var isTime = (now - this.lastTimeMiliSec) >= 5
+                  if(this.falsePositivesThreshold >= 5 && isTime){
+                    this.lastTimeMiliSec = 0
+                    this.$buefy.toast.open({'message':'YOU ARE NOT OWNER','type': 'is-danger'})
+                  }
+                } else {
+                  this.falsePositivesThreshold = 0
+                }
+              }).catch(error => {
+                console.log('error', error)
+              })
+            }
+
+            if(trueDetectionsNumber>1 && !this.checkIdentity){
                action.executeAction()
                var now = Math.floor(Date.now() / 1000)
                if(now - this.alertsTimer > getAlertsConfig("ALARMTIME")){
