@@ -206,16 +206,16 @@ div
                  var isActiveTelegram = getAlertsConfig('IS_TELEGRAM_ACTIVE')
                  var isActiveMail = getAlertsConfig('IS_MAIL_ACTIVE')
                  if (isActiveSlack) {
-                   sendSlack(getAlertsConfig('SLACKURL'),"Be careful someone can be spying you!")
+                   sendSlack(getAlertsConfig('SLACKURL'),"Be careful someone can be spying on you!")
                  }
                  if (isActiveTelegram) {
                    if (this.bot == null) {
                      this.bot = new TelegramBot(getAlertsConfig('TOKEN'), {polling: true});
                    }
-                   sendTelegram(this.bot,getAlertsConfig('CHATID'),"Be careful someone can be spying you!")
+                   sendTelegram(this.bot,getAlertsConfig('CHATID'),"Be careful someone can be spying on you!")
                  }
                  if (isActiveMail) {
-                   sendMail(getAlertsConfig('EMAIL'), getAlertsConfig('PASSWORD'), getAlertsConfig('EMAIL'), "Shoulder Sourfing From ASSAP", "<p>Be careful someone can be spying you!</p>", null)
+                   sendMail(getAlertsConfig('EMAIL'), getAlertsConfig('PASSWORD'), getAlertsConfig('EMAIL'), "Shoulder Sourfing From ASSAP", "<p>Be careful someone can be spying on you!</p>", null)
                }
              }
             }

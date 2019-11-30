@@ -10,7 +10,7 @@ var nodemailer = require('nodemailer');
  * @param {String} html - email's text
  * @param {String} attach - email's attachment (image)
  */
-export function sendMail (user, pass, to, subject, html, attach){
+export function sendMail (user, pass, to, subject, html){
 
   const transporter = nodemailer.createTransport({
    service: 'gmail',
@@ -22,10 +22,6 @@ export function sendMail (user, pass, to, subject, html, attach){
     to, // list of receivers
     subject, // Subject line
     html, // plain text body
-    attachments: [
-        {   path: attach
-        }
-      ]
   };
 
   transporter.sendMail(mailOptions, function (err, info) {
