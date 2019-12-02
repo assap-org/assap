@@ -9,6 +9,7 @@ import router from './router'
 import { Tabs, Input, Button, Switch, Numberinput,Field, Icon, Checkbox, Toast} from 'buefy'
 import Buefy from 'buefy'
 import {setAction, setModelUrl, setConfigured} from "@/utils/configuration";
+import Vuex from 'vuex'
 
 Vue.use(Tabs)
 Vue.use(Input)
@@ -19,6 +20,8 @@ Vue.use(Field)
 Vue.use(Toast)
 Vue.use(Icon)
 Vue.use(Checkbox)
+Vue.use(Vuex)
+
 
 Vue.use(Buefy, {
   defaultIconComponent: 'vue-fontawesome',
@@ -33,25 +36,40 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 
 const Store = require('electron-store');
-const store = new Store();
+const storeElectron = new Store();
 
 const path = require('path');
 
-if(!store.get("MODEL_URL")){
+if(!storeElectron.get("MODEL_URL")){
   const url = 'file://' + path.resolve('./models');
   setModelUrl(url);
 }
 
-if(!store.get("IS_CONFIGURED")){
+if(!storeElectron.get("IS_CONFIGURED")){
   setConfigured(false);
 }
 
-
-if(!store.get("ACTION")) {
+export const store = new Vuex.Store({
+  state: {
+    userpass: null
+  },
+  mutations: {
+    setPass (state,pass) {
+      state.userpass = pass
+    }
+  },
+  getters: {
+     getUserpass: state => {
+       return state.userpass
+     }
+   }
+})
+if(!storeElectron.get("ACTION")) {
   setAction("notification")
 }
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
