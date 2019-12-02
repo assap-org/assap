@@ -1,21 +1,8 @@
 <template lang="pug">
-  .nav-wrapper
-    .controls-wrapper
-      #control-icon(v-if="isRecordingNav")
-        font-awesome-icon.stop(:icon="['fas', 'stop-circle']", @click="stopRecordNav()")/
-      #control-icon.no-recording(v-if="!isRecordingNav")
-        font-awesome-icon.exit(:icon="['fas', 'times-circle']", @click="exitRecord()")/
-      #control-icon
-        font-awesome-icon.secret.minimize(:icon="['fas', 'user-secret']", @click="minimize()")/
-    .settings-wrapper
-      .settings(v-if="!isMenuOpen")
-          font-awesome-icon.inline.toOpen(:icon="['fas', 'bars']",@click="toggleMenu()")/
-      .settings(v-if="isMenuOpen")
-          font-awesome-icon.inline.toClose(:icon="['fas', 'times']",@click="toggleMenu()")/
-      .select-wrapper
-        select(@change="loadAction()",v-model="selectedAction")
-          option(v-for="act in actionList" :selected="act == selectedAction ? true : false")
-            | {{act}}
+  .setting-nav
+    select(@change="loadAction()",v-model="selectedAction")
+      option(v-for="act in actionList" :selected="act == selectedAction ? true : false")
+        | {{act}}
 </template>
 
 <script>
@@ -25,133 +12,29 @@ export default {
   name: 'SettingNav',
   data(){
     return {
-      isRecordingNav: false,
       selectedAction: "",
-      actionList: ["No Options"],
-      isMenuOpen: false,
+      actionList: ["No Options"]
     }
   },
   mounted(){
     const action = new Action("","")
     this.actionList = action.getAvailableActions()
     this.selectedAction = getConfiguration().action
-
-    const {app} = require('electron').remote;
-    app.on('nav-start-record', () => {
-      this.isRecordingNav = true;
-    });
-
-    app.on('nav-stop-record', () => {
-      this.isRecordingNav = false;
-    });
   },
   methods:{
     loadAction(){
       setAction(this.selectedAction)
-    },
-    toggleMenu(){
-      const {app} = require('electron').remote;
-      const ipcRenderer = require('electron').ipcRenderer;
-      ipcRenderer.send("toggleMenu");
-      app.emit('menuToggled');
-      this.isMenuOpen = !this.isMenuOpen;
-    },
-    stopRecordNav(){
-      const {app} = require('electron').remote;
-      app.emit('cam-stop-record');
-    },
-    exitRecord(){
-      const remote = require('electron').remote
-      let w = remote.getCurrentWindow()
-      w.close()
-    },
-    minimize() {
-      const remote = require('electron').remote
-      var window = remote.getCurrentWindow();
-      window.minimize();
     }
   }
 }
 </script>
 
 <style lang="sass">
-  .nav-wrapper
-    padding: 10px
-    padding-left: 20px
-    padding-right: 20px
-    .controls-wrapper
-      position: relative
-      float: left
-      height: 25px
-
-      #control-icon
-        -webkit-app-region: no-drag
-        color: rgb(255, 69, 58)
-        cursor: pointer
-        height: 25px
-        width: 25px
-        display: inline-block
-
-        svg
-          border-radius: 50%
-          width: 100%
-          height: 100%
-        svg.inline
-          display: inline-block
-          width: 40%
-        svg.stop:hover
-          color: rgb(201, 52, 0)
-        svg.exit:hover
-          color: rgb(201, 52, 0)
-        svg.stop
-          color: rgb(255, 69, 58)
-        svg.exit
-          color: rgb(255, 69, 58)
-        svg.secret
-          color: #800080
-
-      #control-icon:hover
-        cursor: pointer
-
-      #control-icon.double
-        width: 55px
-        svg
-          margin-right: 5px
-
-    .settings-wrapper
+  .setting-nav
+    -webkit-app-region: no-drag
+    width: 100%
+    select
       -webkit-app-region: no-drag
-      float: right
-      position: relative
-      width: 70%
-
-      .select-wrapper
-        height: 100%
-        width: 60%
-        display: inline-block
-        -webkit-app-region: no-drag
-        float: right
-
-      .settings
-        -webkit-app-region: no-drag
-        cursor: pointer
-        height: 25px
-        width: 25px
-        display: inline-block
-        float: right
-        margin-right: 10%
-
-        svg
-          border-radius: 50%
-          width: 100%
-          height: 100%
-        svg.inline
-          display: inline-block
-        svg.toOpen
-          color: rgb(125, 125, 125)
-        svg.toClose
-          color: rgb(201, 52, 0)
-        svg.toOpen:hover
-          color: rgb(125, 155, 175)
-        svg.toClose:hover
-          color: rgb(201, 52, 0)
+      display: block
+      width: 100%
 </style>
