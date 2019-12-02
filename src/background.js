@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, screen } from 'electron'
+import { app, protocol, BrowserWindow, screen, ipcMain } from 'electron'
 import {
   createProtocol,
   installVueDevtools
@@ -12,7 +12,16 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let win
 
 // Standard scheme must be registered before the app is ready
-protocol.registerStandardSchemes(['app'], { secure: true })
+
+protocol.registerSchemesAsPrivileged([{
+    scheme: 'vector',
+    privileges: {
+        standard: true,
+        secure: true,
+        supportFetchAPI: true,
+    },
+}]);
+
 function createWindow () {
 
   let display = screen.getPrimaryDisplay();
@@ -22,12 +31,15 @@ function createWindow () {
   win = new BrowserWindow({
     width: 266,
     height: 150,
+    minWidth: 266,
+    minHeight: 150,
     frame: false,
     x: width - 300,
     y: 150,
     alwaysOnTop: true,
-    resizable: false,
+    resizable: true,
     webPreferences: {
+      nodeIntegration: true,
       webSecurity: false
     }
   })
@@ -35,7 +47,7 @@ function createWindow () {
   if (isDevelopment) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    //if (!process.env.IS_TEST) win.webContents.openDevTools()
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -74,6 +86,19 @@ app.on('ready', async () => {
   }
   createWindow()
 })
+
+ipcMain.on("toggleMenu",function (event, arg) {
+  const actualWidth = win.getSize()[0]
+  const actualHeight = win.getSize()[1]
+  const minWidth = win.getMinimumSize()[0]
+  const minHeight = win.getMinimumSize()[1]
+
+  if(actualWidth === minWidth){
+    win.setSize(actualWidth*2, actualHeight, true);
+  } else {
+    win.setSize(minWidth, minHeight, true);
+  }
+});
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
