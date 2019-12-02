@@ -45,7 +45,6 @@ div
         takeSnapshot: false,
         bot : null,
         alertsTimer: 0,
-        userpass: null,
         checkIdentity: false,
         isMinimized: false,
         falsePositivesThreshold: 0,
@@ -57,11 +56,6 @@ div
     },
     mounted() {
       this.isRecording = getConfiguration().isConfigured
-
-      this.$root.$on("userPassToCipher",(userpass)=>{
-        this.userpass = userpass
-      })
-
       this.alertsTimer = Math.floor(Date.now() / 1000) //timestamp in seconds
       const videoEl = document.getElementById('camera');
       navigator.mediaDevices.getUserMedia({ video: {} })
@@ -159,6 +153,7 @@ div
         const canvas = document.getElementById('canvas')
         const img = document.getElementById('img')
         const {app} = require('electron').remote;
+        const userpass = this.$store.getters.getUserpass
 
         if(videoEl.paused || videoEl.ended)
           return setTimeout(() => this.onPlay())
@@ -195,7 +190,7 @@ div
             if(trueDetectionsNumber == 1 && this.checkIdentity) {
               this.screenshot(canvas, videoEl, img);
               console.log('fromCamera')
-              const descriptorsList = retrieveDescriptors(this.userpass)
+              const descriptorsList = retrieveDescriptors(userpass)
               console.log('descFromCamera',descriptorsList)
               this.identify(img, descriptorsList, "owner").then(isOwner => {
                 if(isOwner) {
@@ -212,7 +207,7 @@ div
             if(trueDetectionsNumber == 1 && !this.checkIdentity) {
               console.log("continous detection")
               this.screenshot(canvas, videoEl, img);
-              const descriptorsList = retrieveDescriptors(this.userpass)
+              const descriptorsList = retrieveDescriptors(userpass)
               this.identify(img, descriptorsList, "owner").then(isOwner => {
                 console.log('owner', isOwner)
                 if(!isOwner) {
@@ -297,13 +292,14 @@ div
       },
       createId(img, label){
         const {app} = require('electron').remote;
+        const userpass = this.$store.getters.getUserpass
         faceapi.detectAllFaces(img)
               .withFaceLandmarks()
               .withFaceDescriptors()
               .then((results) => {
                 if(results.length > 0) {
                   const json = serialize(results, label);
-                  saveDescriptors(json,this.userpass);
+                  saveDescriptors(json,userpass);
                   console.log("Descriptor-Saved")
                   app.emit('descriptor-saved');
                 }

@@ -16,6 +16,8 @@
 <script>
 import {getUserPassword,setUserPassword,getUserStr,getConfiguration} from "@/utils/configuration";
 import {encrypt,genRandomString,decrypt} from "@/utils/cipher";
+
+
 export default {
   name: 'Password',
   data(){
@@ -40,10 +42,7 @@ export default {
         var decUserPass = decrypt(savedPass,this.userpass)
         if (userStr === decUserPass) {
           this.$emit("logginStatus",this.isLogged,this.userpass)
-          this.$root.$emit("userPassToCipher",this.userpass)
-          const { ipcMain } = require('electron').remote
-          ipcMain.emit('menu-userPassToCipher', this.userpass)
-          console.log('envia',this.userpass)
+          this.$store.commit('setPass', this.userpass)
           var isConfigured = getConfiguration().isConfigured
           if (!isConfigured || isConfigured==undefined) {
             this.$root.$emit("InitialFacialConfiguration")
