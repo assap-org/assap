@@ -43,15 +43,13 @@ export function retrieveDescriptors(userpass) {
   var encrypted_descriptors = store.get("DESCRIPTORS")
   console.log('STORED',encrypted_descriptors)
   var decrypted_desriptors = []
+  var deserializedList = []
   if (encrypted_descriptors != undefined) {
     decrypted_desriptors = decrypt(encrypted_descriptors,userpass)
     const descriptorsList = JSON.parse(decrypted_desriptors)
-    const deserializedList = descriptorsList.map(deserialize)
-    return deserializedList;
-    console.log(decrypted_desriptors)
-  } else {
-    return []
+    deserializedList = descriptorsList.map(deserialize)
   }
+  return deserializedList;
 }
 
 export function getConfiguration() {
@@ -76,11 +74,11 @@ export function getAlertsConfig(keyStore) {
 
 export function getUserPassword() {
   const store = new Store()
-  const userpass = store.get("USERPASSWORD")
-  if (userpass == undefined) {
-    return userpass
+  var userpass = store.get("USERPASSWORD")
+  if (userpass != undefined) {
+    userpass = JSON.parse(userpass)
   }
-  return JSON.parse(userpass)
+  return userpass
 }
 
 export function getUserStr(){
