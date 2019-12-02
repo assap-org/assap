@@ -29,8 +29,9 @@ b-tabs(expanded)
     section.identity
       b-button.button.newUser(size="is-small") AÑADIR USUARIO
       ul
-        li(v-for="id in idList")
-          b-checkbox(size="is-small") SoyUnItem
+        h1 {{idList}}
+        li(v-for="e in idList")
+          b-checkbox(size="is-small") {{e}}
             b-button.button.delete(size="is-small",type="is-danger")
   b-tab-item(label="Config")
     b-numberinput(v-model="seconds",@input="changeTimer()")
@@ -53,15 +54,20 @@ export default {
       seconds: 30,
       idList: [],
       userpass: null,
+      id : ""
     }
   },
   mounted(){
     const { ipcMain } = require('electron').remote
-    ipcMain.on('menu-userPassToCipher', (event, arg) => {
-      console.log(arg) // prints "ping"
+    ipcMain.on('menu-userPassToCipher', (arg) => {
+      console.log('LLEGA')
       this.userpass = arg
+      console.log(this.userpass)
+      console.log('des', retrieveDescriptors(this.userpass));
+      console.log('this', this);
       this.idList = retrieveDescriptors(this.userpass)
       console.log(this.idList)
+      console.log('SALE')
     })
 
     if (getAlertsConfig("ALARMTIME")!= undefined) {

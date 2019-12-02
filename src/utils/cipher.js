@@ -52,8 +52,11 @@ export function encrypt(text, password) {
 export function decrypt(encrypted,password) {
   const key = crypto.scryptSync(password, encrypted.salt, 32);
   var iv = Buffer.from(encrypted.iv)
+  console.log(iv)
   var tag = Buffer.from(encrypted.tag)
+  console.log(tag)
   const decipher = crypto.createDecipheriv(algorithm, key, iv);
+  console.log(decipher)
   decipher.setAuthTag(tag);
   let decrypted = decipher.update(encrypted.content, 'hex', 'utf8');
   decrypted += decipher.final('utf8');
