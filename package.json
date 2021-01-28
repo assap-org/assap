@@ -29,7 +29,7 @@
     "@vue/cli-plugin-babel": "^3.0.5",
     "@vue/cli-plugin-eslint": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
-    "electron": "^3.0.0",
+    "electron": "^9.4.0",
     "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
     "vue-cli-plugin-electron-builder": "^1.0.0-rc.6",
