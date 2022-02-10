@@ -30,7 +30,7 @@
     "@vue/cli-plugin-eslint": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
     "electron": "^3.0.0",
-    "node-sass": "^4.9.4",
+    "node-sass": "^7.0.0",
     "sass-loader": "^7.1.0",
     "vue-cli-plugin-electron-builder": "^1.0.0-rc.6",
     "vue-cli-plugin-pug": "^1.0.7",
